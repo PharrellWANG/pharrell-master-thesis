@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 cd ~/IdeaProjects/pharrell-master-thesis/src
-pdflatex main.tex
+/Library/TeX/texbin/pdflatex main.tex
 #cd ~/IdeaProjects/pharrell-master-thesis/src
-bibtex main
+/Library/TeX/texbin/bibtex main
 #cd ~/IdeaProjects/pharrell-master-thesis/src
-pdflatex main.tex
-pdflatex main.tex
+/Library/TeX/texbin/pdflatex main.tex
+/Library/TeX/texbin/pdflatex main.tex
