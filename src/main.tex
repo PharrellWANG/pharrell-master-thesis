@@ -1,0 +1,44 @@
+% Stanford University PhD thesis style -- modifications to the report style
+% This is unofficial so you should always double check against the
+% Registrar's office rules
+% See http://library.stanford.edu/research/bibliography-management/latex-and-bibtex
+% 
+% Example of use below
+% See the suthesis-2e.sty file for documentation
+%
+\documentclass{report}
+\usepackage{suthesis-2e}
+\usepackage{verbatim} % for block comment
+\usepackage{color}   % May be necessary if you want to color links
+\usepackage{hyperref}
+\usepackage{textcomp}
+\usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
+
+\addbibresource{../src/mybib.bib} % The filename of the bibliography
+\hypersetup{
+colorlinks=true, %set true if you want colored links
+linktoc=all,     %set to all if you want both sections and subsections linked
+linkcolor=black,  %choose some color if you want links to stand out
+}
+\dept{Electronic and Information Engineering}
+
+\begin{document}
+    \title{Fast Depth Coding in 3D-HEVC\\
+    Using Deep Learning}
+    \author{Zhen-xiang WANG}
+    \principaladviser{Y. L. Chan}
+    \beforepreface
+    \prefacesection{Abstract}
+    This thesis tells you all you need to know about...
+    \prefacesection{Acknowledgments}
+    I would like to thank...
+    \afterpreface
+
+    \include{Chapters/chapter1}
+    \chapter{Conclusions}
+    ...
+%    \appendix
+%    \chapter{A Long Proof}
+    ...
+    \printbibliography[heading=bibintoc]
+\end{document}
