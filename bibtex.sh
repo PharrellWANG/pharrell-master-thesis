@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-cd ~/IdeaProjects/pharrell-master-thesis/src
+cd ~/PycharmProjects/pharrell-master-thesis/
 /Library/TeX/texbin/bibtex main
