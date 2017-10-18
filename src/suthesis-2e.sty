@@ -438,8 +438,10 @@ MASTER OF SCIENCE\uppercase\expandafter{\@whichend}
 \null\vfill
 \begin{center}
 \large
-\copyright\ \@copyrightyear\ by \@author\\
-All Rights Reserved
+%\copyright\ \@copyrightyear\ by \@author\\
+%All Rights Reserved
+Supervisor\\
+Yui-Lam Chan
 \end{center}
 \vfill\newpage}
 
@@ -473,17 +475,20 @@ Where information has been derived from other sources, I confirm that this has b
 \end{minipage}
 \end{flushleft}}
 %
-%\long\def\ucgssignature{%
-%\begin{flushright}
-%\begin{minipage}{5in}
-%\parindent=0pt
-%\hfill Approved for the Stanford University Committee on Graduate Studies
-%\par
-%\vspace{\signaturespace}
-%\hbox to 5in{\hfil\begin{tabular}{@{}l@{}}\vrule width 3in height
-%0.4pt depth 0pt\end{tabular}}
-%\end{minipage}
-%\end{flushright}}
+\long\def\ucgssignature{%
+\begin{flushright}
+\begin{minipage}{5in}
+\parindent=0pt
+%\hfill Supervisor
+\par
+\vspace{\signaturespace}
+\hbox to 5in{\hfil\begin{tabular}{@{}l@{}}\vrule width 3in height
+0.4pt depth 0pt\end{tabular}}
+%\supvisorsignature{
+%\@principaladvisor\\
+%}
+\end{minipage}
+\end{flushright}}
 
 
 \def\signaturepage{%
@@ -497,6 +502,7 @@ Where information has been derived from other sources, I confirm that this has b
 \today{}\\
 }
 \vfill
+%\signature{(\@principaladviser)\quad Supervisor}
 % if second principal advisor
 \if*\@coprincipaladviser \else
 \signature{(\@coprincipaladviser)\quad Principal \advis@r}
@@ -532,7 +538,7 @@ Where information has been derived from other sources, I confirm that this has b
 % must be incremented
 % signature page should come at end
 \ifonline\setcounter{page}{4}\else
-%\ifcopyright\ifthesiscopyright\thesiscopyrightpage\else\tradcopyrightpage\fi\fi
+\ifcopyright\ifthesiscopyright\thesiscopyrightpage\else\tradcopyrightpage\fi\fi
 \signaturepage
 \fi
 \cleardoublepage}
