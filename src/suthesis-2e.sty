@@ -434,25 +434,25 @@ MASTER OF SCIENCE\uppercase\expandafter{\@whichend}
 \@submitdate\\
 \end{center}\vskip.5in\newpage}
 
-\def\thesiscopyrightpage{%
-\null\vfill
-\begin{center}
-\large
+%\def\thesiscopyrightpage{%
+%\null\vfill
+%\begin{center}
+%\large
 %\copyright\ \@copyrightyear\ by \@author\\
 %All Rights Reserved
-Supervisor\\
-Yui-Lam Chan
-\end{center}
-\vfill\newpage}
-
-\def\tradcopyrightpage{%
-\null\vfill
-\begin{center}
-\large
-Copyright\ \copyright\ \@copyrightyear\ by \@author\\
-All Rights Reserved
-\end{center}
-\vfill\newpage}
+%%Supervisor\\
+%%Yui-Lam Chan
+%\end{center}
+%\vfill\newpage}
+%
+%\def\tradcopyrightpage{%
+%\null\vfill
+%\begin{center}
+%\large
+%Copyright\ \copyright\ \@copyrightyear\ by \@author\\
+%All Rights Reserved
+%\end{center}
+%\vfill\newpage}
 
 
 
@@ -465,13 +465,21 @@ All Rights Reserved
 \begin{flushleft}
 \begin{minipage}{5in}
 \parindent=0pt
-I, Zhen-xiang WANG, confirm that the work presented in this dissertation is my own.
-Where information has been derived from other sources, I confirm that this has been indicated in the thesis.
+CERTIFICATE OF ORIGINALITY\\
+\newline
+I hereby declare that this dissertation is my own work and that, to the best
+of my knowledge and belief, it reproduces no material previously published
+or written nor material which has been accepted for the award of any other
+degree or diploma, except where due acknowledgement has been made in the text.\\
+\newline
+$\rule{5cm}{0.15mm}$(Signed)\\
+\newline
+$\rule{5cm}{0.15mm}$(Date)\\
 \par
-\vspace{\signaturespace}
+%\vspace{\signaturespace}
 %\hbox to 4in{\hfil\shortstack{\vrule width 3in height 0.4pt\\ #1}}
-\hbox to 5in{\hfil\begin{tabular}{@{}l@{}}\vrule width 3in height
-0.4pt depth 0pt\\ #1\end{tabular}}
+%\hbox to 5in{\hfil\begin{tabular}{@{}l@{}}\vrule width 3in height
+%0.4pt depth 0pt\\ #1\end{tabular}} (Signed)
 \end{minipage}
 \end{flushleft}}
 %
@@ -538,7 +546,7 @@ Where information has been derived from other sources, I confirm that this has b
 % must be incremented
 % signature page should come at end
 \ifonline\setcounter{page}{4}\else
-\ifcopyright\ifthesiscopyright\thesiscopyrightpage\else\tradcopyrightpage\fi\fi
+%\ifcopyright\ifthesiscopyright\thesiscopyrightpage\else\tradcopyrightpage\fi\fi
 \signaturepage
 \fi
 \cleardoublepage}
