@@ -29,7 +29,7 @@ linkcolor=black,  %choose some color if you want links to stand out
     \principaladviser{Yui-Lam Chan}
     \beforepreface
     \prefacesection{Abstract}
-    The 3D Extension of the High Efficiency Video Coding standard (3D-HEVC),
+    The Three-Dimension Extension of the High Efficiency Video Coding standard (3D-HEVC),
     which has been finalized by the Joint Collaborative Team on Video Coding
     (JCT-VC) in February 2015, is the new industry standard for 3D applications.
     The 3D-HEVC provides plenty of advanced coding tools specifically
@@ -50,31 +50,30 @@ linkcolor=black,  %choose some color if you want links to stand out
     While this full-search style method can promise to find the best
     candidate in depth intra mode decision, the time cost is expensive.\\
     \newline
-    In this dissertation we address the time cost issue by presenting a new
-    intra mode decision method for depth maps, making use of the deep
-    convolutional neural networks to predict the possible modes for the
-    depth blocks.
+    In this dissertation we address the time cost by presenting a new
+    intra mode decision method for depth maps, leveraging the deep
+    convolutional neural networks to predict the wedgelet angles
+    for the depth blocks.
     The predictions from the learned models are capable of
-    helping the encoders to reduce the number of mode candidates by half
-    both in the generic angular modes which are applicable to textures
-    and Depth Modelling Modes specifically for depth maps.
+    reducing the number of wedgelet candidates by half as well as the
+    angular modes in depth map coding.
     The size of the neural network has been carefully designed to balance
-    the trade-off between the cost of prediction time and the prediction
+    the trade-off between the time cost of model prediction and the model prediction
     accuracy.
-    The confusion matrix has been used to monitor the training process.
-    The top-16 criteria has been employed for the prediction.
+    Confusion matrix is used to monitor the training process.
+    Top-K criteria is employed for the prediction.
     We have integrated the learned models into the reference software of
     3D-HEVC for the experiments.
     The compiled executable binaries are able to harness
-    the power of the simultaneous computation of CPU, as well as the power of
+    the power of the simultaneous computation of CPU, as well as
     the parrallel computation of GPU to accelerate the predictions.
-    The simulation results show that the proposed algorithm powered by
-    deep neural nets provides 56.3\% time reduction in average while the
-    BD performance has no decrease comparing with the implementation of
-    the 3D-HEVC standard.
+    The simulation results show that the proposed algorithm
+    provides 64.6\% time reduction in average while the
+    BD performance has a tiny decrease comparing with the state-of-the-art 3D-HEVC
+    standard.
 
     \prefacesection{Acknowledgments}
-    The work in this dissertation.....
+
     \afterpreface
 
     \include{Chapters/chapter1}
