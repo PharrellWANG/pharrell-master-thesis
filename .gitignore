@@ -270,7 +270,7 @@ TSWLatexianTemp*
 /auto/*
 
 # expex forward references with \gathertags
-*-tags.tex
+*-tags.tex this is the new shit
 
 src/Appendices/
 .idea/
