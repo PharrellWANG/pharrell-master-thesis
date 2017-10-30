@@ -46,6 +46,13 @@ adjustments of video geometry information~\parencite{RN196} to provide
 the 3D effect.
 Figure~\ref{fig:stereo-display} illustrates the typical system structure for
 transmitting videos targeting stereo display.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/StereoDisplay}
+%        \decoRule
+    \caption[System Structure for transmitting videos targeting stereo display]{System Structure for transmitting videos targeting stereo display.}
+    \label{fig:stereo-display}
+\end{figure}
 It can be observed that there exists a displacement between the
 two views.
 The green vertical left margins of the red rectangles in the two views
@@ -62,7 +69,46 @@ Myopic people do not like to wear one more pair of glasses when
 watching 3D movies.
 Some people will experience discomfort after wearing the 3D glasses for a
 period of two hours.
-Autostereoscopic multi-view technology~\parencite{RN153} is coming to our rescue.
+To get rid of the undesired 3D glasses,
+Autostereoscopic multi-view technology~\parencite{RN153} is coming to
+our rescue.
+The major different characteristics between Stereo display and
+Autostereoscopic display are
+listed in Table~\ref{tab:diff-stereo-autostereo}~\parencite{RN44}.
+\begin{table}[b]
+    \caption{Characteristics Comparison of Stereoscopic Display and Autostereoscopic Display}
+    \bigskip
+    \label{tab:diff-stereo-autostereo}
+    \centering
+    \begin{tabular}{c c c}
+        \hline
+        Characteristic & Stereo Display & Autostereoscopic Display\\
+        \hline
+        Glass-Free & No & Yes \\
+        Multiple Stereo Pairs & No & Yes \\
+        Number of Views & two views & more than two views \\
+%        Overall Display Resolution & High & Low \\
+%        Perceivable Scene Depth Quality & High & Low \\
+        \hline
+    \end{tabular}
+\end{table}
+The impact of different view numbers for Autostereoscopic display is shown in
+Table~\ref{tab:autostereo-less-views-more-views}~\parencite{RN44}.
+\begin{table}
+    \caption{Impact of Available View Amount for Autostereoscopic Display}
+    \bigskip
+    \label{tab:autostereo-less-views-more-views}
+    \centering
+    \begin{tabular}{c c c}
+        \hline
+        Characteristic & Small Number of Views & Large Number of Views \\
+        \hline
+%        Overall Display Resolution & High & Low \\
+        Seamless view transition  & No & Yes \\
+        High Quality of Scene Depth & No & Yes \\
+        \hline
+    \end{tabular}
+\end{table}
 No glasses are needed if Autostereoscopic videos can
 substitute the Stereoscopic videos.
 The Autostereoscopic multi-view display demands more than two
@@ -76,14 +122,7 @@ is not practical.
 Researchers have proposed a new format which is making use of limited number
 of view and their associated depth maps~\parencite{RN44}.
 The typical system structure for using this new format to compress and supply 3D video
-resources is shown in figure~\ref{fig:SS-MVD}.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/StereoDisplay}
-%        \decoRule
-    \caption[System Structure for transmitting videos targeting stereo display]{System Structure for transmitting videos targeting stereo display.}
-    \label{fig:stereo-display}
-\end{figure}
+resources is shown in Figure~\ref{fig:SS-MVD}.
 An enormous amount of views in the medium positions which are able to
 guarantee the high quality of the 3D video can be synthesized from
 \begin{figure}
@@ -127,8 +166,39 @@ prediction tools, is designed to provide much more granularity for
 encoding the depth maps.
 Wedgelet partition and contour partition for depth maps
 are enabled by DMM1 and DMM4 separately.
+Figure~\ref{fig:wedgelet-partition} presents an real example of the wedgelet
+partition from the depth map in Shark video sequence.
+The small block highlighted by blue color amongst a large amount of blocks
+separated by the red grid is magnified at the right-bottom position in
+Figure~\ref{fig:wedgelet-partition}.
+A straight line is used for the partition in wedgelet mode.
+Figure~\ref{fig:contour-partition} shows a sample of the contour partition
+from the same depth map as Figure~\ref{fig:wedgelet-partition}.
+The partition pattern comprises contour lines instead of one single
+straight line.
+%The wedgelet partition is shown in Figure.
+%The contour partition is shown in Figure.
 %~\parencite{RN197}.
-
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/wedgelet}
+%        \decoRule
+    \caption[Wedgelet partition illustration]
+    {Example of wedgelet partition in a block of size 16 by 16 in depth map
+    from Shark video sequence.
+    }
+    \label{fig:wedgelet-partition}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/contour}
+%        \decoRule
+    \caption[Contour partition illustration]
+    {Example of contour partition in a block of size 16 by 16 in depth map
+    from Shark video sequence.
+    }
+    \label{fig:contour-partition}
+\end{figure}
 %introduce a little about depth map and their usage.
 %mentioning iphonex true depth camera.
 %draw the picture
@@ -138,137 +208,160 @@ are enabled by DMM1 and DMM4 separately.
 \section{Motivation and Contribution}\label{sec:motivation_and_contribution}
 %fasdfasdfasdfasdfasdfasdf figure~\ref{fig:SS-MVD}
 If you are
-\begin{table}
-    \label{tab:treatments}
-    \centering
-    \begin{tabular}{c r @{.} l}
-        Pi expression       &
-        \multicolumn{2}{c}{Value} \\
-        \hline
-        $\pi$               & 3&1416  \\
-        $\pi^{\pi}$         & 36&46   \\
-        $(\pi^{\pi})^{\pi}$ & 80662&7 \\
-    \end{tabular}
-    \caption{The effects of treatments X and Y on the four groups studied.}
-\end{table}
 
-\begin{table}
-    \label{tab:tabular_example1}
-    \centering
-    \begin{tabular}[t]{|r|l|}
-        \hline
-        7C0 & hexadecimal \\
-        3700 & octal \\
-        \cline{2-2} 11111000000 & binary \\
-        \hline
-        \hline
-        1984 & decimal \\
-        \hline
-    \end{tabular}
-\caption{Just an example}
-\end{table}
-
-\begin{table}
-    \label{tab:tabular_example2}
-    \centering
-    \begin{tabular}{|r|l|}
-        \hline
-        7C0 & hexadecimal \\
-        3700 & octal \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table examples
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{table}
+%    \centering
+%
+%    \begin{tabular}{|l||r|r|r|c|}
+%        \hline
+%        Name & Exam1 & Exam2 & Exam3 & Grade\\
+%        \hline\hline
+%        John & 19 & 28 & 33 & C\\
+%        \hline
+%        Jane & 49 & 35 & 60 & B\\
+%        \hline
+%        Jim & 76 & 38 & 59 & A\\
+%        \hline
+%    \end{tabular}
+%
+%    \caption{Math 500 Grades}
+%    \label{math500grades}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:treatments}
+%    \centering
+%    \begin{tabular}{c r @{.} l}
+%        Pi expression       &
+%        \multicolumn{2}{c}{Value} \\
+%        \hline
+%        $\pi$               & 3&1416  \\
+%        $\pi^{\pi}$         & 36&46   \\
+%        $(\pi^{\pi})^{\pi}$ & 80662&7 \\
+%    \end{tabular}
+%    \caption{The effects of treatments X and Y on the four groups studied.}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:tabular_example1}
+%    \centering
+%    \begin{tabular}[t]{|r|l|}
+%        \hline
+%        7C0 & hexadecimal \\
+%        3700 & octal \\
+%        \cline{2-2} 11111000000 & binary \\
+%        \hline
+%        \hline
+%        1984 & decimal \\
+%        \hline
+%    \end{tabular}
+%\caption{Just an example}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:tabular_example2}
+%    \centering
+%    \begin{tabular}{|r|l|}
+%        \hline
+%        7C0 & hexadecimal \\
+%        3700 & octal \\
+%%        \cline{2-2}
+%%        11111000000 & binary \\
+%%        \hline
+%%        \hline
+%%        1984 & decimal \\
+%        \hline
+%    \end{tabular}
+%\caption{Basic Usage}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:tabular_example3}
+%    \centering
+%    \begin{tabular}{|r|l|}
+%        \hline
+%        7C0 & hexadecimal \\
+%        \cline{1-2}
+%        3700 & octal \\
 %        \cline{2-2}
 %        11111000000 & binary \\
+%        \cline{1-2}
+%        11111000 & binary \\
+%%        \hline
+%%        \hline
+%%        1984 & decimal \\
 %        \hline
+%    \end{tabular}
+%\caption{horizontal lines extend over multiple columns}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:tabular_example4}
+%    \centering
+%    \begin{tabular}{|p{4.7cm}|}
+%        \hline Welcome to Boxy's paragraph. We sincerely hope you'll all enjoy the show.\\
 %        \hline
-%        1984 & decimal \\
-        \hline
-    \end{tabular}
-\caption{Basic Usage}
-\end{table}
-
-\begin{table}
-    \label{tab:tabular_example3}
-    \centering
-    \begin{tabular}{|r|l|}
-        \hline
-        7C0 & hexadecimal \\
-        \cline{1-2}
-        3700 & octal \\
-        \cline{2-2}
-        11111000000 & binary \\
-        \cline{1-2}
-        11111000 & binary \\
+%    \end{tabular}
+%    \caption{define a special type of column which will wrap-around the text as in a normal paragraph}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:tabular_example8}
+%    \centering
+%    \begin{tabular}{p{4.7cm}}
 %        \hline
+%        Welcome to Boxy's paragraph.
+%        We sincerely hope you'll all enjoy the show.\\
 %        \hline
-%        1984 & decimal \\
-        \hline
-    \end{tabular}
-\caption{horizontal lines extend over multiple columns}
-\end{table}
-
-\begin{table}
-    \label{tab:tabular_example4}
-    \centering
-    \begin{tabular}{|p{4.7cm}|}
-        \hline Welcome to Boxy's paragraph. We sincerely hope you'll all enjoy the show.\\
-        \hline
-    \end{tabular}
-    \caption{define a special type of column which will wrap-around the text as in a normal paragraph}
-\end{table}
-
-\begin{table}
-    \label{tab:tabular_example8}
-    \centering
-    \begin{tabular}{p{4.7cm}}
-        \hline
-        Welcome to Boxy's paragraph.
-        We sincerely hope you'll all enjoy the show.\\
-        \hline
-    \end{tabular}
-    \caption{define a special type of column which will wrap-around the text as in a normal paragraph}
-\end{table}
-
-\begin{table}
-    \label{tab:tabular_example5}
-    \centering
-    \begin{tabular}{@{} l @{}}
-        \hline Welcome to Boxy's paragraph. We sincerely hope you'll all enjoy the show.\\
-        \hline
-    \end{tabular}
-    \caption{define a special type of column which will wrap-around the text as in a normal paragraph}
-\end{table}
-
-\begin{table}
-    \label{tab:tabular_example6}
-    \centering
-    \begin{tabular}{l}
-        \hline Welcome to Boxy's paragraph. We sincerely hope you'll all enjoy the show.\\
-        \hline
-    \end{tabular}
-    \caption{define a special type of column which will wrap-around the text as in a normal paragraph}
-\end{table}
-
-\begin{table}
-    \label{tab:tabular_example9}
-    \centering
-    \begin{tabular}{c c} \hline \multicolumn{2}{c}{Ene} \\ \hline Mene & Muh! \\ \hline \end{tabular}
-    \caption{multicolumn command}
-\end{table}
-
-\begin{table}
-    \label{tab:tabular_example10}
-    \centering
-    \begin{tabular}{c c c c c c}
-        \hline
-        sequence name &
-        BD-BR &
-        \multicolumn{4}{c}{Ene} \\
-        \cline{3-6}
-        {} & {} & Me & Muh & Me & Mu\\
-        \hline
-        Newspaper & 0.98\% & 22 & 33 & 44 & 66\\
-    \end{tabular}
-    \caption{multicolumn command}
-\end{table}
+%    \end{tabular}
+%    \caption{define a special type of column which will wrap-around the text as in a normal paragraph}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:tabular_example5}
+%    \centering
+%    \begin{tabular}{@{} l @{}}
+%        \hline Welcome to Boxy's paragraph. We sincerely hope you'll all enjoy the show.\\
+%        \hline
+%    \end{tabular}
+%    \caption{define a special type of column which will wrap-around the text as in a normal paragraph}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:tabular_example6}
+%    \centering
+%    \begin{tabular}{l}
+%        \hline Welcome to Boxy's paragraph. We sincerely hope you'll all enjoy the show.\\
+%        \hline
+%    \end{tabular}
+%    \caption{define a special type of column which will wrap-around the text as in a normal paragraph}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:tabular_example9}
+%    \centering
+%    \begin{tabular}{c c} \hline \multicolumn{2}{c}{Ene} \\ \hline Mene & Muh! \\ \hline \end{tabular}
+%    \caption{multicolumn command}
+%\end{table}
+%
+%\begin{table}
+%    \label{tab:tabular_example10}
+%    \centering
+%    \begin{tabular}{c c c c c c}
+%        \hline
+%        sequence name &
+%        BD-BR &
+%        \multicolumn{4}{c}{Ene} \\
+%        \cline{3-6}
+%        {} & {} & Me & Muh & Me & Mu\\
+%        \hline
+%        Newspaper & 0.98\% & 22 & 33 & 44 & 66\\
+%    \end{tabular}
+%    \caption{multicolumn command}
+%\end{table}
 
 
 
