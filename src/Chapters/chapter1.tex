@@ -42,9 +42,17 @@ the vividness of the video contents.
 Currently most 3D videos in the market are using stereo display technology.
 Two similar views, one for left eye, the other for right eye, are presented
 at the same time with the multiplexing techniques enabling the
-adjustments of video geometry information~\parencite{RN196}.
+adjustments of video geometry information~\parencite{RN196} to provide
+the 3D effect.
+Figure~\ref{fig:stereo-display} illustrates the typical system structure for
+transmitting videos targeting stereo display.
+It can be observed that there exists a displacement between the
+two views.
+The green vertical left margins of the red rectangles in the two views
+at encoder side are different.
+Such a displacement is the visual disparity for 3D perception.
 Stereoscopic videos~\parencite{RN153} have
-made lots of profits in movie theatres in recent years.
+achieved great profitability for movie theatres in recent years.
 For example, IMAX 3D has became the most popular one that offering
 the immersing multimedia experiences around the world.
 Special 3D glasses are needed for watching the IMAX 3D movies.
@@ -54,14 +62,14 @@ Myopic people do not like to wear one more pair of glasses when
 watching 3D movies.
 Some people will experience discomfort after wearing the 3D glasses for a
 period of two hours.
-Autostereoscopic technology~\parencite{RN153} is coming to our rescue.
+Autostereoscopic multi-view technology~\parencite{RN153} is coming to our rescue.
 No glasses are needed if Autostereoscopic videos can
 substitute the Stereoscopic videos.
-The autostereoscopic multi-view display demands more than two
+The Autostereoscopic multi-view display demands more than two
 views for audience to view the 3D contents
 without extra eye glasses.
 The visual quality of
-the autostereoscopic display is highly correlated to the number of views
+the Autostereoscopic display is highly correlated to the number of views
 that can be provided in the receiver side.
 Due to limited available bandwidth, transmitting arbitrary number of views
 is not practical.
@@ -71,13 +79,20 @@ The typical system structure for using this new format to compress and supply 3D
 resources is shown in figure~\ref{fig:SS-MVD}.
 \begin{figure}
     \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/StereoDisplay}
+%        \decoRule
+    \caption[System Structure for transmitting videos targeting stereo display]{System Structure for transmitting videos targeting stereo display.}
+    \label{fig:stereo-display}
+\end{figure}
+An enormous amount of views in the medium positions which are able to
+guarantee the high quality of the 3D video can be synthesized from
+\begin{figure}
+    \centering
     \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/SystemStructureOf3DEncoder}
 %        \decoRule
     \caption[System Structure for transmitting videos of Multi-view Plus Depth format]{System Structure for transmitting videos of Multi-view Plus Depth format.}
     \label{fig:SS-MVD}
 \end{figure}
-An enormous amount of views in the medium positions which are able to
-guarantee the high quality of the 3D video can be synthesized from
 the decoded texture frames in combination with decoded depth maps.\\
 %The multi-view plus depth format provides the functionality of synthesizing
 %required number of views from texture views and associated depth maps.\\
@@ -112,6 +127,7 @@ prediction tools, is designed to provide much more granularity for
 encoding the depth maps.
 Wedgelet partition and contour partition for depth maps
 are enabled by DMM1 and DMM4 separately.
+%~\parencite{RN197}.
 
 %introduce a little about depth map and their usage.
 %mentioning iphonex true depth camera.
