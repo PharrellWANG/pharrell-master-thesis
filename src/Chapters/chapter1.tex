@@ -303,10 +303,10 @@ HTM-16.2.
 \end{table}
 The major reason leading to the time consuming property of DMM1 searching is the
 View Synthesis Optimization (VSO) Method for improving quality of
-synthesized views,~\parencite{RN124} wherein the Synthesized View Distortion
-Change (SVDC) is computed.
+synthesized views~\parencite{RN124}, wherein the Synthesized View Distortion
+CChange (SVDC) is computed.
 The time percentages of the VSO processes in DMM1 searching are summarised in
-Table~\ref{tab:vso-in-dmm1-searching-time-percent-summary}
+Table~\ref{tab:vso-in-dmm1-searching-time-percent-summary}.
 \begin{table}[b]
     \caption{The summary of the time percentages occupied by VSO in DMM1 searching}
     \bigskip
@@ -323,6 +323,13 @@ Table~\ref{tab:vso-in-dmm1-searching-time-percent-summary}
         \hline
     \end{tabular}
 \end{table}
+In HTM-16.2, many wedgelet candidates are evaluated using the VSO which
+has a high computational complexity.
+Evaluating less wedgelet candidates will help to relieve
+the burden of heavy computation required by VSO, thereby certain
+time reduction can be achieved.\\
+\newline
+\textbf{Motivation for Using Deep Learning:}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Table examples
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
