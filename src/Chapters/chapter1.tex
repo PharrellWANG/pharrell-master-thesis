@@ -213,23 +213,31 @@ are enabled by DMM1 and DMM4 separately.
 
 %----------------------------------------------------------------------------------------
 
-\section{Motivation and Contribution}\label{sec:motivation_and_contribution}
+\section{Motivation}\label{sec:motivation_and_contribution}
 The idea of this work originates from the discovery of the computational
 complexity of the wedgelet searching process in depth modelling modes.
 The immense complexity for searching the best wedgelet candidate lead to
 the strongly marked increase of encoding time.
 The time consumed for compressing a single depth map in 3D-HEVC encoder is
 roughly a sixfold increase relevant to the encoding time of a single texture
-frame.
+frame wherein the all intra configuration in HTM-16.2.
 Thus we designed a deep neural network architecture which is trained
 subsequently for predicting the most probable wedgelet candidates.
 The learned model achieves 92.2\% to 97.3\% top-16 accuracy for various
 block sizes.
 The inference engine is integrated into the reference software
-(HTM16.2) of 3D-HEVC.
+(HTM-16.2) of 3D-HEVC.
 The learned models reduce roughly half of the wedgelet searching candidates.
 It provides 64.6\% time reduction in average while the BD performance
-is well maintained comparing with the unmodified 3D-HEVC encoder.
+has a negligible decrease comparing with the unmodified 3D-HEVC encoder.\\
+\newline
+\textbf{Motivation for Wedgelet Candidates Reduction:} The encoding time
+consumed in HTM-16.2 encoder for
+each view (including both texture and depth) by default can be
+observed from the terminal (Linux/macOS) outputs or command line (Windows)
+outputs.
+An example of the encoding time for each view from the GhostTownFly sequence
+is excerpt shown in Table~\ref{tab:autostereo-less-views-more-views}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Table examples
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -402,7 +410,7 @@ is well maintained comparing with the unmodified 3D-HEVC encoder.
 %\end{table}
 %----------------------------------------------------------------------------------------
 
-\section{Dissertation Outline}\label{sec:outline}
+\section{Contribution and Dissertation Outline}\label{sec:outline}
 
 
 
