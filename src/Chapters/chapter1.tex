@@ -21,8 +21,8 @@ Since bit rate is proportional to system bandwidth for
 transmission~\parencite{RN191}, and expanding the bandwidth in a large scale is
 too expensive, the significantly increased bit rate
 for transmitting the video data is becoming one of the
-major obstacles for HD video services.\\
-\newline
+major obstacles for HD video services.
+
 To cope with the growing need for higher compression of moving
 pictures~\parencite{RN193}, Joint Collaborative Team on Video
 Coding (JCT-VC)~\parencite{RN192} has developed the High Efficiency Video
@@ -31,8 +31,8 @@ substantially ameliorate the compression performance against the previous
 standards.
 Comparing with the H.264 Advanced Video Compression Standard~\parencite{RN194},
 the H.265 High Efficiency Video Coding Standard provides fifty percent bit rate
-reduction while maintaining the objective video quality at the same level.\\
-\newline
+reduction while maintaining the objective video quality at the same level.
+
 While Two-dimensional video is the most common video type,
 Three-dimensional (3D) video has been brought to market via lots of ways,
 including Blu-Ray disc, cable and satellite transmission, terrestrial
@@ -139,10 +139,10 @@ guarantee the high quality of the 3D video can be synthesized from
     \caption[System Structure for transmitting videos of Multi-view Plus Depth format]{System Structure for transmitting videos of Multi-view Plus Depth format.}
     \label{fig:SS-MVD}
 \end{figure*}
-the decoded texture frames in combination with decoded depth maps.\\
+the decoded texture frames in combination with decoded depth maps.
 %The multi-view plus depth format provides the functionality of synthesizing
 %required number of views from texture views and associated depth maps.\\
-\newline
+
 To employ multi-view plus depth format for 3D video, efficient compressing
 methods are desired, which has led to the 3D Video Coding Extension of the
 High Efficiency Video Coding Standard (3D-HEVC) by the Joint Collaborative Team
@@ -152,8 +152,8 @@ for encoding a few texture views along with the corresponding depth maps by
 using new tools which exploit the redundancies amongst
 texture and depth views, and pay attention to the unique characteristics of
 the depth maps, such as large homogeneous
-regions separated by sharp boundaries~\parencite{RN47}.\\
-\newline
+regions separated by sharp boundaries~\parencite{RN47}.
+
 Depth information measures of the distance between the object in the far position
 and the object in the near position from a static viewpoint,
 which is expressed in the format of depth map.
@@ -229,8 +229,8 @@ The inference engine is integrated into the reference software
 (HTM-16.2) of 3D-HEVC.
 The learned models reduce roughly half of the wedgelet searching candidates.
 It provides 64.6\% time reduction in average while the BD performance
-has a negligible decrease comparing with the unmodified 3D-HEVC encoder.\\
-\newline
+has a negligible decrease comparing with the unmodified 3D-HEVC encoder.
+
 \textbf{Motivation for Wedgelet Candidates Reduction:} The encoding time
 consumed in HTM-16.2 encoder for
 each view (including both texture and depth) by default can be
@@ -300,14 +300,14 @@ HTM-16.2.
         8 by 8 & XC4 & 18.8\% \\
         \hline
     \end{tabular}
-\end{table}
+\end{table}[t]
 The major reason leading to the time consuming property of DMM1 searching is the
 View Synthesis Optimization (VSO) Method for improving quality of
 synthesized views~\parencite{RN124}, wherein the Synthesized View Distortion
 CChange (SVDC) is computed.
 The time percentages of the VSO processes in DMM1 searching are summarised in
 Table~\ref{tab:vso-in-dmm1-searching-time-percent-summary}.
-\begin{table}[b]
+\begin{table}[t]
     \caption{The summary of the time percentages occupied by VSO in DMM1 searching}
     \bigskip
     \label{tab:vso-in-dmm1-searching-time-percent-summary}
@@ -327,9 +327,41 @@ In HTM-16.2, many wedgelet candidates are evaluated using the VSO which
 has a high computational complexity.
 Evaluating less wedgelet candidates will help to relieve
 the burden of heavy computation required by VSO, thereby certain
-time reduction can be achieved.\\
-\newline
-\textbf{Motivation for Using Deep Learning:}
+time reduction can be achieved.
+
+\textbf{Motivation for Using Deep Learning:} Deep learning such as
+Multi-Layer Perceptron (MLP) is a subfield of representation learning, which
+is in turn a major subset of machine learning~\parencite{RN158}.
+Machine learning such as the support vector learning~\parencite{RN198}
+is applied to many methods in the domain of Artificial Intelligence (AI).
+%Deep Neural Network (DNN) has achieved many championships in the worldwide
+%recognition contests since 2009~\parencite{RN199}.
+Deep learning based on back propagation training has been found hard to proceed
+in the late 1980s~\parencite{RN199}, however, starting from 2012, it kicks off the
+glorious comeback.
+The deep Convolutional Neural Network (CNN) has won the ImageNet
+Large Scale Visual Recognition Challenge (ILSVRC)
+from 2012 to 2015 with the CNN architecture of the winner going deeper
+and deeper year by year.
+The great achievements attract attentions from people all over the world and
+make deep learning the hottest topic in our daily lives.
+Inspired by the fact that supervised deep learning can learn multiple layers of
+abstract representations in the visual recognition tasks, it should
+be applicable to recognize the angular modes of the intra-picture
+prediction in the 3D-HEVC.
+The final DMM1 candidate selected in depth map coding
+is essentially determined by the angle pattern of the depth blocks.
+If we can make use of deep learning to predict the most probable angles of the
+target pixel block, a vast amount of angular modes and DMM1
+wedgelet candidates can be naturally skipped by which the time saving can be
+achieved without decreasing the coding performance.
+
+Motivated by the discussions above, we adopt deep learning approach with
+deep convolutional neural network to accelerate the depth map coding in
+3D-HEVC.
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Table examples
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -503,7 +535,39 @@ time reduction can be achieved.\\
 %----------------------------------------------------------------------------------------
 
 \section{Contribution and Dissertation Outline}\label{sec:outline}
+We accelerate the depth map coding in 3D-HEVC leveraging the power of
+deep learning.
+The contributions of the dissertation are:
+\begin{itemize}
+  \item A deep convolutional neural network with 32 layers comprising ResNet
+  units~\parencite{RN67} has been designed and trained for recognizing the
+  angular directions of the blocks from intra-picture prediction in 3D-HEVC
+  encoder.
+  The learned models have high top-k precisions which work well on the
+  tasks of recognizing intra angular patterns in 3D-HEVC.
+  \item A way of integrating the learned model into the HTM-16.2 encoder has
+  been suggested.
+  By making use of Bazel~\parencite{RN200} to compile the encoder binary, the
+  data level parallelism (instead of concurrency) functionality in CPU
+  as well as the parallel architecture in GPU are fully utilized for
+  efficient computations of matrix operations.
+  \item An algorithm, illustrated in
+  Figure~\ref{fig:proposed-fast-depth-coding-algorithm}, for fast depth map coding based
+  on the predictions from
+  learned deep models has been proposed and implemented.
+  The simulation results show that the proposed algorithm is capable of
+  reducing 64.6\% time in wedgelet searching during 3D-HEVC encoding process
+  while the BD performance only has a trivial decrease.
+\end{itemize}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/proposed-fast-depth-coding-algorithm}
+%        \decoRule
+    \caption[Flowchart for proposed fast depth coding algorithm]
+    {Flowchart for proposed fast depth coding algorithm.}
+    \label{fig:proposed-fast-depth-coding-algorithm}
+\end{figure}
 
 
 
