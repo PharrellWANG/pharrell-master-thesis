@@ -535,6 +535,14 @@ deep convolutional neural network to accelerate the depth map coding in
 %----------------------------------------------------------------------------------------
 
 \section{Contribution and Dissertation Outline}\label{sec:outline}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/proposed-fast-depth-coding-algorithm}
+%        \decoRule
+    \caption[Flowchart for proposed fast depth coding algorithm]
+    {Flowchart for proposed fast depth coding algorithm.}
+    \label{fig:proposed-fast-depth-coding-algorithm}
+\end{figure}
 We accelerate the depth map coding in 3D-HEVC leveraging the power of
 deep learning.
 The contributions of the dissertation are:
@@ -583,15 +591,19 @@ Discussions on choosing proper hyper-parameters for the devised neural network
 are given.
 The stopping criteria are presented with the training results.
 
+\textbf{Chapter~\ref{ch:chapter5}} provides evaluation results for the
+learned models.
+Block resizing with different approaches are compared using the accuracy of
+prediction.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/proposed-fast-depth-coding-algorithm}
-%        \decoRule
-    \caption[Flowchart for proposed fast depth coding algorithm]
-    {Flowchart for proposed fast depth coding algorithm.}
-    \label{fig:proposed-fast-depth-coding-algorithm}
-\end{figure}
+\textbf{Chapter~\ref{ch:chapter6}} shows the methods been used for integrating
+the learned model into the 3D-HEVC encoder.
+Advantages and drawbacks of the integration are discussed.
+Simulation results comparing with the original HTM-16.2 are given in this
+chapter.
+
+\textbf{Chapter~\ref{ch:chapter7}} concludes the thesis and discusses the future
+work for fast depth coding using deep learning.
 
 
 
