@@ -1,0 +1,7 @@
+{
+  "files.exclude": {
+    "*.aux": true,
+    "*.bbl": true
+  },
+  "explorerExcludedFiles.show": false
+}
