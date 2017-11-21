@@ -2,6 +2,116 @@
 %
 %%----------------------------------------------------------------------------------------
 %
+To start with, we bring up what is video coding, why it is needed, and
+its challenges.
+Next we discuss what is deep learning, the history of deep learning and how
+it works for vision tasks.
+Furthermore, we introduce how we plan to apply deep learning to optimize video
+coding tasks and why it should work.
+In the end, a survey of related works in video coding and deep learning is given.
+
+%3D Video applications are attracting more interests
+%%----------------------------------------------------------------------------------------
+%
+\section{Video Coding}\label{sec:video-coding}
+Video playback is the most straightforward way for human to perceive dynamic
+scenes that exist across a time series.
+More than half of the neurons in human brain are born to process the visual
+information which is supplied by human eyes.
+It becomes effortless for human to understand things presented by
+the video playback instead of a long paragraph of words.
+Videos are made up of consecutive sets of image frames, which in turn
+are made up of pixel matrices.
+Visual information of a cosmic scale is first stored by various methods
+then delivered during a period of video playback.
+
+In 1950s, video tapes were employed to store the videos.
+Video tape is able to serve for about eight to twelve years
+before the video quality starts to degrade.
+In 1970s, laser disc appeared in the US market as an alternative of video tapes.
+Start from laser disc, the video storage started its new era in digital world.
+In 1990s, DVDs were released after laser disc.
+Data is stored in spiralling tracks on the disc.
+A laser beam can be utilized to read the data.
+In addition, hard drives, flash drives and SD cards were also starting to
+become popular in the late 90s.
+Nowadays, the cloud storage is very common in daily lives.
+It is capable of storing data on the servers which are
+accessible from any devices via internet connections.
+
+Although so many formats are available for video storage, they share a common
+feature: the more storage you use, the more cost it will be.
+Let's take the cloud storage as an example.
+Google cloud is one of the most popular cloud services in our daily lives.
+It provides cloud storage with a price
+of \$0.026 per GB/month~\parencite{RN202}
+(this price is observed on 21 Nov 2017, it may change in the future).
+If a 4K video with a resolution of 4096*2160,
+at 120 frames per second,
+8 bits for each of the RGB component, needs to be stored without
+any compression in Google cloud,
+we need to pay a monthly fee:
+\((4096*2160*120*60*90*3*0.026)/(1024*1024*1024) \approx 416.47\) \$.
+Without doubt, this figure is relatively not acceptable for just
+storing the video.
+High compression is needed to store the videos in a practical way.
+
+From the other perspective, let us take the bandwidth into consideration.
+To deliver the uncompressed 4K video which has been mentioned in
+the previous paragraph, we need a bandwidth of:
+\((4096*2160*120*3)/(1024*1024*1024) \approx 2.97\) Gigabytes per second.
+The maximum bandwidth of Wireless 802.11ac, which is one of the common
+internet access technologies, is 1.3 Gigabytes per second~\parencite{RN203}.
+Apparently, the wireless connection is not able to deliver such kind of
+4K videos.
+High compression is desired to deliver the video through the internet.
+
+Despite the fact that raw videos usually contain a large amount of data,
+a lot of redundancies exist.
+For every video sequence, two types of redundancies are ubiquitous: Spacial
+Redundancy and Temporal Redundancy.
+Video coding technologies are taking advantages of those redundancies to
+achieve the efficient compression for video data.
+Many of the useful video coding technologies have been adopted by the
+international video coding standards, such as MPEG-4, H.264, H.265, etc.
+
+Figure~\ref{fig:video-std-brief-history} shows the brief history of the
+video coding standards.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/video-std-brief-history.pdf}
+%        \decoRule
+    \caption[The brief history of the video coding standards]
+    {The brief history of the video coding standards}
+    \label{fig:video-std-brief-history}
+\end{figure}
+In 1980s, the COST211 video codec, built on top of Differential
+Pulse Code Modulation (DPCM), was standardized under H.120 standard by CCITT
+(now known as ITU-T).
+In late 1989, the H.261 was completed and its success marked a milestone for
+video coding at low bit rate with fairly good quality~\parencite{RN181}.
+The Motion Picture Experts Group (MPEG) kicked off the exploration of video
+storage, such as CD-ROMs.
+Their objective was to achieve a competitive performance with cassette
+recorders in terms of compression of videos which have rich motions.
+The framework of H.261 had been used to start the codec design of MPEG-1.
+MPEG-2 was one generation after the MPEG-1.
+It featured higher capabilities when handling videos with
+high bit rates and high resolutions.
+In MPEG-2, the encoder is allowed to make its own decision on the
+the number of bi-directionally predicted pictures according to a
+suitable coding delay.
+ITU-T found this technique applicable to telecommunication applications, as
+a result MPEG-2 has been adopted as H.262 for telecommunications.
+Right after the MPEG-2 standard, MPEG-3 was designed mainly for coding of
+high definition videos.
+However, MPEG-3 was discarded due to the versatility of MPEG-2, which
+can be used to encode videos of any resolutions.
+In the late 1998, MPEG-4 was introduced as a way of defining compression of
+both audio and visual digital data.
+Later on MPEG-4 was divided into several parts during its continuously evolving.
+Among its sub-parts, MPEG-4 part 10 (a.k.a. Advanced Video Coding) is mainly
+for the video compression.
 With the rising popularity of the high definition videos, the new standard
 termed High Efficiency Video Coding (HEVC) for compressing videos in a more
 efficient way comparing with previous standards, such as H.264/AVC, has
@@ -13,10 +123,15 @@ Multi-view Extension (MV-HEVC), 3D Extension (3D-HEVC),
 Screen Content Coding Extension (SCC),  have been finalized
 from 2014 to 2016 to fulfill extra requirements in various video coding
 scenarios.
-%3D Video applications are attracting more interests
-%%----------------------------------------------------------------------------------------
-%
-\section{Video Coding}\label{sec:video-coding}
+
+In this work, we focus on the depth map coding in 3D-HEVC\@.
+The 35 angular modes and depth modeling modes have been embraced in the
+depth map coding tools in 3D-HEVC\@.
+The DMM1 mode introduces an huge increase for the encoding time of 3D videos.
+Acceleration of the depth map coding is needed.
+
+\section{Deep Learning}\label{sec:deep-learning}
+
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 %
 %If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
