@@ -131,6 +131,80 @@ The DMM1 mode introduces an huge increase for the encoding time of 3D videos.
 Acceleration of the depth map coding is needed.
 
 \section{Deep Learning}\label{sec:deep-learning}
+Deep learning is an approach of representation learning
+(a.k.a. feature learning), which is essentially a method to
+learn from data.
+Numerous layers of computational units together with appropriate activating
+mechanism comprise the basic architecture for deep learning.
+Multitudinous data sets are needed for those computational architectures
+to learn data abstractions for tasks such as image classification,
+speech recognition, object detection, etc.
+Each layer learns a level of abstraction from the data sets using
+back-propagation algorithm~\parencite{RN204}.
+Making use of those learned abstractions, the computational architectures are
+able to solve complex problems which are typically non-linear and normally hard
+to solve by using specific rules that are designed in advance.
+
+Deep learning has been attracting wide attention from all over the world
+in recent years, not only because of the great achievements it has
+made in various application scenarios, but also due to the promise of an
+intelligent future it gives.
+Such a learning methodology makes people believe it is possible
+for the formation of wise machines
+that they have long dreamed to possess.
+The growing data accessibility provides rich examples for deep computational
+architectures to adjust their internal weights and bias until their
+predictions have low error rate.
+On the other hand, the computational devices are relatively
+affordable than in the previous years by the society, with the help of which,
+accelerations of learning processes has been achieved, hence a bunch of
+time consuming deep learning architectures can be tried within acceptable
+periods.
+
+In the ILSVRC-2012 competition~\parencite{RN205}, AlexNet~\parencite{RN65}
+received the championship with the 15.3\% top-5 error rate, compared to
+26.2\% achieved by the runner-up.
+Such a large margin of error rate claimed a breakthrough in
+object recognition history.
+It kicked off a blistering pace of trying out deep learning by both academia
+and industry, which in turn led to an increase of the convolutional
+neural networks' submissions to ILSVRC-2013, in which ZF Net~\parencite{RN66}
+was the winner.
+It fine-turned the architecture of AlexNet based on the
+gorgeous visualizations of trained models.
+Both AlexNet and ZF Net are of the same structure which is built up
+by simply stacking computational layers while GoogLeNet~\parencite{RN60}
+is composed of Inception
+modules.
+This new architecture was the most successful candidate in ILSVRC-2014.
+It has not only set the new height of object recognition but also started to
+optimize the computational resources of the network by design.
+It consists of 22 layers, which was deeper than all the previous
+networks in ILSVRC\@.
+However, it is still not deep enough.
+In the ILSVRC-2015, Residual Neural Network (ResNet)~\parencite{RN67} with 152 layers
+won the championships in all the five main tracks.
+ResNet introduced a brand new notion named identity mapping in the
+world of neural network structure.
+Such kind of shortcut connection prevents the degradation of training accuracy
+when the network goes deeper.
+Besides, the converging speed of ResNet is faster than the network built up
+with Inception modules when both are of the similar size.
+
+
+% ====== can be used for literature review =====
+%AlexNet contains five convolutional layers and three fully-connected
+%layers.
+%The Rectified Linear Units (ReLU)~\parencite{RN206}, Local Response
+%Normalization and Overlapping Pooling were adopted.
+%The methodology of multiple GPU training was used to make the learning fast.
+%Data Augmentation and Dropout were chosen to overcome the problem of
+%Overfitting.
+%Stochastic gradient descent was adopted.
+% ====== can be used for literature review =====
+
+
+
 
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 %
