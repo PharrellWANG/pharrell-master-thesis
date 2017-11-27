@@ -235,12 +235,85 @@ Inception network architecture led to the formation of Inception-v2, which
 improved the best accuracy on ImageNet classification with less training steps.
 %more advanced accuracy on ILSVRC 2012
 %classification challenge validation set.
-In the same year, Inception-v3~\parencite{RN62} joined the show, the objective of which was
+In the same year, Inception-v3~\parencite{RN62} joined the party, the objective of which was
 to effectively leverage the power of additional computation by factorizing
 to smaller size convolutions and regularizing the classifier layer with
 the estimation of minor effect of label-dropout in the training process.
 The network architectures were scaled up in Inception-v3, which consequently
 imposed higher requirements of available computational resources.
+With the ResNet~\parencite{RN67} stealing the show in ILSVRC-2015,
+the influence of the
+identity connections in residual units on the learning process
+has been investigated in~\parencite{RN63}.
+The filter concatenation stage of in Inception-v3 is replaced using identify
+connections which led to the layout of a new model named Inception-ResNet-v1.
+A more advanced version which was named Inception-ResNet-v2 has a larger
+network size than the first version.
+Besides the mixed architectures of Inception-ResNet, a pure Inception
+incarnation named Inception-v4 was also presented with comparison to
+Inception-ResNet-v2.
+Both Inception-v4 and Inception-ResNet-v2 have significant gain of performance
+mainly benefiting from the enlarged size of network.
+
+\section{Related Work}\label{sec:related-work}
+To balance the trade-off between high computational complexity and
+coding performance in video coding, a lot of research has been conducted.
+In this section, the prior arts on optimizations for video
+coding in 3D-HEVC are reviewed.
+
+Before the finalization of 3D-HEVC standard in Feb 2015, a lot of works on
+depth map have been published.
+%Although in this thesis the researching focus is 3D-HEVC oriented, it is
+%still helpful to know the related works in HEVC\@.
+%We start with a review of fast intra coding for HEVC,
+%after that fast depth coding for 3D-HEVC\@.
+%\subsection{Fast Intra Coding in HEVC}\label{subsec:fast-HEVC}
+%
+%\subsection{Fast depth Coding in 3D-HEVC}\label{subsec:fast-3D-HEVC}
+Based on the observation that the depth map is characterized by vast
+smooth regions separated by sharp edges, an algorithm to effectively
+encode homogeneous regions has been proposed in~\parencite{RN120}.
+It improves coding performance for depth maps by copying pixel values for
+homogeneous blocks from values of neighboring reference pixels.
+In~\parencite{RN123}, Depth Lookup Table (DLT) has been proposed for
+encoding the depth maps in 3D-HEVC standard.
+It offers the benefits of 1.3\% bit-rate reduction.
+To further improve the coding performance for depth map, more
+dedicated tools for depth map coding are needed.
+Depth Modeling Modes (DMM) and View Synthesis Optimization (VSO) are proposed
+in~\parencite{RN208}.
+VSO provides 17\% bit rate reduction in average while DMM provides 6\% savings
+on bit rate.
+Although the introduction of DMM and VSO have brought the coding performance of
+depth map coding into a new level, the computational complexity has increased
+a lot due to the complex nature of VSO\@.
+Consequently the time cost of depth map encoding becomes fairly expensive.
+This raised the question of whether it is possible to reduce the computational
+complexity for saving encoding time.
+In~\parencite{RN76}, a fast wedgelet searching scheme achieves significant
+reduction for computational complexity with minor BD-rate increase.
+It takes advantage of the result from
+Sum of Absolute Transform Difference (SATD) to reduce the wedgelet searching
+candidates.
+A two-step fast searching approach for wedgelet partition
+appears in~\parencite{RN126}.
+It features a coarse search in conjunction with a further refinement step.
+Another fast approach for wedgelet searching~\parencite{RN79}
+is to make use of the Most Probable Mode (MPM) to reduce wedgelet
+searching candidates.
+Since intra angular modes will lead to ringing artifacts
+when utilized for depth map coding, the idea of skipping intra
+angular prediction by making use of edge detector is shown in~\parencite{RN89}.
+Bayesian classifier is used in~\parencite{RN102} to alleviate the computational
+complexity of intra mode decision in 3D-HEVC\@.
+
+%Since the angular modes are designed for preserving texture
+%patterns, it does not work well on keeping the fidelity of depth maps.
+%Simply using angular mode to encode depth maps,
+%inging artifacts~\parencite{RN44} occur in the sharp edges on depth maps
+%which tend to cause distortions on synthesized views.
+%Depth maps are not directly presented to audience while synthesized views are.
+%Apparently attention is needed for improvements.
 
 % ====== can be used for literature review =====
 %AlexNet contains five convolutional layers and three fully-connected
