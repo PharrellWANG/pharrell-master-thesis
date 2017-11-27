@@ -137,10 +137,11 @@ learn from data.
 Numerous layers of computational units together with appropriate activating
 mechanism comprise the basic architecture for deep learning.
 Multitudinous data sets are needed for those computational architectures
-to learn data abstractions for tasks such as image classification,
-speech recognition, object detection, etc.
+to learn data abstractions
+for tasks such as image classification, speech recognition,
+object detection, etc.
 Each layer learns a level of abstraction from the data sets using
-back-propagation algorithm~\parencite{RN204}.
+back-propagation algorithm~\parencite{RN96}.
 Making use of those learned abstractions, the computational architectures are
 able to solve complex problems which are typically non-linear and normally hard
 to solve by using specific rules that are designed in advance.
@@ -182,7 +183,7 @@ optimize the computational resources of the network by design.
 It consists of 22 layers, which was deeper than all the previous
 networks in ILSVRC\@.
 However, it is still not deep enough.
-In the ILSVRC-2015, Residual Neural Network (ResNet)~\parencite{RN67} with
+In ILSVRC-2015, Residual Neural Network (ResNet)~\parencite{RN67} with
 152 layers won the championships in all the five main tracks.
 ResNet introduced a brand new notion into the neural network architecture
 named identity mapping.
@@ -192,7 +193,7 @@ Besides, the converging speed of ResNet is faster than the network built up
 with Inception modules when both are of the similar size.
 
 Despite the fact that neural networks built up from Inception modules
-converges slower than those built up from ResNet modules, it is still
+converge slower than those built up from ResNet modules, it is still
 worth it for a brief review of the valuable insights residing in
 the Inception networks.
 A typical incarnation of the first generation of Inception networks is named
@@ -211,9 +212,35 @@ For handling those drawbacks, based on the new ideas which were introduced
 in~\parencite{RN207} about how to construct the reasonable architecture of
 neural networks, new experiments orienting sparse network structure have
 been tried out.
-One year later after GoogleNet stolen the show in 2014,
-
-
+One year later after GoogleNet hold the championship of ILSVRC-2014,
+a method named Batch Normalization~\parencite{RN61} has been
+proposed by Google researchers to accelerate and ease the
+training of deep neural networks.
+The core idea behind Batch Normalization is to normalize
+the inputs to each layer for every batch of training data.
+More importantly, based on the observation that the normalization process
+essentially is matrix multiplications followed by adding biases, the Batch
+Normalization is implemented as additional layers which makes it part of
+the network architecture.
+This fairly novel method started a new chapter for the training of deep
+neural networks.
+With the adoption of Batch Normalization, higher learning rates no longer
+impede the convergence of the deep networks, oppositely faster
+training speed is brought to scene which can achieve a
+better accuracy of prediction with considerably less time.
+Additionally, in some cases, it can even replace the Dropout~\parencite{RN70}
+which is an effective method to prevent overfitting.
+The incorporation of Batch Normalization into the first generation of
+Inception network architecture led to the formation of Inception-v2, which
+improved the best accuracy on ImageNet classification with less training steps.
+%more advanced accuracy on ILSVRC 2012
+%classification challenge validation set.
+In the same year, Inception-v3~\parencite{RN62} joined the show, the objective of which was
+to effectively leverage the power of additional computation by factorizing
+to smaller size convolutions and regularizing the classifier layer with
+the estimation of minor effect of label-dropout in the training process.
+The network architectures were scaled up in Inception-v3, which consequently
+imposed higher requirements of available computational resources.
 
 % ====== can be used for literature review =====
 %AlexNet contains five convolutional layers and three fully-connected
