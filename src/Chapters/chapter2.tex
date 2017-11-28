@@ -256,13 +256,11 @@ Both Inception-v4 and Inception-ResNet-v2 have significant gain of performance
 mainly benefiting from the enlarged size of network.
 
 \section{Related Work}\label{sec:related-work}
-To balance the trade-off between high computational complexity and
-coding performance in video coding, a lot of research has been conducted.
 In this section, the prior arts on optimizations for video
-coding in 3D-HEVC are reviewed.
-
+coding are reviewed.
 Before the finalization of 3D-HEVC standard in Feb 2015, a lot of works on
-depth map have been published.
+depth map have been published mainly focusing on improving the coding
+performance of depth map.
 %Although in this thesis the researching focus is 3D-HEVC oriented, it is
 %still helpful to know the related works in HEVC\@.
 %We start with a review of fast intra coding for HEVC,
@@ -295,6 +293,8 @@ reduction for computational complexity with minor BD-rate increase.
 It takes advantage of the result from
 Sum of Absolute Transform Difference (SATD) to reduce the wedgelet searching
 candidates.
+Rough RD cost from Rough Mode Decision is used as mode selection threshold
+in~\parencite{RN90} to speed up the Bi-partition modes decision.
 A two-step fast searching approach for wedgelet partition
 appears in~\parencite{RN126}.
 It features a coarse search in conjunction with a further refinement step.
@@ -307,7 +307,66 @@ angular prediction by making use of edge detector is shown in~\parencite{RN89}.
 Bayesian classifier is used in~\parencite{RN102} to alleviate the computational
 complexity of intra mode decision in 3D-HEVC\@.
 
+After the finalization of 3D-HEVC, a lot of algorithms has been proposed
+to accelerate depth map encoding.
+The optimal mode of the parent prediction unit (PU)
+in the hierarchical quad-tree coding structure has been utilized to select
+the mode for child prediction unit (PU) in~\parencite{RN131}, and early
+decision for segment-wise DC coding is used together to achieve faster
+depth intra coding.
+Edge classification in Hadamard transform domain is used in~\parencite{RN86}
+to skip the DMM decision process conditionally.
+The minimum RD cost of the candidates in the full-RD searching list is taken
+as a threshold to bypass DMM decision based on the comparisons with the
+header rates in~\parencite{RN93}.
+Most probable region for DMM1 mode decision is identified with the help
+of sharp edges in~\parencite{RN209}, and DMM3 is skipped when depth
+prediction unit (PU) does not match with co-located texture counterpart.
+Variance is utilized in~\parencite{RN210} to estimate the most promising
+sub-region for DMM1.
+Corner point is used for fast quad-tree decision of depth intra coding
+in~\parencite{RN211}.
+Variance distribution is studied in~\parencite{RN111}, based on which the
+method termed Squared Euclidean distance of variances (SEDV) is
+proposed to substitute the long-standing View Synthesis Optimization (VSO)
+process.
+Besides, a new scheme termed probability-based early depth intra mode
+decision (PBED) is employed to skip modes and the RD cost in
+Rough Mode Decision (RMD) is used to terminate
+segment-wise depth coding (SDC)~\parencite{RN123}
+as early as possible.
+The correlation between depth maps and texture views are explored
+in~\parencite{RN94} to alleviate the complexity of the
+compression for depth map.
+In~\parencite{RN212}, comparing RD cost with pre-calculated threshold for fast
+intra mode decision together with early decision for the CU depth are used
+to accelerate the encoding process.
+Making use of RD cost results of the angular modes, only the most promising
+DMMs are evaluated in~\parencite{RN87} and, moreover, an innovative
+method using golden ratio to further improve the
+depth map coding is proposed.
+The characteristics of depth map are studied in~\parencite{RN91},
+as a result only four conventional intra modes are used for
+depth map intra coding and only six directions are used in DMM1 searching.
+Block edge along with the border gradient are used together
+in~\parencite{RN114} to accelerate the depth map coding.
+Information of neighbouring blocks and threshold which is derived from
+lots of experiments are used in~\parencite{RN85} for improving depth
+map coding.
 
+In~\parencite{RN74}, the decision for the depth of the coding unit
+in High Efficiency Video Coding (HEVC) is modeled as a classification
+problem which is solved by machine learning approach.
+A shallow convolutional neural network (CNN) is
+used in~\parencite{RN78} to determine coding unit depth in
+High Efficiency Video Coding (HEVC) while
+in~\parencite{DBLP:journals-corr-abs-1710-01218}, a deeper convolutional
+neural network together with long- and short-term memory (LSTM) network
+are employed to address the same issue.
+In additional to the works which are targeting the
+coding unit depth decision using machine learning approaches, it is found
+in~\parencite{RN73} that deep learning is used for the intra mode
+selection in High Efficiency Video Coding (HEVC).
 %Since the angular modes are designed for preserving texture
 %patterns, it does not work well on keeping the fidelity of depth maps.
 %Simply using angular mode to encode depth maps,
