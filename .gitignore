@@ -274,4 +274,4 @@ TSWLatexianTemp*
 
 src/Appendices/
 .idea/
-src/main.pdf
+.vscode/
