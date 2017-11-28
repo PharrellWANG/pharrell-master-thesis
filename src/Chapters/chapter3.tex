@@ -1,22 +1,101 @@
 \chapter{Prepare the Data for Deep Learning}\label{ch:chapter3} % For referencing the chapter elsewhere, use \ref{Chapter1}
-%
-%%----------------------------------------------------------------------------------------
-%
-With the rising popularity of the high definition videos, the new standard
-termed High Efficiency Video Coding (HEVC) for compressing videos in a more
-efficient way comparing with previous standards, such as H.264/AVC, has
-emerged under the efforts from the Joint Collaborative Team on Video
-Coding (JCT-VC).
-In the meanwhile, five extensions of the HEVC standard, comprising
-Format Range Extension (RExt), Scalability Extension (SHVC),
-Multi-view Extension (MV-HEVC), 3D Extension (3D-HEVC),
-Screen Content Coding Extension (SCC),  have been finalized
-from 2014 to 2016 to support fulfill extra requirements in various
-scenarios.
-%3D Video applications are attracting more interests
-%%----------------------------------------------------------------------------------------
-%ccc
-\section{Viccccdeo Coding}\label{sec:vcccccideo-codingd}
+
+Deep learning heavily relies on the size of available data.
+It only works when a considerably large set of data can be provided.
+Moreover, since we are using supervised learning which is the most
+popular form of deep learning for the time being, our datasets
+must be well labeled.
+A large dataset can contain enormous and different classes,
+with each class has its own label.
+The labels are used to adjust the inner parameters of a pre-constructed
+deep model according to the pre-defined loss function during the training
+process.
+We need to prepare a large set of labeled data before starting the
+model training.
+In this chapter, we start with the data collection, in which the data source
+and method for collecting data are shown in detail.
+After that the necessary pre-processing for the collected data are described.
+Furthermore, plenty of visualizations for the collected raw data are shown with
+discussion explaining the reason for the data pre-processing.
+
+\section{Data Collection}\label{sec:data-collection}
+To collect the data for training a deep model to predict the most probable
+intra angular directions for depth blocks, we need to identify two questions:
+Firstly, where does the data come from?
+Secondly, how do you collect the data from the source?
+In this subsection, the two questions are answered one by one.
+
+\subsection{Source of Data}\label{subsec:source-of-data}
+The data are collected from four video sequences as shown in
+Table~\ref{tab:data-source}.
+\begin{table}[t]
+    \caption{Source of data for deep learning}
+    \bigskip
+    \label{tab:data-source}
+    \centering
+    \begin{tabular}{c c c c c}
+        \hline
+        No. & Name of the Sequence & Resolution & Usage & Number of Frames\\
+        \hline
+        1 & Balloons & 1024x768 & train,test,validate & 300\\
+        2 & Kendo & 1024x768 & train,test,validate & 300\\
+        3 & Poznan Street & 1920x1088 & train,test,validate & 250\\
+        4 & Undo Dancer & 1920x1088 & train,test,validate & 250\\
+        \hline
+    \end{tabular}
+\end{table}
+Balloons sequence and Kendo sequence are of the resolution 1024 by 768 while
+Poznan Street sequence and Undo Dancer sequence are of the resolution 1920
+by 1088.
+Both of the former two sequences have 300 frames, all of which are used to
+collect the data.
+The latter two sequences both have 250 frames, and all the frames are involved
+in the data collection.
+The collected data for each sequence will be separated into three sets
+for training, testing and validating.
+The training data sets are used for the deep model to learn the best
+representations by the back-propagation algorithm~\parencite{RN204},
+during which the inner parameters typically weights and bias are adjusted
+along the gradient as instructed by the back-propagation.
+After the learned model will be obtained, the validating datasets are used to
+fine turn the hyper-parameters.
+With the reasonably adjusted hyper-parameters, the training process will be
+performed again.
+After certain loops of the train-validate circle, the testing datasets will
+be used to evaluate the final learned model which by then
+will not be further turned any more.
+After learned model will be applied to the testing datasets, the performance
+results of evaluation can indicate the generalization of the learning model.
+
+\subsection{Method for Collecting Data}\label{subsec:collecting-method}
+We collect data by encoding the four video sequences shown in
+Table~\ref{tab:data-source}.
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{Five csv files for each sequence will be obtained}
+% initialization\;
+% \tcc{iDISFlag and iParNum and iDir[4] are initialized}
+ \For{Every CU}{
+  \eIf{DISFlag}{
+   pass\;
+   }{
+   \eIf{iPartNum == 4}{
+    collect one dimensional depth luma value for each sub parts along with the label\;
+   }{
+    collect one dimensional depth luma value for a single block\;
+    }
+  }
+ }
+% \label{alg:first}
+ \caption{How to collect data}
+\end{algorithm}
+
+%See Algorithm~\ref{alg:first}.
+
+\section{Data Pre-processing}\label{sec:data-preprocessing}
+
+\section{Data Visualization}\label{sec:data-visu}
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 %
 %If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
