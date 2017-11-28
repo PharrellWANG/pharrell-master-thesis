@@ -35,7 +35,7 @@ Table~\ref{tab:data-source}.
     \centering
     \begin{tabular}{c c c c c}
         \hline
-        No. & Name of the Sequence & Resolution & Usage & Number of Frames\\
+        \# & Name of the Sequence & Resolution & Usage & Number of Frames\\
         \hline
         1 & Balloons & 1024x768 & train,test,validate & 300\\
         2 & Kendo & 1024x768 & train,test,validate & 300\\
@@ -71,9 +71,13 @@ results of evaluation can indicate the generalization of the learning model.
 We collect data by encoding the four video sequences shown in
 Table~\ref{tab:data-source}.
 
-\begin{algorithm}[H]
-\SetAlgoLined
-\KwResult{Five csv files for each sequence will be obtained}
+%\setcounter{algocf}{0}
+\begin{algorithm}
+%\SetAlgoLined
+%\KwResult{Five csv files for each sequence will be obtained}
+\DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
+\KwIn{Depth map luma pixel values in the step of $encodeCtu$ before Sample Adaptive Offset (SAO)}
+\KwOut{Five csv files for the sequence}
 % initialization\;
 % \tcc{iDISFlag and iParNum and iDir[4] are initialized}
  \For{Every CU}{
@@ -87,11 +91,11 @@ Table~\ref{tab:data-source}.
     }
   }
  }
-% \label{alg:first}
  \caption{How to collect data}
+ \label{algo:first}
 \end{algorithm}
 
-%See Algorithm~\ref{alg:first}.
+See Algorithm~\ref{algo:first}.
 
 \section{Data Pre-processing}\label{sec:data-preprocessing}
 
