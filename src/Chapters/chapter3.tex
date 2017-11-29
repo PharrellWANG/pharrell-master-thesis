@@ -71,31 +71,118 @@ results of evaluation can indicate the generalization of the learning model.
 We collect data by encoding the four video sequences shown in
 Table~\ref{tab:data-source}.
 
-%\setcounter{algocf}{0}
-\begin{algorithm}
-%\SetAlgoLined
-%\KwResult{Five csv files for each sequence will be obtained}
-\DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
-\KwIn{Depth map luma pixel values in the step of $encodeCtu$ before Sample Adaptive Offset (SAO)}
-\KwOut{Five csv files for the sequence}
-% initialization\;
-% \tcc{iDISFlag and iParNum and iDir[4] are initialized}
- \For{Every CU}{
-  \eIf{DISFlag}{
-   pass\;
-   }{
-   \eIf{iPartNum == 4}{
-    collect one dimensional depth luma value for each sub parts along with the label\;
-   }{
-    collect one dimensional depth luma value for a single block\;
+\begin{algorithm}[!t]
+    \SetKwData{pcCU}{pcCU}
+    \SetKwData{Left}{left}
+    \SetKwData{uiAbsPartIdx}{uiAbsPartIdx}
+    \SetKwData{uiDepth}{uiDepth}
+    \SetKwData{DISFlag}{DISFlag}
+    \SetKwData{iPartNum}{iPartNum}
+    \SetKwData{sizeOfNByN}{sizeOfNByN}
+    \SetKwData{maxCUWidth}{maxCUWidth}
+    \SetKwData{pcPic}{pcPic}
+    \SetKwData{pcSlice}{pcSlice}
+    \SetKwData{pOrg}{pOrg}
+    \SetKwData{iStride}{iStride}
+    \SetKwData{uiCuSize}{uiCuSize}
+    \SetKwData{pOrgPel}{pOrgPel}
+    \SetKwData{sizeOfSubBlk}{sizeOfSubBlk}
+    \SetKwData{uiTPelY}{uiTPelY}
+    \SetKwData{uiLPelX}{uiLPelX}
+    \SetKwData{yStartPos}{yStartPos}
+    \SetKwData{yEndPos}{yEndPos}
+    \SetKwData{xStartPos}{xStartPos}
+    \SetKwData{xEndPos}{xEndPos}
+    \SetKwData{iDir}{iDir}
+    \SetKwData{partitionMode}{partitionMode}
+    \SetKwFunction{getCUSize}{getCUSize}
+    \SetKwFunction{getSizeOfSubBlk}{getSizeOfSubBlk}
+    \SetKwFunction{FindCompress}{FindCompress}
+    \SetKwFunction{getIntraDir}{getIntraDir}
+    \SetKwFunction{getPic}{getPic}
+    \SetKwFunction{getSlice}{getSlice}
+    \SetKwFunction{getAddr}{getAddr}
+    \SetKwFunction{getStride}{getStride}
+    \SetKwFunction{getYPelCU}{getYPelCU}
+    \SetKwFunction{getPartitionSize}{getPartitionSize}
+    \DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
+    \KwIn{CU data structure \pcCU,
+    absolute partition index of CU \uiAbsPartIdx,
+    quad-tree depth \uiDepth}
+    \KwOut{Flattened luma pixel values of each block together with
+    the index of its best intra mode in each row of the output csv file}
+    \Begin{
+    \For{each CU in depth maps}{
+    \uiCuSize$\leftarrow$\getCUSize{\pcCU, \uiDepth}\;
+    \pOrgPel$\leftarrow$\getYPelCU{\pcCU}\;
+    \If{\DISFlag $\equiv 0$}{
+    %  \partitionMode$\leftarrow$ \getPartitionSize{$Im[i,j-1]$}\;
+    \partitionMode$\leftarrow$\getPartitionSize{\pcCU, \uiAbsPartIdx}\;
+
+    \eIf{\partitionMode $\equiv$ \sizeOfNByN}{
+    \iPartNum$\leftarrow 4$\;
+    }{
+    \iPartNum$\leftarrow 1$\;
     }
-  }
- }
- \caption{How to collect data}
- \label{algo:first}
+
+    \For{$j\leftarrow 0$ \KwTo \iPartNum}{
+    $iDir[j]$ $\leftarrow$ \getIntraDir{\pcCU, \uiAbsPartIdx}\;
+    }
+    \eIf{\iPartNum $\equiv 1$}{
+    %      \tcc{collect luma values and the best mode for a single block}
+    Create a new csv file, append the value of \uiDepth at the end of the name of the new csv file\;
+    \For{$y\leftarrow 0$ \KwTo \uiCuSize}{
+    \For{$x\leftarrow 0$ \KwTo \uiCuSize}{
+    Write $pOrgPel[x]$ into $row_m$ in csv file\;
+    }
+    \pOrgPel $\leftarrow$ \pOrgPel + \iStride\;
+    }
+    Write $iDir[0]$ into the end of $row_m$ in the csv file\;
+    }{
+    %      \tcc{collect luma values and the best modes for each sub parts}
+    Create a new csv file, append the value of (\uiDepth + $1$) at the end of the name of the new csv file\;
+    \sizeOfSubBlk$\leftarrow$\getSizeOfSubBlk{\pcCU, \uiDepth}\;
+    \For{$j\leftarrow 0$ \KwTo \iPartNum}{
+    \uIf{$j\equiv0$}{
+    \yStartPos $\leftarrow 0$
+    \& \xStartPos $\leftarrow 0$
+    \& \yEndPos $\leftarrow$ \sizeOfSubBlk\
+    \& \xEndPos $\leftarrow$ \sizeOfSubBlk\;
+    }
+    \uElseIf{$j\equiv1$}{
+    \yStartPos $\leftarrow 0$
+    \& \xStartPos $\leftarrow$ \sizeOfSubBlk
+    \& \yEndPos $\leftarrow$ \sizeOfSubBlk
+    \& \xEndPos $\leftarrow \sizeOfSubBlk \times 2$\;
+    }
+    \uElseIf{$j\equiv2$}{
+    \yStartPos $\leftarrow$ \sizeOfSubBlk
+    \& \xStartPos $\leftarrow 0$
+    \& \yEndPos $\leftarrow \sizeOfSubBlk \times 2$
+    \& \xEndPos $\leftarrow$ \sizeOfSubBlk\;
+    }
+    \uElseIf{$j\equiv3$}{
+    \yStartPos $\leftarrow$ \sizeOfSubBlk
+    \& \xStartPos $\leftarrow$ \sizeOfSubBlk
+    \& \yEndPos $\leftarrow \sizeOfSubBlk \times 2$
+    \& \xEndPos $\leftarrow \sizeOfSubBlk \times 2$\;
+    }
+    }
+    \For{$y\leftarrow$ \yStartPos \KwTo \yEndPos}{
+    \For{$x\leftarrow$ \xStartPos \KwTo \xEndPos}{
+    %   \For{$y\leftarrow 0$ \KwTo \yEndPos}{
+    %        \For{$x\leftarrow 0$ \KwTo \xEndPos}{
+    Write $pOrgPel[x]$ into $row_m$ in csv file\;
+    }
+    \pOrgPel $\leftarrow$ \pOrgPel + \iStride\;
+    }
+    Write $iDir[j]$ into the end of $row_m$ in the csv file\;
+    }}}}
+ \caption{Collect data}
+ \label{algo:collect-data}
 \end{algorithm}
 
-See Algorithm~\ref{algo:first}.
+See Algorithm~\ref{algo:collect-data} on page~\pageref{algo:collect-data}.
 
 \section{Data Pre-processing}\label{sec:data-preprocessing}
 
