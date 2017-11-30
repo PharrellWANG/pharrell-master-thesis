@@ -112,8 +112,8 @@ After that the best mode of the intra-picture prediction is
 obtained at PU level.
 The maximum block size allowed for DMM1 is $32\times32$ while the
 minimum block size allowed is $4\times4$.
-Hence we need to collect data for each block size from $4\times4$,
-$8\times8$, $16\times16$ to $32\times32$.
+Hence we need to collect data for each block size from 
+$4\times4$, \(8\times8\), $16\times16$ to $32\times32$.
 To collect the data, we first need to identify
 to which part in the reference software
 we should insert the data collecting module.
@@ -135,15 +135,23 @@ data can be obtained in the \emph{encodeCtu Before SAO} module.
     \caption[Data collecting diagram]{Data collecting diagram.}
     \label{fig:data-collection-diagram}
 \end{figure}
-
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/flattern-pixels-into-single-line.pdf}
+    \caption[Flattern Luma samples into one line and append best mode at the end]{Flattern Luma samples into one line and append best mode at the end.}
+    \label{fig:flattern-data-into-one-dimension}
+\end{figure}
 During the data collecting process, only Luma samples in depth blocks
 are used since we are trying to
 reduce the computational complexity of DMM1.
-And the luma samples are flattened from rectangle CU blocks into
+Moreover, as shown in Figure~\ref{fig:flattern-data-into-one-dimension} 
+on page~\pageref{fig:flattern-data-into-one-dimension},
+the Luma samples are flattened from rectangle CU blocks into
 a single row which will be subsequently written into associated CSV file.
+
 The detailed implementation for the module of \emph{depth data collection}
-is shown in Algorithm~\ref{algo:collect-data} on
-page~\pageref{algo:collect-data}.
+is shown in Algorithm~\ref{algo:collect-data} 
+on page~\pageref{algo:collect-data}.
 \begin{algorithm}[!t]
     \SetKwData{pcCU}{pcCU}
     \SetKwData{Left}{left}
@@ -278,11 +286,297 @@ version of the reference software of 3D-HEVC\@.
 Considering we are focusing on the intra prediction,
 All-Intra configuration is used.
 
-\section{Data Pre-processing}\label{sec:data-preprocessing}
-
-
 \section{Data Visualization}\label{sec:data-visu}
-Some fake things added again.
+Visualizing data is a good way for human to better understand
+and memorize information. 
+Complex patterns hidden in the data are easier to be discovered when they 
+are aesthetically presented via the graphical format.
+% We visualize the collected data to understand them
+% more clearly.
+The collected data are visualized with the hope of
+discovering more information from them.
+We have four sets of data which are from block size of
+\(4\times4\), \(8\times8\), \(16\times16\) to \(32\times32\).
+% However, only the part of the visualization for data of block 
+% size \(8\\times8\) are presented in this section due to the 
+% below considerations:
+After all the four sets of data have been visualized,
+it is found that four corresponding sets of visualizations
+lead to the same findings.
+Hence only part of the visualizations of block size $8\times8$
+are showing in this section.
+They shall be sufficient to support the discussions which are
+% ;Showing visualizations for four sets of 
+% Due to the large quantity of the data from the visualization perspective,
+based on the observations.
+Those discussions further convince the necessity of data 
+pre-processing in Section~\ref{sec:data-preprocessing} before 
+training the deep models.
+
+\begin{figure}[H]
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-0}
+        \caption[Intra mode 0]{intra mode 0.}
+        \label{fig:size8_mode0}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-1}
+        \caption[Intra mode 1]{intra mode 1.}
+        \label{fig:size8_mode1}
+    \end{minipage}
+    
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-2.jpeg}
+        \caption[Intra mode 2]{intra mode 2.}
+        \label{fig:size8_mode2}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-3}
+        \caption[Intra mode 3]{intra mode 3.}
+        \label{fig:size8_mode3}
+    \end{minipage}
+
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-4}
+        \caption[Intra mode 4]{intra mode 4.}
+        \label{fig:size8_mode4}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-5}
+        \caption[Intra mode 5]{intra mode 5.}
+        \label{fig:size8_mode5}
+    \end{minipage}
+% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-6}
+        \caption[Intra mode 6]{intra mode 6.}
+        \label{fig:size8_mode6}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-7}
+        \caption[Intra mode 7]{intra mode 7.}
+        \label{fig:size8_mode7}
+    \end{minipage}
+    
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-8}
+        \caption[Intra mode 8]{intra mode 8.}
+        \label{fig:size8_mode8}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-9}
+        \caption[Intra mode 9]{intra mode 9.}
+        \label{fig:size8_mode9}
+    \end{minipage}
+
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-10}
+        \caption[Intra mode 10]{intra mode 10.}
+        \label{fig:size8_mode4}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-11}
+        \caption[Intra mode 11]{intra mode 11.}
+        \label{fig:size8_mode11}
+    \end{minipage}
+% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-12}
+        \caption[Intra mode 12]{intra mode 12.}
+        \label{fig:size8_mode12}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-13}
+        \caption[Intra mode 13]{intra mode 13.}
+        \label{fig:size8_mode13}
+    \end{minipage}
+    
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-14}
+        \caption[Intra mode 14]{intra mode 14.}
+        \label{fig:size8_mode14}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-15}
+        \caption[Intra mode 15]{intra mode 15.}
+        \label{fig:size8_mode15}
+    \end{minipage}
+
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-16}
+        \caption[Intra mode 16]{intra mode 16.}
+        \label{fig:size8_mode16}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-17}
+        \caption[Intra mode 17]{intra mode 17.}
+        \label{fig:size8_mode17}
+    \end{minipage}
+% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-18}
+        \caption[Intra mode 18]{intra mode 18.}
+        \label{fig:size8_mode18}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-19}
+        \caption[Intra mode 19]{intra mode 19.}
+        \label{fig:size8_mode19}
+    \end{minipage}
+    
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-20}
+        \caption[Intra mode 20]{intra mode 20.}
+        \label{fig:size8_mode20}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-21}
+        \caption[Intra mode 21]{intra mode 21.}
+        \label{fig:size8_mode21}
+    \end{minipage}
+
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-22}
+        \caption[Intra mode 22]{intra mode 22.}
+        \label{fig:size8_mode22}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-23}
+        \caption[Intra mode 23]{intra mode 23.}
+        \label{fig:size8_mode23}
+    \end{minipage}
+% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-24}
+        \caption[Intra mode 24]{intra mode 24.}
+        \label{fig:size8_mode24}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-25}
+        \caption[Intra mode 25]{intra mode 25.}
+        \label{fig:size8_mode25}
+    \end{minipage}
+    
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-26}
+        \caption[Intra mode 26]{intra mode 26.}
+        \label{fig:size8_mode26}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-27}
+        \caption[Intra mode 27]{intra mode 27.}
+        \label{fig:size8_mode27}
+    \end{minipage}
+
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-28}
+        \caption[Intra mode 28]{intra mode 28.}
+        \label{fig:size8_mode28}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-29}
+        \caption[Intra mode 29]{intra mode 29.}
+        \label{fig:size8_mode29}
+    \end{minipage}
+% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-30}
+        \caption[Intra mode 30]{intra mode 30.}
+        \label{fig:size8_mode30}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-31}
+        \caption[Intra mode 31]{intra mode 31.}
+        \label{fig:size8_mode31}
+    \end{minipage}
+    
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-32}
+        \caption[Intra mode 32]{intra mode 32.}
+        \label{fig:size8_mode32}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-33}
+        \caption[Intra mode 33]{intra mode 33.}
+        \label{fig:size8_mode33}
+    \end{minipage}
+
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-34}
+        \caption[Intra mode 34]{intra mode 34.}
+        \label{fig:size8_mode34}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-35}
+        \caption[Intra mode 35]{intra mode 35.}
+        \label{fig:size8_mode35}
+    \end{minipage}
+% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-36}
+        \caption[Intra mode 36]{intra mode 36.}
+        \label{fig:size8_mode36}
+    \end{minipage}
+\end{figure}
+    
+\section{Data Pre-processing}\label{sec:data-preprocessing}
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 %
 %If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.

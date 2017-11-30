@@ -10,7 +10,11 @@
 \documentclass{report}
 \usepackage{suthesis-2e}
 \usepackage{graphicx}
-\usepackage{verbatim} % for block comment
+\usepackage{verbatim} 
+% \usepackage{booktabs}
+\usepackage{booktabs,float,siunitx}
+% \usepackage[demo]{graphicx} % omit 'demo' option in real document
+% for block comment
 \usepackage{color}   % May be necessary if you want to color links
 \usepackage{hyperref}
 \usepackage{textcomp}
@@ -166,7 +170,6 @@ linkcolor=black,  %choose some color if you want links to stand out
     encouragement which give me confidence to face and handle all the
     challenges at every moment.
     \afterpreface
-
     \include{Chapters/chapter1}
     \include{Chapters/chapter2}
     \include{Chapters/chapter3}
@@ -175,6 +178,5 @@ linkcolor=black,  %choose some color if you want links to stand out
     \include{Chapters/chapter6}
     \include{Chapters/chapter7}
 %    \appendix
-%    \chapter{A Long Proof}
     \printbibliography[heading=bibintoc]
 \end{document}
