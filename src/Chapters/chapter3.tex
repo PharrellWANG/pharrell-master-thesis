@@ -611,7 +611,63 @@ from Figure~\ref{fig:size8_mode0}, Figure~\ref{fig:size8_mode1},
 
 \subsection{Discussion}\label{subsec:discussion-about-data-visu}
 From the visualizations of blocks of size $8\times8$,
-it is found that a lot of blocks are 
+it is found that within blocks of each single angular mode,
+part of them have sharp edges that can 
+be easily perceived by human sights while the others 
+are very smooth such that their edges can not be clearly seem
+unless they are enlarged by multiple times.
+When blocks with such a mixed style are fed into the 
+convolutional neural networks, the prediction accuracy
+of the constructed computational model
+is always not ideal enough to be used
+inside the reference software of 3D-HEVC\@.
+However, the same model learns well on other 
+benchmark datasets such as 
+MNIST~\parencite{XRN001} and CIFAR~\parencite{XRN002}.
+
+There exist two explanations to this phenomenon.
+One is that the mix of the extreme smoothness and
+clear sharpness inside each single intra prediction mode
+yields impure datasets such that the neural networks
+are not able to figure out the intrinsic abstractions
+layer by layer.
+The other is that our network size is not deep enough
+to have the capability of learning representations 
+for such a mixed style, and meanwhile, the size of 
+the dataset cannot satisfy larger networks
+due to the limited features available in the 
+training dataset.
+The limited size of the collected data means that
+there is no chance of trying to train the deep learning
+model with a much more rich datasets currently.
+Moreover, larger neural networks require more 
+computational power which can be very expensive.
+Combining the two considerations above, 
+eliminating extreme smoothness is the way to go,
+by which the blocks with vague edges are removed
+from the datasets.
+
+For DC mode and PLANAR mode, since most of their blocks
+still have weak edges with various patterns, 
+intuitively it seems not practical to require 
+neural network to learn to 
+distinguish them from angular modes.
+In fact, it has been tried with the DC mode and PLANAR
+mode to be two of the classes.
+It turns out the neural networks will misclassify 
+them into other angular modes instead of giving 
+correct predictions.
+To cure this problem, we simply remove both modes
+from target classes.
+No prediction will be performed for DC and PLANAR modes.
+
+Different from the object recognition problems,
+when convolutional neural networks are employed to 
+predict the intra patterns, some popular data pre-processing
+steps such as random crop, vertical flip
+are not applicable anymore.
+
+
 \section{Data Pre-processing}\label{sec:data-preprocessing}
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 %
