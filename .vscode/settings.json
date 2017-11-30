@@ -157,5 +157,6 @@
     "pdflatex",
     "pharrell",
     "texbin"
-  ]
+  ],
+  "python.pythonPath": "/Users/pharrell_wang/.venv/tensorflow/bin/python"
 }
