@@ -146,5 +146,13 @@
     ".idea/": "explorerExcludedFiles",
     ".vscode/": "explorerExcludedFiles"
   },
-  "explorerExcludedFiles.show": false
+  "explorerExcludedFiles.show": false,
+  "cSpell.words": [
+    "Pycharm",
+    "bibtex",
+    "makeglossaries",
+    "pdflatex",
+    "pharrell",
+    "texbin"
+  ]
 }
