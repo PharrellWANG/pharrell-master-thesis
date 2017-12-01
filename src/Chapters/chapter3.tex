@@ -674,36 +674,6 @@ including modes [DC, PLANAR, 2, \ldots, 34, DMM1, DMM4].
 During the training process, the validations
 are performed in a fixed frequency to monitor 
 the performance of the learned model.
-Confusion matrix~\parencite{RN216} is obtained after 
-every validation process.
-Figure~\ref{fig:cm-after-12-epochs},
-Figure~\ref{fig:cm-after-24-epochs},
-Figure~\ref{fig:cm-after-36-epochs}, and
-Figure~\ref{fig:cm-after-48-epochs}
-on page~\pageref{fig:cm-after-12-epochs}
-show the confusion matrices
-after 12, 24, 36 and 48 epochs of model training
-separately.
-The color thickness of block with coordinates $(i,j)$
-expresses the frequency with which a block with best 
-mode \emph{i} is predicted as \emph{j}.
-For each vertical line in the matrix, 
-the probabilities of all blocks sum up to $100\%$.
-From epoch 12 to epoch 48, most of the thicknesses 
-in matrices have gradually been aggregated to 
-the main diagonal, but there are nevertheless
-four exceptional classes that predictions for them
-have never been right in all the confusion matrices.
-Those four classes are exactly mode DC, PLANAR, 
-DMM1 and DMM4 which are tagged with mode index 
-0, 1, 35 and 36 separately.
-It turns out the neural networks will misclassify 
-them into angular modes instead of giving 
-predictions that are identical to their label 
-of ground truth.
-To cure this illness, it has been decided to
-remove those four modes from target classes.
-
 \begin{figure}
     \begin{minipage}{0.49\textwidth}
         \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/ckpt-10342.eps}
@@ -736,6 +706,35 @@ remove those four modes from target classes.
     \end{minipage}
     % \caption{Figure caption goes here}\label{fig:see-data-visu}
 \end{figure}
+Confusion matrix~\parencite{RN216} is obtained after 
+every validation process.
+Figure~\ref{fig:cm-after-12-epochs},
+Figure~\ref{fig:cm-after-24-epochs},
+Figure~\ref{fig:cm-after-36-epochs}, and
+Figure~\ref{fig:cm-after-48-epochs}
+on page~\pageref{fig:cm-after-12-epochs}
+show the confusion matrices
+after 12, 24, 36 and 48 epochs of model training
+separately.
+The color thickness of block with coordinates $(i,j)$
+expresses the frequency with which a block with best 
+mode \emph{i} is predicted as \emph{j}.
+For each horizontal line in the matrix, 
+the probabilities of all blocks sum up to $100\%$.
+From epoch 12 to epoch 48, most of the thicknesses 
+in matrices have gradually been aggregated to 
+the main diagonal, but there are nevertheless
+four exceptional classes that predictions for them
+have never been right in all the confusion matrices.
+Those four classes are exactly mode DC, PLANAR, 
+DMM1 and DMM4 which are tagged with mode index 
+0, 1, 35 and 36 separately.
+It turns out the neural networks will misclassify 
+them into angular modes instead of giving 
+predictions that are identical to their label 
+of ground truth.
+To cure this illness, it has been decided to
+remove those four modes from target classes.
 
 Different from the object recognition problems,
 when convolutional neural networks are employed to 
@@ -884,7 +883,7 @@ In the third step, we start to remove the smooth blocks.
 The reasons have been discussed in 
 Subsection~\ref{subsec:discussion-about-data-visu}.
 Obviously the first thing in this step is to 
-define the level of the smooth.
+define the level of smoothness.
 % To tackle this issue, we will truncate a large 
 % amount of data from the datasets in the subsequent steps.
 
