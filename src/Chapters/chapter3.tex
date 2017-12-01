@@ -30,7 +30,7 @@ In this section, the two questions are answered one by one.
 \subsection{Source of Data}\label{subsec:source-of-data}
 The data are collected from four video sequences as shown in
 Table~\ref{tab:data-source}.
-\begin{table}[t]
+\begin{table}[!htbp]
     \caption{Source of data for deep learning}
     \bigskip
     \label{tab:data-source}
@@ -79,20 +79,20 @@ There are totally four types of block, namely coding tree unit (CTU),
 coding unit (CU), prediction unit (PU) and transform unit (TU).
 Table~\ref{tab:allowed-sizes-of-each-type-of-block} shows the allowed sizes
 for four types of block.
-\begin{table}[b]
-    \caption{Allowed sizes of each type of block}
+\begin{table}[!htbp]
+    \caption{Allowed sizes of 
+    each type of block}\label{tab:allowed-sizes-of-each-type-of-block}.
     \bigskip
-    \label{tab:allowed-sizes-of-each-type-of-block}.
     \centering
-    \begin{tabular}{l|c c c c c}
-        \hline
+    \begin{tabular}{l c c c c c}
+        \toprule
         Block Type & \multicolumn{5}{c}{Allowed Sizes}\\
-        \hline
+        \midrule
         CTU & & & $16\times16$ & $32\times32$ & $64\times64$\\
         CU  & & $8\times8$ & $16\times16$ & $32\times32$ & $64\times64$\\
         PU  & $4\times4$ & $8\times8$ & $16\times16$ & $32\times32$ & $64\times64$\\
         TU  & $4\times4$ & $8\times8$ & $16\times16$ & $32\times32$ & \\
-        \hline
+        \bottomrule
     \end{tabular}
 \end{table}
 A CTU itself can be used as a single CU while in some scenarios it can
@@ -152,7 +152,7 @@ a single row which will be subsequently written into associated CSV file.
 The detailed implementation for the module of \emph{depth data collection}
 is shown in Algorithm~\ref{algo:collect-data} 
 on page~\pageref{algo:collect-data}.
-\begin{algorithm}[!t]
+\begin{algorithm}[!b]
     \SetKwData{pcCU}{pcCU}
     \SetKwData{Left}{left}
     \SetKwData{uiAbsPartIdx}{uiAbsPartIdx}
@@ -259,8 +259,7 @@ on page~\pageref{algo:collect-data}.
     }
     Write $iDir[j]$ into the end of $row_m$ in the csv file\;
     }}}}
- \caption{Collect data}
- \label{algo:collect-data}
+ \caption{Collect data}\label{algo:collect-data}
 \end{algorithm}
 The inputs to the data collecting workflow are exactly the inputs to
 the module of \emph{encodeCtu}, namely the CU data structure,
@@ -318,296 +317,299 @@ for DMM1 and 36 for DMM4.
 
 After all the four sets of data have been visualized,
 it is found that four corresponding sets of visualizations
-give the same hints.
+give the same hints as discussed in
+Subsection~\ref{subsec:discussion-about-data-visu}.
 Besides, to avoid too much visualizations' occupation of the thesis,
 only the visualizations of blocks of size $8\times8$
 are shown.
-There are totally 37 figures presented in this subsection,
+There are totally 37 figures presented,
 from Figure~\ref{fig:size8_mode0}, Figure~\ref{fig:size8_mode1},
 \ldots to Figure~\ref{fig:size8_mode36}.
 
 \begin{figure}[H]
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-0}
-        \caption[Intra mode 0]{intra mode 0.}
-        \label{fig:size8_mode0}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-1}
-        \caption[Intra mode 1]{intra mode 1.}
-        \label{fig:size8_mode1}
-    \end{minipage}
     
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-2.jpeg}
-        \caption[Intra mode 2]{intra mode 2.}
-        \label{fig:size8_mode2}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-3}
-        \caption[Intra mode 3]{intra mode 3.}
-        \label{fig:size8_mode3}
-    \end{minipage}
-\end{figure}
-
-\begin{figure}[H]
-
-    \vspace*{1cm} % vertical separation
+        \vspace*{1cm} % vertical separation
     
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-4}
-        \caption[Intra mode 4]{intra mode 4.}
-        \label{fig:size8_mode4}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-5}
-        \caption[Intra mode 5]{intra mode 5.}
-        \label{fig:size8_mode5}
-    \end{minipage}
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-6}
-        \caption[Intra mode 6]{intra mode 6.}
-        \label{fig:size8_mode6}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-7}
-        \caption[Intra mode 7]{intra mode 7.}
-        \label{fig:size8_mode7}
-    \end{minipage}
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-0}
+            \caption[Visualizations for blocks tagged with intra DC]{Visualizations for blocks tagged with intra DC.}
+            \label{fig:size8_mode0}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-1}
+            \caption[Visualizations for blocks tagged with intra PLANAR]{Visualizations for blocks tagged with intra PLANAR.}
+            \label{fig:size8_mode1}
+        \end{minipage}
+        
+        \vspace*{1cm} % vertical separation
     
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-8}
-        \caption[Intra mode 8]{intra mode 8.}
-        \label{fig:size8_mode8}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-9}
-        \caption[Intra mode 9]{intra mode 9.}
-        \label{fig:size8_mode9}
-    \end{minipage}
-% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
-\end{figure}
-
-\begin{figure}[H]
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-10}
-        \caption[Intra mode 10]{intra mode 10.}
-        \label{fig:size8_mode4}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-11}
-        \caption[Intra mode 11]{intra mode 11.}
-        \label{fig:size8_mode11}
-    \end{minipage}
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-2.jpeg}
+            \caption[Visualizations for blocks tagged with intra mode 2]{Visualizations for blocks tagged with intra mode 2.}
+            \label{fig:size8_mode2}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-3}
+            \caption[Visualizations for blocks tagged with intra mode 3]{Visualizations for blocks tagged with intra mode 3.}
+            \label{fig:size8_mode3}
+        \end{minipage}
+    \end{figure}
     
-    \vspace*{1cm} % vertical separation
+    \begin{figure}
     
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-12}
-        \caption[Intra mode 12]{intra mode 12.}
-        \label{fig:size8_mode12}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-13}
-        \caption[Intra mode 13]{intra mode 13.}
-        \label{fig:size8_mode13}
-    \end{minipage}
+        \vspace*{1cm} % vertical separation
+        
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-4}
+            \caption[Visualizations for blocks tagged with intra mode 4]{Visualizations for blocks tagged with intra mode 4.}
+            \label{fig:size8_mode4}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-5}
+            \caption[Visualizations for blocks tagged with intra mode 5]{Visualizations for blocks tagged with intra mode 5.}
+            \label{fig:size8_mode5}
+        \end{minipage}
     
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-14}
-        \caption[Intra mode 14]{intra mode 14.}
-        \label{fig:size8_mode14}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-15}
-        \caption[Intra mode 15]{intra mode 15.}
-        \label{fig:size8_mode15}
-    \end{minipage}
-% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
-\end{figure}
-
-\begin{figure}[H]
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-16}
-        \caption[Intra mode 16]{intra mode 16.}
-        \label{fig:size8_mode16}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-17}
-        \caption[Intra mode 17]{intra mode 17.}
-        \label{fig:size8_mode17}
-    \end{minipage}
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-18}
-        \caption[Intra mode 18]{intra mode 18.}
-        \label{fig:size8_mode18}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-19}
-        \caption[Intra mode 19]{intra mode 19.}
-        \label{fig:size8_mode19}
-    \end{minipage}
+        \vspace*{1cm} % vertical separation
     
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-20}
-        \caption[Intra mode 20]{intra mode 20.}
-        \label{fig:size8_mode20}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-21}
-        \caption[Intra mode 21]{intra mode 21.}
-        \label{fig:size8_mode21}
-    \end{minipage}
-
-% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
-\end{figure}
-
-\begin{figure}[H]
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-22}
-        \caption[Intra mode 22]{intra mode 22.}
-        \label{fig:size8_mode22}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-23}
-        \caption[Intra mode 23]{intra mode 23.}
-        \label{fig:size8_mode23}
-    \end{minipage}
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-24}
-        \caption[Intra mode 24]{intra mode 24.}
-        \label{fig:size8_mode24}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-25}
-        \caption[Intra mode 25]{intra mode 25.}
-        \label{fig:size8_mode25}
-    \end{minipage}
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-6}
+            \caption[Visualizations for blocks tagged with intra mode 6]{Visualizations for blocks tagged with intra mode 6.}
+            \label{fig:size8_mode6}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-7}
+            \caption[Visualizations for blocks tagged with intra mode 7]{Visualizations for blocks tagged with intra mode 7.}
+            \label{fig:size8_mode7}
+        \end{minipage}
+        
+        \vspace*{1cm} % vertical separation
     
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-26}
-        \caption[Intra mode 26]{intra mode 26.}
-        \label{fig:size8_mode26}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-27}
-        \caption[Intra mode 27]{intra mode 27.}
-        \label{fig:size8_mode27}
-    \end{minipage}
-    % \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
-\end{figure}
-
-\begin{figure}[H]
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-28}
-        \caption[Intra mode 28]{intra mode 28.}
-        \label{fig:size8_mode28}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-29}
-        \caption[Intra mode 29]{intra mode 29.}
-        \label{fig:size8_mode29}
-    \end{minipage}
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-30}
-        \caption[Intra mode 30]{intra mode 30.}
-        \label{fig:size8_mode30}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-31}
-        \caption[Intra mode 31]{intra mode 31.}
-        \label{fig:size8_mode31}
-    \end{minipage}
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-8}
+            \caption[Visualizations for blocks tagged with intra mode 8]{Visualizations for blocks tagged with intra mode 8.}
+            \label{fig:size8_mode8}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-9}
+            \caption[Visualizations for blocks tagged with intra mode 9]{Visualizations for blocks tagged with intra mode 9.}
+            \label{fig:size8_mode9}
+        \end{minipage}
+    % \caption{Figure caption goes here}\label{fig:see-data-visu}
+    \end{figure}
     
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-32}
-        \caption[Intra mode 32]{intra mode 32.}
-        \label{fig:size8_mode32}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-33}
-        \caption[Intra mode 33]{intra mode 33.}
-        \label{fig:size8_mode33}
-    \end{minipage}
-% \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
-\end{figure}
-\begin{figure}[H]
-    \vspace*{1cm} % vertical separation
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-34}
-        \caption[Intra mode 34]{intra mode 34.}
-        \label{fig:size8_mode34}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-35}
-        \caption[Intra mode 35]{intra mode 35.}
-        \label{fig:size8_mode35}
-    \end{minipage}
-    \vspace*{1cm} % vertical separation
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-36}
-        \caption[Intra mode 36]{intra mode 36.}
-        \label{fig:size8_mode36}
-    \end{minipage}
-    % \caption{Figure caption goes here}\label{fig:visualizations-for-blocks-of-size8x8-01}
-\end{figure}
+    \begin{figure}
+    
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-10}
+            \caption[Visualizations for blocks tagged with intra mode 10]{Visualizations for blocks tagged with intra mode 10.}
+            \label{fig:size8_mode4}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-11}
+            \caption[Visualizations for blocks tagged with intra mode 11]{Visualizations for blocks tagged with intra mode 11.}
+            \label{fig:size8_mode11}
+        \end{minipage}
+        
+        \vspace*{1cm} % vertical separation
+        
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-12}
+            \caption[Visualizations for blocks tagged with intra mode 12]{Visualizations for blocks tagged with intra mode 12.}
+            \label{fig:size8_mode12}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-13}
+            \caption[Visualizations for blocks tagged with intra mode 13]{Visualizations for blocks tagged with intra mode 13.}
+            \label{fig:size8_mode13}
+        \end{minipage}
+        
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-14}
+            \caption[Visualizations for blocks tagged with intra mode 14]{Visualizations for blocks tagged with intra mode 14.}
+            \label{fig:size8_mode14}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-15}
+            \caption[Visualizations for blocks tagged with intra mode 15]{Visualizations for blocks tagged with intra mode 15.}
+            \label{fig:size8_mode15}
+        \end{minipage}
+    % \caption{Figure caption goes here}\label{fig:see-data-visu}
+    \end{figure}
+    
+    \begin{figure}
+    
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-16}
+            \caption[Visualizations for blocks tagged with intra mode 16]{Visualizations for blocks tagged with intra mode 16.}
+            \label{fig:size8_mode16}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-17}
+            \caption[Visualizations for blocks tagged with intra mode 17]{Visualizations for blocks tagged with intra mode 17.}
+            \label{fig:size8_mode17}
+        \end{minipage}
+    
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-18}
+            \caption[Visualizations for blocks tagged with intra mode 18]{Visualizations for blocks tagged with intra mode 18.}
+            \label{fig:size8_mode18}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-19}
+            \caption[Visualizations for blocks tagged with intra mode 19]{Visualizations for blocks tagged with intra mode 19.}
+            \label{fig:size8_mode19}
+        \end{minipage}
+        
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-20}
+            \caption[Visualizations for blocks tagged with intra mode 20]{Visualizations for blocks tagged with intra mode 20.}
+            \label{fig:size8_mode20}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-21}
+            \caption[Visualizations for blocks tagged with intra mode 21]{Visualizations for blocks tagged with intra mode 21.}
+            \label{fig:size8_mode21}
+        \end{minipage}
+    
+    % \caption{Figure caption goes here}\label{fig:see-data-visu}
+    \end{figure}
+    
+    \begin{figure}
+    
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-22}
+            \caption[Visualizations for blocks tagged with intra mode 22]{Visualizations for blocks tagged with intra mode 22.}
+            \label{fig:size8_mode22}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-23}
+            \caption[Visualizations for blocks tagged with intra mode 23]{Visualizations for blocks tagged with intra mode 23.}
+            \label{fig:size8_mode23}
+        \end{minipage}
+    
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-24}
+            \caption[Visualizations for blocks tagged with intra mode 24]{Visualizations for blocks tagged with intra mode 24.}
+            \label{fig:size8_mode24}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-25}
+            \caption[Visualizations for blocks tagged with intra mode 25]{Visualizations for blocks tagged with intra mode 25.}
+            \label{fig:size8_mode25}
+        \end{minipage}
+        
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-26}
+            \caption[Visualizations for blocks tagged with intra mode 26]{Visualizations for blocks tagged with intra mode 26.}
+            \label{fig:size8_mode26}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-27}
+            \caption[Visualizations for blocks tagged with intra mode 27]{Visualizations for blocks tagged with intra mode 27.}
+            \label{fig:size8_mode27}
+        \end{minipage}
+        % \caption{Figure caption goes here}\label{fig:see-data-visu}
+    \end{figure}
+    
+    \begin{figure}
+    
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-28}
+            \caption[Visualizations for blocks tagged with intra mode 28]{Visualizations for blocks tagged with intra mode 28.}
+            \label{fig:size8_mode28}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-29}
+            \caption[Visualizations for blocks tagged with intra mode 29]{Visualizations for blocks tagged with intra mode 29.}
+            \label{fig:size8_mode29}
+        \end{minipage}
+    
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-30}
+            \caption[Visualizations for blocks tagged with intra mode 30]{Visualizations for blocks tagged with intra mode 30.}
+            \label{fig:size8_mode30}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-31}
+            \caption[Visualizations for blocks tagged with intra mode 31]{Visualizations for blocks tagged with intra mode 31.}
+            \label{fig:size8_mode31}
+        \end{minipage}
+        
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-32}
+            \caption[Visualizations for blocks tagged with intra mode 32]{Visualizations for blocks tagged with intra mode 32.}
+            \label{fig:size8_mode32}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-33}
+            \caption[Visualizations for blocks tagged with intra mode 33]{Visualizations for blocks tagged with intra mode 33.}
+            \label{fig:size8_mode33}
+        \end{minipage}
+    % \caption{Figure caption goes here}\label{fig:see-data-visu}
+    \end{figure}
+    \begin{figure}
+        \vspace*{1cm} % vertical separation
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-34}
+            \caption[Visualizations for blocks tagged with intra mode 34]{Visualizations for blocks tagged with intra mode 34.}
+            \label{fig:size8_mode34}
+        \end{minipage}
+        \hspace{\fill} % note: no blank line here
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-35}
+            \caption[Visualizations for blocks tagged with DMM1]{Visualizations for blocks tagged with DMM1}
+            \label{fig:size8_mode35}
+        \end{minipage}
+    
+        \vspace*{1cm} % vertical separation
+    
+        \begin{minipage}{0.49\textwidth}
+            \includegraphics[width=\linewidth]{Figures/visu-size8x8/8-36}
+            \caption[Visualizations for blocks tagged with DMM4]{Visualizations for blocks tagged with DMM4}
+            \label{fig:size8_mode36}
+        \end{minipage}
+        % \caption{Figure caption goes here}\label{fig:see-data-visu}
+    \end{figure}
 
 \subsection{Discussion}\label{subsec:discussion-about-data-visu}
 From the visualizations of blocks of size $8\times8$,
@@ -624,7 +626,6 @@ inside the reference software of 3D-HEVC\@.
 However, the same model learns well on other 
 benchmark datasets such as 
 MNIST~\parencite{XRN001} and CIFAR~\parencite{XRN002}.
-
 There exist two explanations to this phenomenon.
 One is that the mix of the extreme smoothness and
 clear sharpness inside each single intra prediction mode
@@ -647,28 +648,352 @@ eliminating extreme smoothness is the way to go,
 by which the blocks with vague edges are removed
 from the datasets.
 
+Special attentions need to be given to
+mode DC, PLANAR, DMM1 and DMM4.
 For DC mode and PLANAR mode, since most of their blocks
 still have weak edges with various patterns, 
 intuitively it seems not practical to require 
 neural network to learn to 
 distinguish them from angular modes.
-In fact, it has been tried with the DC mode and PLANAR
-mode to be two of the classes.
+For DMM1 which is specially designed for depth maps, 
+it is noticed that lots of their
+blocks contain sharp edges with arbitrary angles.
+Hence the learned model may predict DMM1 into any
+of the 33 angular modes according to the angle of
+the partition line in DMM1 blocks.
+And DMM4 which is another dedicated mode for depth maps,
+most of their blocks feature contour partitions instead of
+straight lines while still some contours cannot show 
+their clear characteristics that can discriminate themselves
+from angular modes with some curvilinear distortions.
+
+In fact, it has been tried to train the deep
+neural networks which work well on 
+benchmark datasets by using 37 classes, 
+including modes [DC, PLANAR, 2, \ldots, 34, DMM1, DMM4].
+During the training process, the validations
+are performed in a fixed frequency to monitor 
+the performance of the learned model.
+Confusion matrix~\parencite{RN216} is obtained after 
+every validation process.
+Figure~\ref{fig:cm-after-12-epochs},
+Figure~\ref{fig:cm-after-24-epochs},
+Figure~\ref{fig:cm-after-36-epochs}, and
+Figure~\ref{fig:cm-after-48-epochs}
+on page~\pageref{fig:cm-after-12-epochs}
+show the confusion matrices
+after 12, 24, 36 and 48 epochs of model training
+separately.
+The color thickness of block with coordinates $(i,j)$
+expresses the frequency with which a block with best 
+mode \emph{i} is predicted as \emph{j}.
+For each vertical line in the matrix, 
+the probabilities of all blocks sum up to $100\%$.
+From epoch 12 to epoch 48, most of the thicknesses 
+in matrices have gradually been aggregated to 
+the main diagonal, but there are nevertheless
+four exceptional classes that predictions for them
+have never been right in all the confusion matrices.
+Those four classes are exactly mode DC, PLANAR, 
+DMM1 and DMM4 which are tagged with mode index 
+0, 1, 35 and 36 separately.
 It turns out the neural networks will misclassify 
-them into other angular modes instead of giving 
-correct predictions.
-To cure this problem, we simply remove both modes
-from target classes.
-No prediction will be performed for DC and PLANAR modes.
+them into angular modes instead of giving 
+predictions that are identical to their label 
+of ground truth.
+To cure this illness, it has been decided to
+remove those four modes from target classes.
+
+\begin{figure}
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/ckpt-10342.eps}
+        \caption[Confusion matrix obtained after 12 epochs of model training]
+        {Confusion matrix obtained after 12 epochs of model training}
+        \label{fig:cm-after-12-epochs}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/ckpt-20622.eps}
+        \caption[Confusion matrix obtained after 24 epochs of model training]
+        {Confusion matrix obtained after 24 epochs of model training}
+        \label{fig:cm-after-24-epochs}
+    \end{minipage}
+
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/ckpt-30757.eps}
+        \caption[Confusion matrix obtained after 36 epochs of model training]
+        {Confusion matrix obtained after 36 epochs of model training}
+        \label{fig:cm-after-36-epochs}
+    \end{minipage}
+    \hspace{\fill} % note: no blank line here
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/ckpt-40884.eps}
+        \caption[Confusion matrix obtained after 48 epochs of model training]
+        {Confusion matrix obtained after 48 epochs of model training}
+        \label{fig:cm-after-48-epochs}
+    \end{minipage}
+    % \caption{Figure caption goes here}\label{fig:see-data-visu}
+\end{figure}
 
 Different from the object recognition problems,
 when convolutional neural networks are employed to 
 predict the intra patterns, some popular data pre-processing
 steps such as random crop, vertical flip
 are not applicable anymore.
+For example, angular mode 18 in Figure~\ref{fig:size8_mode18}
+on page~\pageref{fig:size8_mode18} and angular mode 34 in
+Figure~\ref{fig:size8_mode34} on page~\pageref{fig:size8_mode34}
+would be identical to each other in terms of the edge angle
+if either is vertically flipped.
 
+Angular mode 2 and angular mode 34 are
+on the same diagonal such that they cannot 
+be treat as two separate classes in our case.
+For this reason, collected blocks of angular mode 34
+is removed from the datasets.
+Instead of directly predicting angular mode 34,
+both angular mode 2 and angular mode 34 will
+be deemed as equal
+when the prediction result is angular mode 2.
+Further comparisons between the two modes will
+be preformed using conventional encoder decision.
 
 \section{Data Pre-processing}\label{sec:data-preprocessing}
+According to the discussions in 
+Subsection~\ref{subsec:discussion-about-data-visu}
+on page~\pageref{subsec:discussion-about-data-visu}
+which are based on the observations
+of the visualized data in
+Subsection~\ref{subsec:see-data-visu}
+on page~\pageref{subsec:see-data-visu},
+several pre-processing actions need
+to be taken to clean up the collected data for deep learning.
+The pre-processing steps are very crucial to the success
+of the learning process for the convolutional neural networks.
+Without pre-processing the collected data would be inappropriate 
+for achieving required model performance for the prediction
+activities.
+In this section, the data pre-processing details in this work
+are explained in details.
+
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Information of the datasets after merging}
+    \bigskip\label{tab:datasets-after-first-step}
+    \centering
+    \begin{tabular}{c c c c c}
+        \toprule
+        \# & Name of the file & Size & Samples & Usage\\
+        \midrule
+        1 & size04.csv & 206 MegaBytes & 3675428 & train,test,validate\\
+        2 & size08.csv & 513 MegaBytes & 2372324 & train,test,validate\\
+        3 & size16.csv & 1.25 GigaBytes & 1439773 & train,test,validate\\
+        4 & size32.csv & 2.02 GigaBytes & 567554 & train,test,validate\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+Right after encoding the four video sequences for data 
+collection, four CSV files
+would be obtained for each of them.
+Every CSV file contains two unique identifications,
+one is the \emph{size of blocks} collected, the other is the 
+\emph{name of the source video sequence}.
+For example, one of CSV files shall include depth 
+Luma data of blocks of size \(16\times16\) from
+\emph{Newspaper} video sequence.
+In the first step of data-preprocessing, all
+the CSV files having the same identification of 
+\emph{size of blocks} shall be merged into a single dataset
+which will be further divided into training dataset,
+testing dataset and validating dataset in the subsequent 
+processing steps.
+The specifications of the four CSV files after merging 
+are shown in Table~\ref{tab:datasets-after-first-step}
+on page~\pageref{tab:datasets-after-first-step}.
+There is no data for blocks of size \(64\times64\)
+since the largest block size for DMM modes is \(32\times32\).
+As the size of block 
+increases, the total volume of the collected data is growing
+while the total number of samples of the collected data is
+decreasing.
+This phenomenon is reasonable in the sense that
+the decreasing speed of the number of samples is slower 
+than the increasing speed of the volume of every single
+record.
+More specifically, from block size \(4\times4\) to \(8\times8\),
+the number of samples is decreased by 1.55 times; however,
+there exists a fourfold increase of the volume size in 
+each sample.
+
+The statistics of the datasets after the first step of merging are
+shown in Table~\ref{tab:unsorted-distribution-after-first-step}
+on page~\pageref{tab:unsorted-distribution-after-first-step} and 
+Table~\ref{tab:sorted-distribution-after-first-step}
+on page~\pageref{tab:sorted-distribution-after-first-step}.
+The statistics are unsorted or sorted in terms of the percentages
+of each mode.
+The statistics of each mode can be quickly found 
+in Table~\ref{tab:unsorted-distribution-after-first-step}
+on page~\pageref{tab:unsorted-distribution-after-first-step}
+by looking at the first column.
+From Table~\ref{tab:sorted-distribution-after-first-step}
+on page~\pageref{tab:sorted-distribution-after-first-step},
+it can be observed that the size differences of collected samples 
+for each mode vary in a large range.
+For example, the blocks of mode 0 are 96.9 times as many
+the blocks of mode 16
+while it is only 1.27 times as many the blocks of mode 35
+for blocks of size \(32\times32\).
+This is introducing the topic of imbalanced 
+learning~\parencite{RN215} in which
+the data sizes of each class are very different 
+from each other.
+
+According to the discussions presented in 
+Subsection~\ref{subsec:discussion-about-data-visu},
+mode 0, 1, 34, 35 and 36 will be removed from 
+the datasets in the second step.
+The specifications of the data after the second step
+are shown in Table~\ref{tab:datasets-after-second-step}.
+More than half of the collected data are removed.
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Information of the datasets after removing mode 0, 1, 34, 35 and 36}
+    \bigskip\label{tab:datasets-after-second-step}
+    \centering
+    \begin{tabular}{c c c c c c}
+        \toprule
+        \# & Name of the file & Size & Samples & Usage & Percent of removed data (\%) \\
+        \midrule
+        1 & msize04.csv & 75.7 MegaBytes & 3675428 & train,test,validate & 64 \\
+        2 & msize08.csv & 130.8 MegaBytes & 2372324 & train,test,validate & 74 \\
+        3 & msize16.csv & 377.3 MegaBytes & 1439773 & train,test,validate & 70 \\
+        4 & msize32.csv & 708.7 MegaBytes & 567554 & train,test,validate & 65 \\
+        % \# & Name of the file & Size & Samples & Usage\\
+        % \midrule
+        % 1 & msize04.csv & 75.7 MegaBytes & 3675428 & train,test,validate \\
+        % 2 & msize08.csv & 130.8 MegaBytes & 2372324 & train,test,validate \\
+        % 3 & msize16.csv & 377.3 MegaBytes & 1439773 & train,test,validate \\
+        % 4 & msize32.csv & 708.7 MegaBytes & 567554 & train,test,validate \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+In the third step, we start to remove the smooth blocks.
+The reasons have been discussed in 
+Subsection~\ref{subsec:discussion-about-data-visu}.
+Obviously the first thing in this step is to 
+define the level of the smooth.
+% To tackle this issue, we will truncate a large 
+% amount of data from the datasets in the subsequent steps.
+
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Unsorted statistics of datasets obtained after merging}
+    \bigskip\label{tab:unsorted-distribution-after-first-step}
+    \centering
+    \resizebox{\textwidth}{!}
+    {\begin{tabular}{c c c c c c c c c}
+        \toprule
+        Block Size & \multicolumn{2}{c}{\(4\times4\)} & \multicolumn{2}{c}{\(8\times8\)} & \multicolumn{2}{c}{\(16\times16\)} & \multicolumn{2}{c}{\(32\times32\)} \\
+        Mode Idx & Samples & Percent (\%) & Samples & Percent (\%) & Samples & Percent (\%) & Samples & Percent (\%)\\
+        \midrule
+        0 & 717,274 & 19.52 & 642,520 & 27.08 & 459,291 & 31.90 & 158,824 & 27.98 \\ 
+        1 & 482,776 & 13.14 & 249,061 & 10.50 & 164,050 & 11.39 & 57,528 & 10.14 \\ 
+        2 & 97,629 &  2.66 & 25,101 &  1.06 & 12,868 &  0.89 & 4,561 &  0.80 \\ 
+        3 & 17,991 &  0.49 & 12,489 &  0.53 & 7,946 &  0.55 & 2,863 &  0.50 \\ 
+        4 & 14,375 &  0.39 & 11,688 &  0.49 & 8,642 &  0.60 & 2,175 &  0.38 \\ 
+        5 & 15,849 &  0.43 & 13,428 &  0.57 & 8,829 &  0.61 & 2,164 &  0.38 \\ 
+        6 & 17,144 &  0.47 & 15,318 &  0.65 & 9,768 &  0.68 & 2,958 &  0.52 \\ 
+        7 & 18,187 &  0.49 & 17,238 &  0.73 & 15,988 &  1.11 & 6,625 &  1.17 \\ 
+        8 & 19,146 &  0.52 & 15,785 &  0.67 & 20,357 &  1.41 & 11,642 &  2.05 \\ 
+        9 & 23,462 &  0.64 & 12,362 &  0.52 & 18,207 &  1.26 & 18,195 &  3.21 \\ 
+       10 & 42,752 &  1.16 & 9,740 &  0.41 & 7,978 &  0.55 & 18,972 &  3.34 \\ 
+       11 & 23,727 &  0.65 & 12,836 &  0.54 & 17,696 &  1.23 & 21,142 &  3.73 \\ 
+       12 & 21,992 &  0.60 & 17,837 &  0.75 & 23,143 &  1.61 & 13,262 &  2.34 \\ 
+       13 & 24,613 &  0.67 & 20,254 &  0.85 & 19,260 &  1.34 & 6,740 &  1.19 \\ 
+       14 & 22,620 &  0.62 & 17,784 &  0.75 & 13,851 &  0.96 & 2,995 &  0.53 \\ 
+       15 & 21,169 &  0.58 & 18,268 &  0.77 & 12,834 &  0.89 & 2,073 &  0.37 \\ 
+       16 & 20,289 &  0.55 & 15,418 &  0.65 & 10,214 &  0.71 & 1,639 &  0.29 \\ 
+       17 & 21,869 &  0.60 & 17,501 &  0.74 & 10,010 &  0.70 & 1,977 &  0.35 \\ 
+       18 & 52,552 &  1.43 & 19,889 &  0.84 & 9,862 &  0.68 & 1,998 &  0.35 \\ 
+       19 & 23,871 &  0.65 & 16,171 &  0.68 & 9,797 &  0.68 & 2,170 &  0.38 \\ 
+       20 & 22,992 &  0.63 & 15,656 &  0.66 & 10,227 &  0.71 & 1,925 &  0.34 \\ 
+       21 & 25,416 &  0.69 & 16,706 &  0.70 & 11,978 &  0.83 & 2,504 &  0.44 \\ 
+       22 & 27,593 &  0.75 & 16,446 &  0.69 & 12,251 &  0.85 & 2,925 &  0.52 \\ 
+       23 & 33,250 &  0.90 & 16,783 &  0.71 & 12,744 &  0.89 & 3,707 &  0.65 \\ 
+       24 & 40,677 &  1.11 & 17,262 &  0.73 & 12,257 &  0.85 & 4,457 &  0.79 \\ 
+       25 & 36,018 &  0.98 & 13,841 &  0.58 & 7,812 &  0.54 & 5,123 &  0.90 \\ 
+       26 & 404,933 & 11.02 & 70,417 &  2.97 & 30,896 &  2.15 & 17,897 &  3.15 \\ 
+       27 & 48,843 &  1.33 & 17,062 &  0.72 & 12,205 &  0.85 & 7,414 &  1.31 \\ 
+       28 & 34,217 &  0.93 & 24,051 &  1.01 & 16,725 &  1.16 & 6,169 &  1.09 \\ 
+       29 & 37,756 &  1.03 & 23,486 &  0.99 & 15,647 &  1.09 & 5,436 &  0.96 \\ 
+       30 & 30,910 &  0.84 & 20,972 &  0.88 & 12,782 &  0.89 & 3,945 &  0.69 \\ 
+       31 & 35,102 &  0.95 & 20,499 &  0.86 & 13,331 &  0.93 & 3,475 &  0.61 \\ 
+       32 & 25,756 &  0.70 & 18,811 &  0.79 & 12,254 &  0.85 & 3,289 &  0.58 \\ 
+       33 & 33,270 &  0.91 & 19,088 &  0.80 & 11,943 &  0.83 & 3,526 &  0.62 \\ 
+       34 & 73,107 &  1.99 & 31,114 &  1.31 & 15,848 &  1.10 & 5,382 &  0.95 \\ 
+       35 & 789,662 & 21.48 & 710,089 & 29.93 & 299,368 & 20.79 & 126,427 & 22.28 \\ 
+       36 & 276,639 &  7.53 & 139,353 &  5.87 & 70,914 &  4.93 & 23,450 &  4.13 \\ 
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Sorted statistics of datasets obtained after merging}
+    \bigskip\label{tab:sorted-distribution-after-first-step}
+    \centering
+    \resizebox{\textwidth}{!}
+    {\begin{tabular}{c c c c c c c c c c c c c}
+        \toprule
+        Block Size & \multicolumn{3}{c}{\(4\times4\)} & \multicolumn{3}{c}{\(8\times8\)} & \multicolumn{3}{c}{\(16\times16\)} & \multicolumn{3}{c}{\(32\times32\)} \\
+        Row idx  & Mode idx & Samples & Percent (\%) & Mode idx & Samples & Percent (\%) & Mode idx & Samples & Percent (\%) & Mode idx & Samples & Percent (\%)\\
+        \midrule
+        0 & 4  & 14,375 &  0.39 & 10  & 9,740 &  0.41 & 25  & 7,812 &  0.54 & 16  & 1,639 &  0.29 \\ 
+        1 & 5  & 15,849 &  0.43 & 4  & 11,688 &  0.49 & 3  & 7,946 &  0.55 & 20  & 1,925 &  0.34 \\ 
+        2 & 6  & 17,144 &  0.47 & 9  & 12,362 &  0.52 & 10  & 7,978 &  0.55 & 17  & 1,977 &  0.35 \\ 
+        3 & 3  & 17,991 &  0.49 & 3  & 12,489 &  0.53 & 4  & 8,642 &  0.60 & 18  & 1,998 &  0.35 \\ 
+        4 & 7  & 18,187 &  0.49 & 11  & 12,836 &  0.54 & 5  & 8,829 &  0.61 & 15  & 2,073 &  0.37 \\ 
+        5 & 8  & 19,146 &  0.52 & 5  & 13,428 &  0.57 & 6  & 9,768 &  0.68 & 5  & 2,164 &  0.38 \\ 
+        6 & 16  & 20,289 &  0.55 & 25  & 13,841 &  0.58 & 19  & 9,797 &  0.68 & 19  & 2,170 &  0.38 \\ 
+        7 & 15  & 21,169 &  0.58 & 6  & 15,318 &  0.65 & 18  & 9,862 &  0.68 & 4  & 2,175 &  0.38 \\ 
+        8 & 17  & 21,869 &  0.60 & 16  & 15,418 &  0.65 & 17  & 10,010 &  0.70 & 21  & 2,504 &  0.44 \\ 
+        9 & 12  & 21,992 &  0.60 & 20  & 15,656 &  0.66 & 16  & 10,214 &  0.71 & 3  & 2,863 &  0.50 \\ 
+       10 & 14  & 22,620 &  0.62 & 8  & 15,785 &  0.67 & 20  & 10,227 &  0.71 & 22  & 2,925 &  0.52 \\ 
+       11 & 20  & 22,992 &  0.63 & 19  & 16,171 &  0.68 & 33  & 11,943 &  0.83 & 6  & 2,958 &  0.52 \\ 
+       12 & 9  & 23,462 &  0.64 & 22  & 16,446 &  0.69 & 21  & 11,978 &  0.83 & 14  & 2,995 &  0.53 \\ 
+       13 & 11  & 23,727 &  0.65 & 21  & 16,706 &  0.70 & 27  & 12,205 &  0.85 & 32  & 3,289 &  0.58 \\ 
+       14 & 19  & 23,871 &  0.65 & 23  & 16,783 &  0.71 & 22  & 12,251 &  0.85 & 31  & 3,475 &  0.61 \\ 
+       15 & 13  & 24,613 &  0.67 & 27  & 17,062 &  0.72 & 32  & 12,254 &  0.85 & 33  & 3,526 &  0.62 \\ 
+       16 & 21  & 25,416 &  0.69 & 7  & 17,238 &  0.73 & 24  & 12,257 &  0.85 & 23  & 3,707 &  0.65 \\ 
+       17 & 32  & 25,756 &  0.70 & 24  & 17,262 &  0.73 & 23  & 12,744 &  0.89 & 30  & 3,945 &  0.69 \\ 
+       18 & 22  & 27,593 &  0.75 & 17  & 17,501 &  0.74 & 30  & 12,782 &  0.89 & 24  & 4,457 &  0.79 \\ 
+       19 & 30  & 30,910 &  0.84 & 14  & 17,784 &  0.75 & 15  & 12,834 &  0.89 & 2  & 4,561 &  0.80 \\ 
+       20 & 23  & 33,250 &  0.90 & 12  & 17,837 &  0.75 & 2  & 12,868 &  0.89 & 25  & 5,123 &  0.90 \\ 
+       21 & 33  & 33,270 &  0.91 & 15  & 18,268 &  0.77 & 31  & 13,331 &  0.93 & 34  & 5,382 &  0.95 \\ 
+       22 & 28  & 34,217 &  0.93 & 32  & 18,811 &  0.79 & 14  & 13,851 &  0.96 & 29  & 5,436 &  0.96 \\ 
+       23 & 31  & 35,102 &  0.95 & 33  & 19,088 &  0.80 & 29  & 15,647 &  1.09 & 28  & 6,169 &  1.09 \\ 
+       24 & 25  & 36,018 &  0.98 & 18  & 19,889 &  0.84 & 34  & 15,848 &  1.10 & 7  & 6,625 &  1.17 \\ 
+       25 & 29  & 37,756 &  1.03 & 13  & 20,254 &  0.85 & 7  & 15,988 &  1.11 & 13  & 6,740 &  1.19 \\ 
+       26 & 24  & 40,677 &  1.11 & 31  & 20,499 &  0.86 & 28  & 16,725 &  1.16 & 27  & 7,414 &  1.31 \\ 
+       27 & 10  & 42,752 &  1.16 & 30  & 20,972 &  0.88 & 11  & 17,696 &  1.23 & 8  & 11,642 &  2.05 \\ 
+       28 & 27  & 48,843 &  1.33 & 29  & 23,486 &  0.99 & 9  & 18,207 &  1.26 & 12  & 13,262 &  2.34 \\ 
+       29 & 18  & 52,552 &  1.43 & 28  & 24,051 &  1.01 & 13  & 19,260 &  1.34 & 26  & 17,897 &  3.15 \\ 
+       30 & 34  & 73,107 &  1.99 & 2  & 25,101 &  1.06 & 8  & 20,357 &  1.41 & 9  & 18,195 &  3.21 \\ 
+       31 & 2  & 97,629 &  2.66 & 34  & 31,114 &  1.31 & 12  & 23,143 &  1.61 & 10  & 18,972 &  3.34 \\ 
+       32 & 36  & 276,639 &  7.53 & 26  & 70,417 &  2.97 & 26  & 30,896 &  2.15 & 11  & 21,142 &  3.73 \\ 
+       33 & 26  & 404,933 & 11.02 & 36  & 139,353 &  5.87 & 36  & 70,914 &  4.93 & 36  & 23,450 &  4.13 \\ 
+       34 & 1  & 482,776 & 13.14 & 1  & 249,061 & 10.50 & 1  & 164,050 & 11.39 & 1  & 57,528 & 10.14 \\ 
+       35 & 0  & 717,274 & 19.52 & 0  & 642,520 & 27.08 & 35  & 299,368 & 20.79 & 35  & 126,427 & 22.28 \\ 
+       36 & 35  & 789,662 & 21.48 & 35  & 710,089 & 29.93 & 0  & 459,291 & 31.90 & 0  & 158,824 & 27.98 \\ 
+      
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 %
 %If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
@@ -714,7 +1039,7 @@ are not applicable anymore.
 %%    \end{tabular}
 %    \begin{tabular}{c r @{.} l}
 %        Pi expression       &
-%        \multicolumn{2}{c}{Value} \\
+%        \multicolumn{2}{c}{c}{Value} \\
 %        \hline
 %        $\pi$               & 3&1416  \\
 %        $\pi^{\pi}$         & 36&46   \\
