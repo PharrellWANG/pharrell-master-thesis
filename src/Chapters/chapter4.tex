@@ -102,9 +102,23 @@ to the end of the same block.
 \end{figure}
 
 The architecture of the deep convolutional neural 
-network used in this thesis is
-shown in Figure~\ref{fig:our-architecture} on 
+network used for intra mode prediction in our work
+is shown in Figure~\ref{fig:our-architecture} on
 page~\pageref{fig:our-architecture}.
+The first layer consists of 16 kernels where
+the receptive fields are 
+simply stacked on top of each other.
+In the middle of the network, there are
+three variants of resnet unit, each unit
+is duplicated five times to deepen the network
+for more learning capacities.
+Batch Normalization is employed to regularize
+the data inputs as well as the outputs from each layer.
+The activation function is the most popular one named Relu.
+In the end of the convolutional layers, global average pooling
+has been performed before the fully-connected layer which 
+tells the prediction results.
+
 
 \begin{figure}
     \centering
@@ -114,7 +128,64 @@ page~\pageref{fig:our-architecture}.
         }\label{fig:our-architecture}
 \end{figure}
 
-\section{The Hyper-parameters of CNN}\label{sec:config}
+\section{Settings of the Network}\label{sec:config}
+
+It is interesting to notice that inside this network, 
+the size of any reception field
+is always \(3\times3\) since it is found in~\parencite{RN62}
+larger kernel can be factorized into smaller kernels.
+A kernal with such a size is the smallest
+field which is capable of capturing the positional
+information~\parencite{RN107}.
+All the strides are set to be one which means
+no down-sampling will be performed. 
+Hence the output size of each convolutional layer
+will not be changed.
+% The network configuration is shown in Table~\ref{tab:xxxx}.
+For the inputs to the convolutional layers, 
+zero padding (a.k.a\ SAME padding) is used.
+It is a padding algorithm which has the objective
+to pad zeros evenly for each direction.
+No data augmentation is used for the inputs.
+The kernal parameters are randomly initialized 
+with a normal distribution where the mean 
+is zero while the standard deviation is 
+calculated using 
+\(\sqrt{2\div(\mathit{a}\times\mathit{a}\times\mathit{n})}\).
+Here the \(\mathit{a}\) represents the kernel size
+while \(\mathit{n}\) denotes the number of filters
+in the corresponding convolutional layer.
+The weights of the kernels are regularized by
+a decay of \(0.0002\).
+No transfer learning is used which means all the learnable 
+parameters are trained from scratch.
+The batch size used for training is 128.
+The loss function used is cross-entropy which has
+a better performance for classification problems 
+than other distance functions such as L1 and L2.
+Stochastic gradient descent is used with a momentum 
+of \(0.9\).
+The learning rate decay policy is shown in 
+Table~\ref{tab:lr-policy}
+
+\begin{table}[H]
+    \caption{Learning rate policy}
+    \bigskip\label{tab:lr-policy}
+    \centering
+    \begin{tabular}{c c}
+        \toprule
+        Global step & Learning rate \\
+        \midrule
+        \(<\)20,000 & 0.01 \\
+        \(<\)40,000 & 0.001 \\
+        \(<\)60,000 & 0.0001 \\
+        Others  & 0.00001 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+%  0.01 (<20k), 0.001 (<40k), 0.0001 (<60k), 0.00001 (else).
+
+
 \section{Stopping criteria and Training Results}\label{sec:training}
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 %
