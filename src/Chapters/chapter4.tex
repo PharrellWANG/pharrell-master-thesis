@@ -2,13 +2,119 @@
 \chapter{Train the Deep Model for Prediction}\label{ch:chapter4} % For referencing the chapter elsewhere, use \ref{Chapter1}
 %
 %%----------------------------------------------------------------------------------------
-%
+The convolutional neural networks (CNNs) consist of neurons that have 
+weights and bias, which can be trained using large datasets for solving 
+computer vision tasks.
+In this chapter, our architecture of
+deep convolutional neural network for intra mode prediction 
+is illustrated.
+Then the hyper-parameters of our deep model is introduced
+with explanations.
+At the end of the chapter, the stopping criteria and training results 
+are presented.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/cnn_illustration.pdf}
+    \caption[Two types of the residual units]{
+        Two types of the residual units.}\label{fig:cnn-illustration}
+\end{figure}
 
-%3D Video applications are attracting more interests
-%%----------------------------------------------------------------------------------------
-%
-\section{The Architecture of the Deep Convolutional Neural Network}\label{sec:cnn}
-\section{The Hyper-parameters of the Deep Convolutional Neural Network}\label{sec:config}
+\section{The Architecture of CNN}\label{sec:cnn}
+There exist many kinds of convolutional neural networks while the 
+major difference that distinguish them from each other
+is the uniqueness of each architecure.
+Figure~\ref{fig:cnn-illustration} on 
+page~\pageref{fig:cnn-illustration}
+illustrates the basic architecture
+of the convolutional neural networks.
+The light blue cubics represent the Luma pixel values from a single
+coding unit (CU) of size \(8\times8\) while the yellow cubics
+shows a kernel of size \(3\times3\) that slides over the
+CU in both directions.
+At each position, the kernel does a weighted sum of all its inputs,
+then adds biases. The output from the
+region it covers will be fed into a neuron right 
+below the covered region.
+Although both are artificial neural networks, 
+the big difference between multilayer perceptron and 
+CNN is that weights of the neurons are shared in the latter case.
+For example, all the neurons in Figure~\ref{fig:cnn-illustration} on
+page~\pageref{fig:cnn-illustration} are reusing the same patch of
+parameters, i.e., weights and biases.
+For a single kernal of size \(3\times3\), it has 9 weights.
+Apparently this amount of learnable parameters is just not enough.
+More degrees of freedom are needed to enable 
+the learning capability of a neural network.
+For this reason, multiple kernels will be used instead of one single kernal.
+If many kernels are stacked in a convolutional neural network such that
+the architecture looks very deep, the network is called deep neural network
+instead of simply neural network which typically refers to shallow ones.
+In the deep convolutional neural networks, it can be imagined that
+each convolutional layer comprising multiple kernels which subsequently produces
+a three dimensional volume of the outputs.
+After the convolutional layer, there normally exist activating layer where
+the specified activation function will be applied to each single output
+inside the output volume from the convolutional layer.
+Followed by the activating layer, there is a pooling layer.
+In the previous years, the maximum pooling and average pooling 
+are popular methods for reducing the dimension of the outputs
+from convolutional layers.
+Nowadays, instead of applying a conventional pooling, 
+a convolutional layer of larger stride is utilized.
+Such a combination of convolution-activation-pooling will
+be replicated multiple times for a single convolutional neural network.
+In the tail of the network, a fully-connected layer can be used
+to compute the probability of each target class for the 
+classification problems.
+
+Our network is exactly built from the above description except the 
+fact that we have adopted the identity mapping 
+\(h(\mathbf{x}_l)=\mathbf{x}_l\) in the Residual 
+Neural Network from~\parencite{RN67}.
+It has been shown in~\parencite{RN68} that
+the identity mapping in the residual units
+can enable the direct propagation of information
+from one layer to any other layers.
+Such a nice property brings vital benefits
+for deep neural networks such that the accuracy
+saturation problem can be alleviated.
+As a result, ultra-deep models are able to
+learn desired representations for solving
+problems.
+Besides, with the identity mapping, the network
+is able to converge faster hence the training time
+required for a deep model can be reduced.
+% The architecture of the deep 
+Figure~\ref{fig:basic-resnet-structure} on 
+page~\pageref{fig:basic-resnet-structure}
+shows two types
+of the residual units which implement the identity mapping
+via shortcut connections from the beginning of the block
+to the end of the same block.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/basic-resnet-structure.pdf}
+    \caption[Two types of the residual units]{
+        Two types of the residual units are shown here.
+        BN stands for Batch Normalization while
+        Relu stands for Rectified Linear Unit.
+        }\label{fig:basic-resnet-structure}
+\end{figure}
+
+The architecture of the deep convolutional neural 
+network used in this thesis is
+shown in Figure~\ref{fig:our-architecture} on 
+page~\pageref{fig:our-architecture}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/our-neural-net-structure.pdf}
+    \caption[Neural network architecture for intra mode prediction]{
+        Neural network architecture for intra mode prediction.
+        }\label{fig:our-architecture}
+\end{figure}
+
+\section{The Hyper-parameters of CNN}\label{sec:config}
 \section{Stopping criteria and Training Results}\label{sec:training}
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 %
