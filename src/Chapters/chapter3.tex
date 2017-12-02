@@ -785,10 +785,10 @@ are explained in details.
         \toprule
         \# & Name of the file & Size & Samples & Usage\\
         \midrule
-        1 & size04.csv & 206 MegaBytes & 3675428 & train,test,validate\\
-        2 & size08.csv & 513 MegaBytes & 2372324 & train,test,validate\\
-        3 & size16.csv & 1.25 GigaBytes & 1439773 & train,test,validate\\
-        4 & size32.csv & 2.02 GigaBytes & 567554 & train,test,validate\\
+        1 & size04.csv & 206 MegaBytes & 3,675,428 & train,test,validate\\
+        2 & size08.csv & 513 MegaBytes & 2,372,324 & train,test,validate\\
+        3 & size16.csv & 1.25 GigaBytes & 1,439,773 & train,test,validate\\
+        4 & size32.csv & 2.02 GigaBytes & 567,554 & train,test,validate\\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -830,9 +830,9 @@ shown in Table~\ref{tab:unsorted-distribution-after-first-step}
 on page~\pageref{tab:unsorted-distribution-after-first-step} and 
 Table~\ref{tab:sorted-distribution-after-first-step}
 on page~\pageref{tab:sorted-distribution-after-first-step}.
-The statistics are unsorted or sorted in terms of the percentages
+They are unsorted or sorted in terms of the percentages
 of each mode.
-The statistics of each mode can be quickly found 
+Each mode can be quickly found 
 in Table~\ref{tab:unsorted-distribution-after-first-step}
 on page~\pageref{tab:unsorted-distribution-after-first-step}
 by looking at the first column.
@@ -865,10 +865,10 @@ More than half of the collected data are removed.
         \toprule
         \# & Name of the file & Size & Samples & Usage & Percent of removed data (\%) \\
         \midrule
-        1 & msize04.csv & 75.7 MegaBytes & 3675428 & train,test,validate & 64 \\
-        2 & msize08.csv & 130.8 MegaBytes & 2372324 & train,test,validate & 74 \\
-        3 & msize16.csv & 377.3 MegaBytes & 1439773 & train,test,validate & 70 \\
-        4 & msize32.csv & 708.7 MegaBytes & 567554 & train,test,validate & 65 \\
+        1 & msize04.csv & 75.7 MegaBytes & 3,675,428 & train,test,validate & 64 \\
+        2 & msize08.csv & 130.8 MegaBytes & 2,372,324 & train,test,validate & 74 \\
+        3 & msize16.csv & 377.3 MegaBytes & 1,439,773 & train,test,validate & 70 \\
+        4 & msize32.csv & 708.7 MegaBytes & 567,554 & train,test,validate & 65 \\
         % \# & Name of the file & Size & Samples & Usage\\
         % \midrule
         % 1 & msize04.csv & 75.7 MegaBytes & 3675428 & train,test,validate \\
@@ -881,11 +881,117 @@ More than half of the collected data are removed.
 In the third step, we start to remove the smooth blocks.
 The reasons have been discussed in 
 Subsection~\ref{subsec:discussion-about-data-visu}.
-An algorithm~\ref{algo:edge-Sharpness}
-based on the coarse edge Sharpness analysis
+Algorithm~\ref{algo:edge-Sharpness}
+based on the coarse edge sharpness analysis
 in~\parencite{RN78} has been developed to define the
 sharpness of depth blocks as shown 
 on page~\pageref{algo:edge-Sharpness}.
+The difference between Algorithm~\ref{algo:edge-Sharpness}
+and the coarse edge sharpness analysis in~\parencite{RN78}
+is that the first one takes the average sharpness value
+of top-k small square regions inside a single block as its
+block sharpness while the second one sums all
+the sharpness values of all small square regions inside a
+single block as its sharpness.
+This is due to the consideration that in depth maps typically
+the sharpness is contributed by few sharp edges.
+Lots of regions in a single sharp block are smooth regions.
+Hence it makes sense to only evaluate the top-k average
+instead of a sum of all.
+An empirical threshold of \(15\) has been chosen to tag a block
+either smooth or sharp.
+Blocks tagged with smooth will be removed from datasets
+while the others will be kept.
+The specifications of the data after the third step
+of removing smooth blocks
+are shown in Table~\ref{tab:datasets-after-third-step}.
+Almost half of the data are removed.
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Information of the datasets after removing smooth blocks}
+    \bigskip\label{tab:datasets-after-third-step}
+    \centering
+    \begin{tabular}{c c c c c c}
+        \toprule
+        \# & Name of the file & Size & Samples & Usage & Percent of removed data (\%) \\
+        \midrule
+        1 & smsize04.csv & 36.3 MegaBytes & 616,281 & train,test,validate & 54 \\
+        2 & smsize08.csv & 91.2 MegaBytes & 403,277 & train,test,validate & 33 \\
+        3 & smsize16.csv & 210.9 MegaBytes & 232,806 & train,test,validate & 46 \\
+        4 & smsize32.csv & 235.4 MegaBytes & 65,481 & train,test,validate & 79 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The statistics of the datasets after the third step are
+shown in Table~\ref{tab:unsorted-distribution-after-third-step}
+on page~\pageref{tab:unsorted-distribution-after-third-step} and 
+Table~\ref{tab:sorted-distribution-after-third-step}
+on page~\pageref{tab:sorted-distribution-after-third-step}.
+It is clear that after several pre-processing steps,
+the issue of imbalanced learning~\parencite{RN215}
+still exists.
+To tackle the issue, we truncate datasets to make the
+size of each class equal to each other.
+In the last step, remaining 32 modes are tagged with integer
+0, 1, 2, \ldots, 31 for obtaining new indices which
+starting from zero for the convenience of deep learning.
+At the same step, we separate datasets into training, 
+testing and validating datasets.
+Datasets for blocks of \(32\times32\) are too small
+to fed into the deep neural network which are
+consequently abandoned.
+The descriptions for the finalized datasets
+are shown in Table~\ref{tab:finalized-four-by-four},
+Table~\ref{tab:finalized-eight-by-eight}
+and Table~\ref{tab:finalized-sixteen-by-sixteen}.
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Information of the finalized datasets from blocks of size \(4\times4\)}
+    \bigskip\label{tab:finalized-four-by-four}
+    \centering
+    \begin{tabular}{c c c c c}
+        \toprule
+        \# & Name of the file & Size & Samples & Usage\\
+        \midrule
+        1 & train04.csv & 7.9 MegaBytes & \(4,092\times32\) & train\\
+        2 & test04.csv & 1.1 MegaBytes & \(600\times32\) & test\\
+        3 & val04.csv & 1.1 GigaBytes & \(600\times32\) & validate\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Information of the finalized datasets from blocks of size \(8\times8\)}
+    \bigskip\label{tab:finalized-eight-by-eight}
+    \centering
+    \begin{tabular}{c c c c c}
+        \toprule
+        \# & Name of the file & Size & Samples & Usage\\
+        \midrule
+        1 & train08.csv & 46.3 MegaBytes & \(6,303\times32\) & train\\
+        2 & test08.csv & 3.8 MegaBytes & \(600\times32\) & test\\
+        3 & val08.csv & 3.8 GigaBytes & \(600\times32\) & validate\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Information of the finalized datasets from blocks of size \(16\times16\)}
+    \bigskip\label{tab:finalized-sixteen-by-sixteen}
+    \centering
+    \begin{tabular}{c c c c c}
+        \toprule
+        \# & Name of the file & Size & Samples & Usage\\
+        \midrule
+        1 & train16.csv & 89.9 MegaBytes & \(3,075\times32\) & train\\
+        2 & test16.csv & 15.9 MegaBytes & \(600\times32\) & test\\
+        3 & val16.csv & 15.9 GigaBytes & \(600\times32\) & validate\\
+        \bottomrule
+    \end{tabular}
+\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{algorithm}[!b]
@@ -957,69 +1063,7 @@ on page~\pageref{algo:edge-Sharpness}.
     }{
     \ISSMOOTH\(\leftarrow 1\)
     }
-    % \For{each CU in depth maps}{
-    % \uiCuSize$\leftarrow$\getCUSize{\pcCU, \uiDepth}\;
-    % \If{\DISFlag $\equiv 0$}{
-    % \partitionMode$\leftarrow$\getPartitionSize{\pcCU, \uiAbsPartIdx}\;
-% 
-    % \eIf{\partitionMode $\equiv$ \sizeOfNByN}{
-    % \iPartNum$\leftarrow 4$\;
-    % }{
-    % \iPartNum$\leftarrow 1$\;
-    % }
-% 
-    % \For{$j\leftarrow 0$ \KwTo \iPartNum}{
-    % $iDir[j]$ $\leftarrow$ \getIntraDir{\pcCU, \uiAbsPartIdx}\;
-    % }
-% 
-    % \eIf{\iPartNum $\equiv 1$}{
-        %  \tcc{collect luma values and the best mode for a single block}
-    % Create a new csv file, append the value of \uiDepth at the end of the name of the new csv file\;
-    % \For{$y\leftarrow 0$ \KwTo \uiCuSize}{
-    % \For{$x\leftarrow 0$ \KwTo \uiCuSize}{
-    % Write $pOrgPel[x]$ into $row_m$ in csv file\;
-    % }
-    % \pOrgPel $\leftarrow$ \pOrgPel + \iStride\;
-    % }
-    % Write $iDir[0]$ into the end of $row_m$ in the csv file\;
-    % }{
-        %  \tcc{collect luma values and the best modes for each sub parts}
-    % Create a new csv file, append the value of (\uiDepth + $1$) at the end of the name of the new csv file\;
-    % \sizeOfSubBlk$\leftarrow$\getSizeOfSubBlk{\pcCU, \uiDepth}\;
-% 
-    % \For{$j\leftarrow 0$ \KwTo \iPartNum}{
-% 
-    % \uIf{$j\equiv0$}{
-    % \yStartPos $\leftarrow 0$
-    % \& \xStartPos $\leftarrow 0$
-    % \& \yEndPos $\leftarrow$ \sizeOfSubBlk\
-    % \& \xEndPos $\leftarrow$ \sizeOfSubBlk\;
-    % }
-    % \uElseIf{$j\equiv1$}{
-    % \yStartPos $\leftarrow 0$
-    % \& \xStartPos $\leftarrow$ \sizeOfSubBlk
-    % \& \yEndPos $\leftarrow$ \sizeOfSubBlk
-    % \& \xEndPos $\leftarrow \sizeOfSubBlk \times 2$\;
-    % }
-    % \uElseIf{$j\equiv2$}{
-    % \yStartPos $\leftarrow$ \sizeOfSubBlk
-    % \& \xStartPos $\leftarrow 0$
-    % \& \yEndPos $\leftarrow \sizeOfSubBlk \times 2$
-    % \& \xEndPos $\leftarrow$ \sizeOfSubBlk\;
-    % }
-    % \uElseIf{$j\equiv3$}{
-    % \yStartPos $\leftarrow$ \sizeOfSubBlk
-    % \& \xStartPos $\leftarrow$ \sizeOfSubBlk
-    % \& \yEndPos $\leftarrow \sizeOfSubBlk \times 2$
-    % \& \xEndPos $\leftarrow \sizeOfSubBlk \times 2$\;
-    % }
-% 
-    % }
-% 
-    % \pOrgPel $\leftarrow$ \pOrgPel+ \iStride\;
     }
-    % Write $iDir[j]$ into the end of $row_m$ in the csv file\;
-    % }}}}
  \caption{Sharpness analysis for single block}\label{algo:edge-Sharpness}
 \end{algorithm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1127,6 +1171,113 @@ on page~\pageref{algo:edge-Sharpness}.
        34 & 1  & 482,776 & 13.14 & 1  & 249,061 & 10.50 & 1  & 164,050 & 11.39 & 1  & 57,528 & 10.14 \\ 
        35 & 0  & 717,274 & 19.52 & 0  & 642,520 & 27.08 & 35  & 299,368 & 20.79 & 35  & 126,427 & 22.28 \\ 
        36 & 35  & 789,662 & 21.48 & 35  & 710,089 & 29.93 & 0  & 459,291 & 31.90 & 0  & 158,824 & 27.98 \\ 
+      
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Unsorted statistics of datasets obtained after removing smooth blocks}
+    \bigskip\label{tab:unsorted-distribution-after-third-step}
+    \centering
+    \resizebox{\textwidth}{!}
+    {\begin{tabular}{c c c c c c c c c}
+        \toprule
+        Block Size & \multicolumn{2}{c}{\(4\times4\)} & \multicolumn{2}{c}{\(8\times8\)} & \multicolumn{2}{c}{\(16\times16\)} & \multicolumn{2}{c}{\(32\times32\)} \\
+        Mode Idx & Samples & Percent (\%) & Samples & Percent (\%) & Samples & Percent (\%) & Samples & Percent (\%)\\
+        \midrule
+        0 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 \\ 
+        1 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 \\ 
+        2 & 28,569 &  4.64 & 14,319 &  3.55 & 6,418 &  2.76 & 1,444 &  2.21 \\ 
+        3 & 6,302 &  1.02 & 8,170 &  2.03 & 4,275 &  1.84 & 879 &  1.34 \\ 
+        4 & 5,292 &  0.86 & 7,503 &  1.86 & 4,625 &  1.99 & 929 &  1.42 \\ 
+        5 & 5,730 &  0.93 & 8,511 &  2.11 & 4,302 &  1.85 & 872 &  1.33 \\ 
+        6 & 6,632 &  1.08 & 10,450 &  2.59 & 4,998 &  2.15 & 1,080 &  1.65 \\ 
+        7 & 7,361 &  1.19 & 11,455 &  2.84 & 7,077 &  3.04 & 2,302 &  3.52 \\ 
+        8 & 7,870 &  1.28 & 11,580 &  2.87 & 7,595 &  3.26 & 2,861 &  4.37 \\ 
+        9 & 10,022 &  1.63 & 9,954 &  2.47 & 5,768 &  2.48 & 3,588 &  5.48 \\ 
+       10 & 19,385 &  3.15 & 8,059 &  2.00 & 4,427 &  1.90 & 2,769 &  4.23 \\ 
+       11 & 11,591 &  1.88 & 10,272 &  2.55 & 6,840 &  2.94 & 4,299 &  6.57 \\ 
+       12 & 10,234 &  1.66 & 12,985 &  3.22 & 9,746 &  4.19 & 3,159 &  4.82 \\ 
+       13 & 11,248 &  1.83 & 14,037 &  3.48 & 10,408 &  4.47 & 2,500 &  3.82 \\ 
+       14 & 10,838 &  1.76 & 12,570 &  3.12 & 8,151 &  3.50 & 1,532 &  2.34 \\ 
+       15 & 10,328 &  1.68 & 12,086 &  3.00 & 7,059 &  3.03 & 1,222 &  1.87 \\ 
+       16 & 9,930 &  1.61 & 10,393 &  2.58 & 6,237 &  2.68 & 1,103 &  1.68 \\ 
+       17 & 11,132 &  1.81 & 11,701 &  2.90 & 6,198 &  2.66 & 1,321 &  2.02 \\ 
+       18 & 28,674 &  4.65 & 13,292 &  3.30 & 6,192 &  2.66 & 1,180 &  1.80 \\ 
+       19 & 12,181 &  1.98 & 11,106 &  2.75 & 6,478 &  2.78 & 1,364 &  2.08 \\ 
+       20 & 12,661 &  2.05 & 10,773 &  2.67 & 6,510 &  2.80 & 1,298 &  1.98 \\ 
+       21 & 14,320 &  2.32 & 11,436 &  2.84 & 7,234 &  3.11 & 1,551 &  2.37 \\ 
+       22 & 15,903 &  2.58 & 11,567 &  2.87 & 7,882 &  3.39 & 1,778 &  2.72 \\ 
+       23 & 16,902 &  2.74 & 11,845 &  2.94 & 8,804 &  3.78 & 2,333 &  3.56 \\ 
+       24 & 21,987 &  3.57 & 12,093 &  3.00 & 8,941 &  3.84 & 2,909 &  4.44 \\ 
+       25 & 19,726 &  3.20 & 10,167 &  2.52 & 5,089 &  2.19 & 2,705 &  4.13 \\ 
+       26 & 190,471 & 30.91 & 40,592 & 10.07 & 14,439 &  6.20 & 4,821 &  7.36 \\ 
+       27 & 23,172 &  3.76 & 12,240 &  3.04 & 6,943 &  2.98 & 3,322 &  5.07 \\ 
+       28 & 17,158 &  2.78 & 17,156 &  4.25 & 10,722 &  4.61 & 2,909 &  4.44 \\ 
+       29 & 17,788 &  2.89 & 16,161 &  4.01 & 9,801 &  4.21 & 2,114 &  3.23 \\ 
+       30 & 14,012 &  2.27 & 14,060 &  3.49 & 8,341 &  3.58 & 1,554 &  2.37 \\ 
+       31 & 14,527 &  2.36 & 13,054 &  3.24 & 7,459 &  3.20 & 1,269 &  1.94 \\ 
+       32 & 11,072 &  1.80 & 11,944 &  2.96 & 7,149 &  3.07 & 1,264 &  1.93 \\ 
+       33 & 13,263 &  2.15 & 11,746 &  2.91 & 6,698 &  2.88 & 1,250 &  1.91 \\ 
+       34 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 \\ 
+       35 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 \\ 
+       36 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 & 0 &  0.00 \\ 
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+\begin{table}[H]
+    % \begin{table}[!htbp]
+    \caption{Sorted statistics of datasets obtained after removing smooth blocks}
+    \bigskip\label{tab:sorted-distribution-after-third-step}
+    \centering
+    \resizebox{\textwidth}{!}
+    {\begin{tabular}{c c c c c c c c c c c c c}
+        \toprule
+        Block Size & \multicolumn{3}{c}{\(4\times4\)} & \multicolumn{3}{c}{\(8\times8\)} & \multicolumn{3}{c}{\(16\times16\)} & \multicolumn{3}{c}{\(32\times32\)} \\
+        Row idx  & Mode idx & Samples & Percent (\%) & Mode idx & Samples & Percent (\%) & Mode idx & Samples & Percent (\%) & Mode idx & Samples & Percent (\%)\\
+        \midrule
+        0 & 0  & 0 &  0.00 & 0  & 0 &  0.00 & 0  & 0 &  0.00 & 0  & 0 &  0.00 \\ 
+        1 & 1  & 0 &  0.00 & 1  & 0 &  0.00 & 1  & 0 &  0.00 & 1  & 0 &  0.00 \\ 
+        2 & 34  & 0 &  0.00 & 34  & 0 &  0.00 & 34  & 0 &  0.00 & 34  & 0 &  0.00 \\ 
+        3 & 35  & 0 &  0.00 & 35  & 0 &  0.00 & 35  & 0 &  0.00 & 35  & 0 &  0.00 \\ 
+        4 & 36  & 0 &  0.00 & 36  & 0 &  0.00 & 36  & 0 &  0.00 & 36  & 0 &  0.00 \\ 
+        5 & 4  & 5,292 &  0.86 & 4  & 7,503 &  1.86 & 3  & 4,275 &  1.84 & 5  & 872 &  1.33 \\ 
+        6 & 5  & 5,730 &  0.93 & 10  & 8,059 &  2.00 & 5  & 4,302 &  1.85 & 3  & 879 &  1.34 \\ 
+        7 & 3  & 6,302 &  1.02 & 3  & 8,170 &  2.03 & 10  & 4,427 &  1.90 & 4  & 929 &  1.42 \\ 
+        8 & 6  & 6,632 &  1.08 & 5  & 8,511 &  2.11 & 4  & 4,625 &  1.99 & 6  & 1,080 &  1.65 \\ 
+        9 & 7  & 7,361 &  1.19 & 9  & 9,954 &  2.47 & 6  & 4,998 &  2.15 & 16  & 1,103 &  1.68 \\ 
+       10 & 8  & 7,870 &  1.28 & 25  & 10,167 &  2.52 & 25  & 5,089 &  2.19 & 18  & 1,180 &  1.80 \\ 
+       11 & 16  & 9,930 &  1.61 & 11  & 10,272 &  2.55 & 9  & 5,768 &  2.48 & 15  & 1,222 &  1.87 \\ 
+       12 & 9  & 10,022 &  1.63 & 16  & 10,393 &  2.58 & 18  & 6,192 &  2.66 & 33  & 1,250 &  1.91 \\ 
+       13 & 12  & 10,234 &  1.66 & 6  & 10,450 &  2.59 & 17  & 6,198 &  2.66 & 32  & 1,264 &  1.93 \\ 
+       14 & 15  & 10,328 &  1.68 & 20  & 10,773 &  2.67 & 16  & 6,237 &  2.68 & 31  & 1,269 &  1.94 \\ 
+       15 & 14  & 10,838 &  1.76 & 19  & 11,106 &  2.75 & 2  & 6,418 &  2.76 & 20  & 1,298 &  1.98 \\ 
+       16 & 32  & 11,072 &  1.80 & 21  & 11,436 &  2.84 & 19  & 6,478 &  2.78 & 17  & 1,321 &  2.02 \\ 
+       17 & 17  & 11,132 &  1.81 & 7  & 11,455 &  2.84 & 20  & 6,510 &  2.80 & 19  & 1,364 &  2.08 \\ 
+       18 & 13  & 11,248 &  1.83 & 22  & 11,567 &  2.87 & 33  & 6,698 &  2.88 & 2  & 1,444 &  2.21 \\ 
+       19 & 11  & 11,591 &  1.88 & 8  & 11,580 &  2.87 & 11  & 6,840 &  2.94 & 14  & 1,532 &  2.34 \\ 
+       20 & 19  & 12,181 &  1.98 & 17  & 11,701 &  2.90 & 27  & 6,943 &  2.98 & 21  & 1,551 &  2.37 \\ 
+       21 & 20  & 12,661 &  2.05 & 33  & 11,746 &  2.91 & 15  & 7,059 &  3.03 & 30  & 1,554 &  2.37 \\ 
+       22 & 33  & 13,263 &  2.15 & 23  & 11,845 &  2.94 & 7  & 7,077 &  3.04 & 22  & 1,778 &  2.72 \\ 
+       23 & 30  & 14,012 &  2.27 & 32  & 11,944 &  2.96 & 32  & 7,149 &  3.07 & 29  & 2,114 &  3.23 \\ 
+       24 & 21  & 14,320 &  2.32 & 15  & 12,086 &  3.00 & 21  & 7,234 &  3.11 & 7  & 2,302 &  3.52 \\ 
+       25 & 31  & 14,527 &  2.36 & 24  & 12,093 &  3.00 & 31  & 7,459 &  3.20 & 23  & 2,333 &  3.56 \\ 
+       26 & 22  & 15,903 &  2.58 & 27  & 12,240 &  3.04 & 8  & 7,595 &  3.26 & 13  & 2,500 &  3.82 \\ 
+       27 & 23  & 16,902 &  2.74 & 14  & 12,570 &  3.12 & 22  & 7,882 &  3.39 & 25  & 2,705 &  4.13 \\ 
+       28 & 28  & 17,158 &  2.78 & 12  & 12,985 &  3.22 & 14  & 8,151 &  3.50 & 10  & 2,769 &  4.23 \\ 
+       29 & 29  & 17,788 &  2.89 & 31  & 13,054 &  3.24 & 30  & 8,341 &  3.58 & 8  & 2,861 &  4.37 \\ 
+       30 & 10  & 19,385 &  3.15 & 18  & 13,292 &  3.30 & 23  & 8,804 &  3.78 & 24  & 2,909 &  4.44 \\ 
+       31 & 25  & 19,726 &  3.20 & 13  & 14,037 &  3.48 & 24  & 8,941 &  3.84 & 28  & 2,909 &  4.44 \\ 
+       32 & 24  & 21,987 &  3.57 & 30  & 14,060 &  3.49 & 12  & 9,746 &  4.19 & 12  & 3,159 &  4.82 \\ 
+       33 & 27  & 23,172 &  3.76 & 2  & 14,319 &  3.55 & 29  & 9,801 &  4.21 & 27  & 3,322 &  5.07 \\ 
+       34 & 2  & 28,569 &  4.64 & 29  & 16,161 &  4.01 & 13  & 10,408 &  4.47 & 9  & 3,588 &  5.48 \\ 
+       35 & 18  & 28,674 &  4.65 & 28  & 17,156 &  4.25 & 28  & 10,722 &  4.61 & 11  & 4,299 &  6.57 \\ 
+       36 & 26  & 190,471 & 30.91 & 26  & 40,592 & 10.07 & 26  & 14,439 &  6.20 & 26  & 4,821 &  7.36 \\  
       
         \bottomrule
     \end{tabular}
