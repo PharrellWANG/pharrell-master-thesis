@@ -144,7 +144,8 @@
     "*-tags.tex this is the new shit": "explorerExcludedFiles",
     "src/Appendices/": "explorerExcludedFiles",
     ".idea/": "explorerExcludedFiles",
-    ".vscode/": "explorerExcludedFiles"
+    ".vscode/": "explorerExcludedFiles",
+    "main.pdf": "explorerExcludedFiles"
   },
   "explorerExcludedFiles.show": false,
   "cSpell.words": [
