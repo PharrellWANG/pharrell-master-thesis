@@ -32,18 +32,17 @@ The data are collected from four video sequences as shown in
 Table~\ref{tab:data-source}.
 \begin{table}[!htbp]
     \caption{Source of data for deep learning}
-    \bigskip
-    \label{tab:data-source}
+    \bigskip\label{tab:data-source}
     \centering
     \begin{tabular}{c c c c c}
-        \hline
+        \toprule
         \# & Name of the Sequence & Resolution & Usage & Number of Frames\\
-        \hline
-        1 & Balloons & $1024\times768$ & train,test,validate & 300\\
-        2 & Kendo & $1024\times768$ & train,test,validate & 300\\
-        3 & Poznan Street & $1920\times1088$ & train,test,validate & 250\\
-        4 & Undo Dancer & $1920\times1088$ & train,test,validate & 250\\
-        \hline
+        \midrule
+        1 & Balloons & \(1024\times768\) & train,test,validate & 300\\
+        2 & Kendo & \(1024\times768\) & train,test,validate & 300\\
+        3 & Poznan Street & \(1920\times1088\) & train,test,validate & 250\\
+        4 & Undo Dancer & \(1920\times1088\) & train,test,validate & 250\\
+        \bottomrule
     \end{tabular}
 \end{table}
 Balloons sequence and Kendo sequence are of the resolution 1024 by 768 while
@@ -882,9 +881,148 @@ More than half of the collected data are removed.
 In the third step, we start to remove the smooth blocks.
 The reasons have been discussed in 
 Subsection~\ref{subsec:discussion-about-data-visu}.
-An algorithm based on the coarse edge strength analysis
+An algorithm~\ref{algo:edge-Sharpness}
+based on the coarse edge Sharpness analysis
 in~\parencite{RN78} has been developed to define the
-sharpness of depth blocks.
+sharpness of depth blocks as shown 
+on page~\pageref{algo:edge-Sharpness}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{algorithm}[!b]
+    % \newcommand{\abs}[1]{\left|#1\right|}
+    \SetKwData{FlattenLumaVals}{FlattenLumaVals}
+    \SetKwData{SquareLumaVals}{SquareLumaVals}
+    \SetKwData{TaggedMode}{TaggedMode}
+    \SetKwData{HorSharpness}{HorSharpness}
+    \SetKwData{VerSharpness}{VerSharpness}
+    \SetKwData{Sharpness}{Sharpness}
+    \SetKwData{TotalSharpness}{TotalSharpness}
+    \SetKwData{ArrayOfSharpness}{ArrayOfSharpness}
+    \SetKwData{ISSMOOTH}{ISSMOOTH}
+    \SetKwData{BLKSIZE}{BLKSIZE}
+    \SetKwData{SIZEOFARRAY}{SIZEOFARRAY}
+    \SetKwData{BlockSharpness}{BlockSharpness}
+
+    \SetKwFunction{getLength}{getLength}
+    \SetKwFunction{reshape}{reshape}
+    \SetKwFunction{pushValIntoArray}{pushValIntoArray}
+    \SetKwFunction{sortArray}{sortArray}
+    \SetKwFunction{getTopKEleAndFormNewArray}{getTopKEleAndFormNewArray}
+    \SetKwFunction{removeEleLessThanEight}{removeEleLessThanEight}
+    \SetKwFunction{getSizeOfArray}{getSizeOfArray}
+    \SetKwFunction{getMeanOfArray}{getMeanOfArray}
+
+    \DontPrintSemicolon% Some LaTeX compilers require you to use \dontprintsemicolon instead
+    
+    \KwIn{Luma pixel values stored inside an one dimensional array \FlattenLumaVals, 
+    % label of ground truth \TaggedMode
+    }
+    \KwOut{Boolean value \ISSMOOTH}
+
+    \Begin{
+    
+    \BLKSIZE\(\leftarrow\) \(|\sqrt{\getLength{\FlattenLumaVals}}|\)\;
+    \SquareLumaVals\(\leftarrow\)\reshape{\FlattenLumaVals}\;
+    \TotalSharpness\(\leftarrow0\)\;
+    \ArrayOfSharpness\(\leftarrow\oldemptyset\)\;
+
+    \For{\(i\leftarrow 0\) \KwTo \(\BLKSIZE-1\)}{
+        \For{\(j\leftarrow 0\) \KwTo \(\BLKSIZE-1\)}{
+            \HorSharpness\(x\leftarrow\)
+            \SquareLumaVals[\(i\)][\(j\)] \(+\) 
+            \SquareLumaVals[\(i+1\)][\(j\)] \(-\) 
+            \SquareLumaVals[\(i\)][\(j+1\)] \(-\) 
+            \SquareLumaVals[\(i+1\)][\(j+1\)]\;
+            \VerSharpness\(x\leftarrow\)
+            \SquareLumaVals[\(i\)][\(j\)] \(+\) 
+            \SquareLumaVals[\(i\)][\(j+1\)] \(-\) 
+            \SquareLumaVals[\(i+1\)][\(j\)] \(-\) 
+            \SquareLumaVals[\(i+1\)][\(j+1\)]\;
+            \Sharpness\(\leftarrow\HorSharpness^2 + \VerSharpness^2\)\;
+            \TotalSharpness\(\leftarrow\TotalSharpness+\Sharpness\)\;
+            \ArrayOfSharpness\(\leftarrow\) \pushValIntoArray{\ArrayOfSharpness, \Sharpness}\;
+        }   
+    }
+    \ArrayOfSharpness\(\leftarrow\) \sortArray{\ArrayOfSharpness}\;
+    \ArrayOfSharpness\(\leftarrow\) \getTopKEleAndFormNewArray{\ArrayOfSharpness, \(\BLKSIZE\times2\)}\;
+    \ArrayOfSharpness\(\leftarrow\) \removeEleLessThanEight{\ArrayOfSharpness}\;
+    \SIZEOFARRAY\(\leftarrow\) \getSizeOfArray{\ArrayOfSharpness}\;
+    \eIf{\SIZEOFARRAY \(\equiv 0\)}{
+    \BlockSharpness\(\leftarrow 0\)\;
+    }{
+    \BlockSharpness\(\leftarrow\) \getMeanOfArray{ArrayOfSharpness}\;
+    }
+    \eIf{\BlockSharpness \(> 15\)}{
+    \ISSMOOTH\(\leftarrow 0\)
+    }{
+    \ISSMOOTH\(\leftarrow 1\)
+    }
+    % \For{each CU in depth maps}{
+    % \uiCuSize$\leftarrow$\getCUSize{\pcCU, \uiDepth}\;
+    % \If{\DISFlag $\equiv 0$}{
+    % \partitionMode$\leftarrow$\getPartitionSize{\pcCU, \uiAbsPartIdx}\;
+% 
+    % \eIf{\partitionMode $\equiv$ \sizeOfNByN}{
+    % \iPartNum$\leftarrow 4$\;
+    % }{
+    % \iPartNum$\leftarrow 1$\;
+    % }
+% 
+    % \For{$j\leftarrow 0$ \KwTo \iPartNum}{
+    % $iDir[j]$ $\leftarrow$ \getIntraDir{\pcCU, \uiAbsPartIdx}\;
+    % }
+% 
+    % \eIf{\iPartNum $\equiv 1$}{
+        %  \tcc{collect luma values and the best mode for a single block}
+    % Create a new csv file, append the value of \uiDepth at the end of the name of the new csv file\;
+    % \For{$y\leftarrow 0$ \KwTo \uiCuSize}{
+    % \For{$x\leftarrow 0$ \KwTo \uiCuSize}{
+    % Write $pOrgPel[x]$ into $row_m$ in csv file\;
+    % }
+    % \pOrgPel $\leftarrow$ \pOrgPel + \iStride\;
+    % }
+    % Write $iDir[0]$ into the end of $row_m$ in the csv file\;
+    % }{
+        %  \tcc{collect luma values and the best modes for each sub parts}
+    % Create a new csv file, append the value of (\uiDepth + $1$) at the end of the name of the new csv file\;
+    % \sizeOfSubBlk$\leftarrow$\getSizeOfSubBlk{\pcCU, \uiDepth}\;
+% 
+    % \For{$j\leftarrow 0$ \KwTo \iPartNum}{
+% 
+    % \uIf{$j\equiv0$}{
+    % \yStartPos $\leftarrow 0$
+    % \& \xStartPos $\leftarrow 0$
+    % \& \yEndPos $\leftarrow$ \sizeOfSubBlk\
+    % \& \xEndPos $\leftarrow$ \sizeOfSubBlk\;
+    % }
+    % \uElseIf{$j\equiv1$}{
+    % \yStartPos $\leftarrow 0$
+    % \& \xStartPos $\leftarrow$ \sizeOfSubBlk
+    % \& \yEndPos $\leftarrow$ \sizeOfSubBlk
+    % \& \xEndPos $\leftarrow \sizeOfSubBlk \times 2$\;
+    % }
+    % \uElseIf{$j\equiv2$}{
+    % \yStartPos $\leftarrow$ \sizeOfSubBlk
+    % \& \xStartPos $\leftarrow 0$
+    % \& \yEndPos $\leftarrow \sizeOfSubBlk \times 2$
+    % \& \xEndPos $\leftarrow$ \sizeOfSubBlk\;
+    % }
+    % \uElseIf{$j\equiv3$}{
+    % \yStartPos $\leftarrow$ \sizeOfSubBlk
+    % \& \xStartPos $\leftarrow$ \sizeOfSubBlk
+    % \& \yEndPos $\leftarrow \sizeOfSubBlk \times 2$
+    % \& \xEndPos $\leftarrow \sizeOfSubBlk \times 2$\;
+    % }
+% 
+    % }
+% 
+    % \pOrgPel $\leftarrow$ \pOrgPel+ \iStride\;
+    }
+    % Write $iDir[j]$ into the end of $row_m$ in the csv file\;
+    % }}}}
+ \caption{Sharpness analysis for single block}\label{algo:edge-Sharpness}
+\end{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % To tackle this issue, we will truncate a large 
 % amount of data from the datasets in the subsequent steps.
 
@@ -998,7 +1136,7 @@ sharpness of depth blocks.
 %
 %If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
 %
-%\LaTeX{} is easily able to~\parencite{RN93} professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
+%\LaTeX{} is easily able to~\parencite{RN93} professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
 %
 %%----------------------------------------------------------------------------------------
 %
@@ -1007,7 +1145,7 @@ sharpness of depth blocks.
 %
 %If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
 %
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
+%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
 %
 %%----------------------------------------------------------------------------------------
 %
@@ -1016,7 +1154,7 @@ sharpness of depth blocks.
 %
 %If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
 %
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
+%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
 %
 %%----------------------------------------------------------------------------------------
 %
@@ -1049,7 +1187,7 @@ sharpness of depth blocks.
 %\end{table}
 %writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
 %
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
+%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
 %
 %\section{Welcome and Tnk You}\label{sec:wlcome}
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
@@ -1067,6 +1205,6 @@ sharpness of depth blocks.
 %%\end{verbatim}
 %(or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
 %
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
+%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
 %
 %%----------------------------------------------------------------------------------------
