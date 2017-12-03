@@ -67,7 +67,7 @@ In the tail of the network, a fully-connected layer can be used
 to compute the probability of each target class for the 
 classification problems.
 
-Our network is exactly built from the above description except the 
+Our network is built from the above description except the 
 fact that we have adopted the identity mapping 
 \(h(\mathbf{x}_l)=\mathbf{x}_l\) in the Residual 
 Neural Network from~\parencite{RN67}.
@@ -129,6 +129,12 @@ tells the prediction results.
 \end{figure}
 
 \section{Settings of the Network}\label{sec:config}
+In this section, the hyper-parameters that are
+used for deep learning are given.
+The configurations are fine-tuned results against the validation
+datasets shown in Table~\ref{tab:finalized-eight-by-eight}
+and Table~\ref{tab:finalized-sixteen-by-sixteen} to achieve the
+best performance.
 
 It is interesting to notice that inside this network, 
 the size of any reception field
@@ -187,6 +193,11 @@ Table~\ref{tab:lr-policy}
 
 
 \section{Stopping criteria and Training Results}\label{sec:training}
+During the training process, we keep eyes on 
+various statistics to ensure the network is
+really learning instead of being trapped
+in an undesired status where nothing can be
+learned.
 %Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
 %
 %If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
