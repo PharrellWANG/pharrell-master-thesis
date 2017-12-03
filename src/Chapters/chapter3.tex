@@ -118,11 +118,11 @@ to which part in the reference software
 we should insert the data collecting module.
 Since supervised learning is chosen,
 labels for data samples are also required to be collected.
-The label is the best mode that has been chosen by the HTM16.2 encoder.
+The label is the best mode that has been chosen by the \(HTM16.2\) encoder.
 The diagram in Figure~\ref{fig:data-collection-diagram} illustrates
 the relationships among the core modules for data collection.
 The rectangular blocks with light blue background are the modules from
-HTM16.2 while others are the newly added modules for data collection.
+\(HTM16.2\) while others are the newly added modules for data collection.
 In the module of \emph{compressCtu}, the encoder recursively invokes
 anther module named \emph{xCompressCtu} which is not on the diagram to
 try different kinds of CU, PU, TU and to decide the best mode for them.
@@ -279,7 +279,7 @@ own best mode.
 The luma samples for each sub-block are collected into four different rows
 in the CSV file with the last value in each row to be the best mode for each
 sub-block.
-HTM16.2~\parencite{RN214} is used in this work, which is the newest
+\(HTM16.2\)~\parencite{RN214} is used in this work, which is the newest
 version of the reference software of 3D-HEVC\@.
 Considering we are focusing on the intra prediction,
 All-Intra configuration is used.

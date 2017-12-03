@@ -123,8 +123,8 @@ tells the prediction results.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/our-neural-net-structure.pdf}
-    \caption[Neural network architecture for intra mode prediction]{
-        Neural network architecture for intra mode prediction.
+    \caption[Top-20 precision on validation dataset for blocks of size \(4\times4\)]{
+        Top-20 precision on validation dataset for blocks of size \(4\times4\).
         }\label{fig:our-architecture}
 \end{figure}
 
@@ -172,7 +172,7 @@ than other distance functions such as L1 and L2.
 Stochastic gradient descent is used with a momentum 
 of \(0.9\).
 The learning rate decay policy is shown in 
-Table~\ref{tab:lr-policy}
+Table~\ref{tab:lr-policy}.
 
 \begin{table}[H]
     \caption{Learning rate policy}
@@ -192,88 +192,218 @@ Table~\ref{tab:lr-policy}
 %  0.01 (<20k), 0.001 (<40k), 0.0001 (<60k), 0.00001 (else).
 
 
-\section{Stopping criteria and Training Results}\label{sec:training}
+\section{Stopping Criteria and Training Result}\label{sec:training}
 During the training process, we keep eyes on 
 various statistics to ensure the network is
-really learning instead of being trapped
+truly learning high dimensional representations 
+instead of being trapped
 in an undesired status where nothing can be
 learned.
-%Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to~\parencite{RN93} professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%%----------------------------------------------------------------------------------------
-%
-%\section{Welcome and Thanku}\label{sec:welome}
-%Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%%----------------------------------------------------------------------------------------
-%
-%\section{Welcome and ThYou}\label{sec:weome}
-%Welcome to this \LaTeX{} Thesis Template~\parencite{Reference1}, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%%----------------------------------------------------------------------------------------
-%
-%\section{Welcome and Thau}\label{sec:welcoe}
-%Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%If you are
-%\begin{table}
-%
-%    \label{tab:treatments}
-%    \centering
-%%    \begin{tabular}{l l l}
-%%        \toprule
-%%        \tabhead{Groups} & \tabhead{Treatment X} & \tabhead{Treatment Y} \\
-%%        \midrule
-%%        1 & 0.2 & 0.8\\
-%%        2 & 0.17 & 0.7\\
-%%        3 & 0.24 & 0.75\\
-%%        4 & 0.68 & 0.3\\
-%%        \bottomrule\\
-%%    \end{tabular}
-%    \begin{tabular}{c r @{.} l}
-%        Pi expression       &
-%        \multicolumn{2}{c}{Value} \\
-%        \hline
-%        $\pi$               & 3&1416  \\
-%        $\pi^{\pi}$         & 36&46   \\
-%        $(\pi^{\pi})^{\pi}$ & 80662&7 \\
-%    \end{tabular}
-%    \caption{The effects of treatments X and Y on the four groups studied.}
-%\end{table}
-%writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%%----------------------------------------------------------------------------------------
-%
-%\section{Welcome and Tnk You}\label{sec:wlcome}
-%Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%If you are writing a thesis.
-%
-%%\begin{verbatim}
-%\begin{figure}
-%    \centering
-%    \includegraphics{Figures/Electron}
-%    %    \decoRule
-%    \caption[An Electron]{An electron (artist's impression).}
-%    \label{fig:Electron}
-%\end{figure}
-%%\end{verbatim}
-%(or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main strengths is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%%----------------------------------------------------------------------------------------
+Tensorflow~\parencite{tensorflow2015-whitepaper} has 
+been used in this work to implement the 
+deep convolutional neural network.
+It has its own dedicated suite of visualization
+tools named Tensorboard which is very helpful 
+with understanding and monitoring the training process.
+It has been configured to record the top-k precision
+on the validation datasets during our training process.
+
+Figure~\ref{fig:top20for4times4} 
+on page~\pageref{fig:top20for4times4}
+is a screen capture
+of the Tensorboard user interface which contains the 
+top-20 validation precision for blocks of size \(4\times4\).
+It can be seem that top-20 precision cannot go 
+beyond \(0.85\).
+Figure~\ref{fig:top28for4times4}
+on page~\pageref{fig:top28for4times4}
+further shows the 
+top-28 validation precision for blocks of the same size.
+Although the highest precision can reach \(0.96\) 
+in Figure~\ref{fig:top28for4times4}, it is not applicable
+in our case since it involves 28 classes to achieve this 
+acceptable precision.
+Only four classes would be excluded.
+Due to this observation, it is decided to
+keep the intra mode decision process unmodified for 
+blocks of size \(4\times4\) in \(HTM16.2\).
+
+Figure~\ref{fig:top16for8times8}
+on page~\pageref{fig:top16for8times8}
+shows the 
+top-16 validation precision for blocks of size \(8\times8\).
+After 133k global steps, the top-16 precision curve in 
+Figure~\ref{fig:top16for8times8} is very steady.
+The precision value is higher than \(0.92\).
+It means if this model can be employed to predict the 
+most probable intra angular directions,
+half of the angular directions can be skipped for
+the Rate Distortion Cost evaluation process by which
+a bunch of time shall be saved.
+Figure~\ref{fig:top16for16times16} 
+on page~\pageref{fig:top16for16times16}
+shows the
+top-16 validation precision for blocks 
+of size \(16\times16\).
+After 304k global steps, the top-16 precision in
+Figure~\ref{fig:top16for16times16} has reached
+\(0.9654\) which is considered as an excellent
+result in our application scenario.
+Once again, the half of the intra angular modes
+can be bypassed if this model can be applied 
+in \(HTM16.2\).
+For the blocks of size \(32\times32\),
+the dataset obtained for them does not 
+have enough data
+for the deep learning.
+Instead of using a dedicated model for them,
+the model trained from blocks of 
+size \(16\times16\) has been reused.
+The blocks of size \(32\times32\) are resized
+to \(16\times16\) using Bilinear Interpolation.
+
+Apart from observing the validation precision,
+confusion matrix is the other useful criteria 
+to help making decision on when to stop the 
+training.
+Figure~\ref{fig:cm8times8}
+on page~\pageref{fig:cm8times8} shows the confusion
+matrix after 173 epochs of training for blocks
+of size \(8\times8\).
+Figure~\ref{fig:cm16times16}
+on page~\pageref{fig:cm16times16} shows the confusion
+matrix after 396 epochs of training for blocks
+of size \(16\times16\).
+Both of the two confusion matrices exhibit
+good property which shows most of the predictions
+fall in the top-k predictions.
+
+\begin{figure}
+    \begin{minipage}{0.98\textwidth}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/blk-4--top-20.png}
+    \caption[Top-20 precision on validation dataset for blocks of size \(4\times4\)]{
+        Top-20 precision on validation dataset for blocks of size \(4\times4\).
+        }\label{fig:top20for4times4}
+    \end{minipage}
+    
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.98\textwidth}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/blk-4--top-28.png}
+    \caption[Top-28 precision on validation dataset for blocks of size \(4\times4\)]{
+        Top-28 precision on validation dataset for blocks of size \(4\times4\).
+        }\label{fig:top28for4times4}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}
+    \begin{minipage}{0.98\textwidth}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/blk-8--top-16.png}
+    \caption[Top-16 precision on validation dataset for blocks of size \(8\times8\)]{
+        Top-16 precision on validation dataset for blocks of size \(8\times8\).
+        }\label{fig:top16for8times8}
+    \end{minipage}
+    
+    \vspace*{1cm} % vertical separation
+
+    \begin{minipage}{0.98\textwidth}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/blk16-top16.png}
+    \caption[Top-16 precision on validation dataset for blocks of size \(16\times16\)]{
+        Top-16 precision on validation dataset for blocks of size \(16\times16\).
+        }\label{fig:top16for16times16}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/08-kpt-133049.eps}
+    \caption[Confusion matrix obtained after 133049 global steps of model training for blocks of size \(8\times8\)]
+    {Confusion matrix obtained after 133049 global steps of model training for blocks of size \(8\times8\)}\label{fig:cm8times8}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/16-kpt-304857.eps}
+    \caption[Top-k precision on testing datasets for each block size]
+    {Top-k precision on testing datasets for each block size}\label{fig:cm16times16}
+\end{figure}
+
+\section{Evaluate the Learned Models}\label{sec:eval-section}
+Two models have been obtained after the training process.
+One of the models is is trained from blocks of size \(8\times8\) and 
+applied for blocks with the same size.
+The other one is trained from blocks of size \(16\times16\), however, 
+it is applied for blocks of size \(16\times16\) and size \(32\times32\).
+The top-k precision on testing datasets for various 
+block sizes is reported in
+Table~\ref{tab:valprecision} 
+on page~\pageref{tab:valprecision}
+(see also Figure~\ref{fig:topkPrecisions}
+on page~\pageref{fig:topkPrecisions}
+).
+Notice that the maximum size for DMM1 wedgelet prediction 
+is \(32\times32\), hence there is no need to perform evaluation 
+for blocks of size \(64\times64\).
+To evaluate performance on blocks of size \(32\times32\),
+four resizing methods, i.e., Bilinear Interpolation, 
+Nearest Neighbor Interpolation, 
+Bicubic Interpolation, and
+Area Interpolation,
+have been tried.
+It turns out the differences among 
+the four resizing methods are so trivial
+in terms of the prediction accuracies.
+Here Bilinear Interpolation
+is chosen to be applied in our work.
+
+It can be observed that starting from top-14,
+the error rates are all below \(10\% \).
+And the model learns well for larger block sizes.
+When the models are integrated to the encoder,
+if a larger value of \(\mathbf{k}\) is used, 
+fewer modes can be excluded which can 
+lead to a small time reduction in the encoding process.
+In the contrary, if smaller value of \(\mathbf{k}\) is used,
+the prediction accuracy may not be high enough
+to ensure the encoder performance.
+In our work top-15 has been adopted which 
+is responsible of balancing
+the trade-off between coding performance and 
+the time cost in the encoder.
+
+
+
+\begin{table}
+    \caption{Top-k precision on testing datasets for each block size}
+    \bigskip\label{tab:valprecision}
+    \centering
+    \begin{tabular}{c c c c c}
+        \toprule
+        \# & Top-k & Size \(8\times8\) & Size \(16\times16\) & Size \(32\times32\) \\
+        \midrule
+        1 & Top-5 & 0.650     & 0.801  & 0.819 \\
+        2 & Top-6  & 0.711    & 0.842  & 0.860 \\
+        3 & Top-7  & 0.759    & 0.873  & 0.891 \\
+        4 & Top-8  & 0.795    & 0.895  & 0.912 \\
+        5 & Top-9  & 0.823    & 0.912  & 0.927 \\
+        6 & Top-10  & 0.846   & 0.924   & 0.938 \\
+        7 & Top-11  & 0.867   & 0.934   & 0.947 \\
+        8 & Top-12  & 0.884   & 0.942   & 0.955 \\
+        9 & Top-13  & 0.897   & 0.949   & 0.961 \\
+        10 & Top-14  & 0.909  & 0.955   & 0.966 \\
+        11 & Top-15  & 0.919  & 0.961   & 0.970 \\
+        12 & Top-16  & 0.929  & 0.965   & 0.973 \\
+        13 & Top-17  & 0.936  & 0.970   & 0.977 \\
+        14 & Top-18  & 0.944  & 0.974   & 0.980 \\
+        15 & Top-19  & 0.950  & 0.977   & 0.983 \\
+        16 & Top-20  & 0.955  & 0.980   & 0.985 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/topkPrecisions.pdf}
+    \caption[Top-k precision on testing datasets for each block size]
+    {Top-k precision on testing datasets for each block size}\label{fig:topkPrecisions}
+\end{figure}
