@@ -1,10 +1,10 @@
 % !TEX root = ../main.tex
 \chapter{Prepare the Data for Deep Learning}\label{ch:chapter3} % For referencing the chapter elsewhere, use \ref{Chapter1}
 
-The success of a deep learning procedure heavily relies
-on the size of available data.
+Deep learning heavily relies
+on data.
 It only works when a considerably large set of data can be provided.
-Moreover, since we are using supervised learning which is the most
+Since we are using supervised learning which is the most
 popular form of deep learning for the time being, our datasets
 must be well labeled.
 A large dataset can contain enormous and different classes,
@@ -12,19 +12,19 @@ with each class has its own label.
 The labels are used to adjust the inner parameters of a pre-constructed
 deep model according to the pre-defined loss function during the training
 process.
-We need to prepare a large set of labeled data before starting the
-model training.
+We need to prepare a large set of labeled data before 
+model training will begin.
 In this chapter, we start with the data collection, in which the data source
-and method for collecting data are shown in detail.
-After that the necessary pre-processing for the collected data are described.
-Furthermore, plenty of visualizations for the collected raw data are shown with
+and algorithm for collecting data are shown in details.
+After that the necessary pre-processing steps for the collected data are described.
+Furthermore, plenty of visualizations for the collected raw data are presented with
 discussion explaining the reason for the data pre-processing.
 
 \section{Data Collection}\label{sec:data-collection}
 To collect the data for training a deep model to predict the most probable
-intra angular directions for depth blocks, we need to identify two questions:
-Firstly, where does the data come from?
-Secondly, how to collect the data from the source?
+intra angular directions for depth CUs, we need to identify two questions:
+One is where does the data come from?
+The other is how to collect the data from the source?
 In this section, the two questions are answered one by one.
 
 \subsection{Source of Data}\label{subsec:source-of-data}
@@ -45,26 +45,24 @@ Table~\ref{tab:data-source}.
         \bottomrule
     \end{tabular}
 \end{table}
-Balloons sequence and Kendo sequence are of the resolution 1024 by 768 while
-Poznan Street sequence and Undo Dancer sequence are of the resolution 1920
-by 1088.
-Both of the former two sequences have 300 frames, all of which are used to
-collect the data.
-The latter two sequences both have 250 frames, and all the frames are involved
-in the data collection.
+Balloons sequence and Kendo sequence are of the resolution \(1024\times768\)
+while Poznan Street sequence and Undo Dancer sequence are 
+of the resolution \(1920\times1088\).
+All the available frames from the above four video sequences 
+are used to collect data.
 The collected data for each sequence will be separated into three sets
-for training, testing and validating.
-The training data sets are used for the deep model to learn the best
+for training, testing and validating in deep learning.
+The training data sets are used for the deep model to learn the desired
 representations by the back-propagation algorithm~\parencite{RN204},
 during which the inner parameters typically weights and bias are adjusted
-along the gradient as instructed by the back-propagation.
+along the gradient descent direction.
 After the learned model will be obtained, the validating datasets are used to
 fine turn the hyper-parameters.
 With the reasonably adjusted hyper-parameters, the training process will be
-performed again.
-After certain loops of the train-validate circle, the testing datasets will
+performed again to find better inner parameters for neural networks.
+After certain loops of the train-validate schedule, the testing datasets will
 be used to evaluate the final learned model which by then
-will not be further turned any more.
+shall not be further turned any more.
 After learned model will be applied to the testing datasets, the performance
 results of evaluation can indicate the generalization of the learning model.
 
@@ -74,10 +72,10 @@ We collect data by encoding four video sequences shown in
 Table~\ref{tab:data-source} from the coding unit (CU) level.
 Most of the hybrid video coding features from HEVC remain unchanged
 in 3D-HEVC, including the sizes allowed for each type of block.
-There are totally four types of block, namely coding tree unit (CTU),
+There are totally four types of blocks, namely coding tree unit (CTU),
 coding unit (CU), prediction unit (PU) and transform unit (TU).
 Table~\ref{tab:allowed-sizes-of-each-type-of-block} shows the allowed sizes
-for four types of block.
+for each type of block.
 \begin{table}[!htbp]
     \caption{Allowed sizes of 
     each type of block}\label{tab:allowed-sizes-of-each-type-of-block}.
@@ -104,7 +102,7 @@ split into smaller sizes.
 The encoder chooses the minimum allowed CU size based on the syntax in
 the sequence parameter sets (SPS).
 For luma CU samples, the minimum allowed size is larger than or equal to
-$8\times8$.
+\(8\times8\).
 The encoder first needs to make the basic decision of whether to code a
 block with inter-picture or intra-picture prediction at CU level.
 After that the best mode of the intra-picture prediction is

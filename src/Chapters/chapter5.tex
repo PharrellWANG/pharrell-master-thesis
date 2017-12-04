@@ -14,7 +14,7 @@ are presented with discussions.
 %3D Video applications are attracting more interests
 %%----------------------------------------------------------------------------------------
 %
-\section{Analysis and Optimisation for Prediction Time}\label{sec:analysis-and-optimization}
+\section{Analysis and Optimization for Prediction Time}\label{sec:analysis-and-optimization}
 % In C++ APIs from Tensorflow version 1.1, if we want to run the prediction,
 % a unique session has to be initialized in which the predicting activities 
 % take place.
@@ -142,22 +142,27 @@ neural networks.
 
 \section{Results of Experiments}\label{sec:simu-results}
 The experiments are conducted on four video sequences shown in
-Table~\ref{tab:data-for-experiments} on
-page~\pageref{tab:data-for-experiments} to make sure every sample
+Table~\ref{tab:data-for-experiments} 
+% on page~\pageref{tab:data-for-experiments} 
+to make sure every sample
 that will be predicted has never been seen by the learned models.
-Two metrics of \textbf{BD-BR} in~\parencite{RN234} and \textbf{BD-PSNR}
-in~\parencite{RN235}
-are used in the evaluations for the objective quality
-of reconstructed videos.
-\textbf{BD-BR} calculates the differences on average for
-the RD curve of the synthesis views and the overall bitrate 
-for all the frames in the video sequences.
+Two metrics including \textbf{BD-BR} from~\parencite{RN234} and \textbf{BD-PSNR}
+from~\parencite{RN235}
+are used in the evaluations for the proposed fast 
+depth coding algorithm.
+\textbf{BD-BR} calculates the average difference between
+Rate Distortion curves of two sets of synthesized views
+where one set of views are synthesized from 
+the reconstructed views from original encoder while 
+the other set of views are synthesized from 
+the reconstructed views from the encoder powered by
+deep learning.
 \textbf{BD-PSNR} is employed to assess the subjective 
 quality of synthesized views.
 The common test condition defined
 in~\parencite{common-test-condition}
-is used.
-All the frames from the four video sequences in experiments 
+is used in our experiments.
+All the frames from four video sequences in experiments 
 are encoded as I-Frames.
 \begin{table}[!htbp]
     \caption{Video sequences used for experiments}
@@ -220,15 +225,27 @@ presents the time saving for total encoding and the coding performance.
 \end{table}
 
 From the experimental statistics shown in the two tables above,
-our algorithm can provide astonishing time saving for DMM1
-wedgelet searching while the \textbf{BD-BR} has a little increase.
-It is noticed that the \textbf{BD-PSNR} almost kept unchanged comparing 
-with the original implementation from the reference software.
-Convolutional neural networks
-was trying their best to maintain the originality of the
-pixel blocks that they have seen.
+our fast depth coding algorithm achieves
+an average time reduction of 64.6\% in wedgelet searching 
+during 3D-HEVC encoding
+while the BD performance only has a trivial decrease.
+It is noticed that the values of \textbf{BD-PSNR} almost stayed
+unchanged comparing
+with the original implementation from the reference software
+of 3D-HEVC\@.
+The models trained by deep learning
+were trying their best to keep the originality of the
+pixel blocks that they have seen during the encoding process.
+However, the learned models have no idea of how to
+adjust their prediction results by taking the bitrate
+into consideration.
 For this reason, the perceptual visual qualities of the videos
-are well reserved.
-The time saving for the whole encoding process is lower than 
-the time saving for DMM1 but still it has achieved a good result 
+are well reserved while the performance on bitrate
+decreased a little as 
+a penalty.
+In each single encoding activity for a video sequence, 
+the time saving for the whole encoding process is lower than 
+the time saving for DMM1 but still the overall results
+achieved by the proposed fast depth coding algorithm
+can be considered as excellent when
 comparing with the original implementation of 3D-HEVC\@.

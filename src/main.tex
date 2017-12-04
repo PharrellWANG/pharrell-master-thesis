@@ -107,43 +107,45 @@ linkcolor=black,  %choose some color if you want links to stand out
     (JCT-VC) in February 2015, is the new industry standard for 3D applications.
     The 3D-HEVC provides plenty of advanced coding tools specifically
     for addressing the coding of auto-stereoscopic videos which have the format
-    of multiple texture views along with the depth maps which are responsible
-    for synthesising intermediate views with sufficient quality for
+    of multiple texture views plus depth maps which are responsible
+    for synthesizing intermediate views with sufficient quality for
     auto-stereoscopic display.
     The provided tools take advantage of the statistical redundancies amongst
     texture views and depth maps in the video sequences, as well as the unique
-    characteristics of depth maps to significantly shrink the bit-rate
+    characteristics of depth maps to significantly shrink the bitrate
     while preserving the objective visual quality of the
     3D videos.
-    However, those tools with high capability in terms of compression come
-    with the high complexity of computation which has made the encoding time
+    However, those tools with high capabilities in terms of compression come
+    with high complexity of computation which has made the encoding time
     of the 3D video sequences much longer than ever by traversing a lot more
     candidates, calculating time-consuming RD Cost for each of them,
-    especially in the wedgelet searching process for depth maps.
-    While this full-search style method can promise to find the best
-    candidate in depth intra mode decision, the time cost is expensive.
+    especially in the DMM1 wedgelet searching for depth maps.
+    Although method with the style of full-search is able to find the best
+    mode candidate in depth intra mode decision, the time cost is expensive
+    for it to be applied in real applications.
 
-    In this dissertation we address the time cost by presenting a new
-    intra mode decision method for depth maps, leveraging the deep
-    convolutional neural networks to predict the wedgelet angles
-    for the depth blocks.
+    In this dissertation we address the aforementioned time cost issue by a new
+    intra mode decision algorithm for depth maps, leveraging 
+    deep learning to predict the intra angles 
+    in depth map coding.
     The predictions from the learned models are capable of
-    reducing the number of wedgelet candidates by half as well as the
-    angular modes in depth map coding.
+    reducing the number of wedgelet candidates by half.
     The size of the neural network has been carefully designed to balance
-    the trade-off between the time cost of model prediction and the model prediction
-    accuracy.
-    Confusion matrix is used to monitor the training process.
-    Top-k criteria is employed for the prediction.
-    We have integrated the learned models into the reference software of
-    3D-HEVC for the experiments.
+    the trade-off between the complexity and accuracy in the model prediction.
+    Validation precision and confusion matrix are used to monitor 
+    the model training process.
+    Top-k metric is adopted to make use of the predictions
+    from the learned models.
+    We have integrated learned models into the reference software of
+    3D-HEVC for experiments.
     The compiled executable binaries are able to harness
-    the power of the simultaneous computation of CPU, as well as
-    the parallel computation of GPU to accelerate the predictions.
-    The simulation results show that the proposed algorithm
+    the power of simultaneous computation of CPU, as well as
+    parallel computation of GPU to accelerate the predictions.
+    The simulation results show that the proposed 
+    fast depth coding algorithm
     provides 64.6\% time reduction in average while the
-    BD performance has a tiny decrease comparing with the state-of-the-art 3D-HEVC
-    standard.
+    BD performance has a trivial decrease comparing with 
+    the state-of-the-art 3D-HEVC standard.
 
     \prefacesection{Acknowledgments}
 %    I would not be able to accomplish the work in this dissertation
@@ -172,9 +174,12 @@ linkcolor=black,  %choose some color if you want links to stand out
     and Jacky, for our
     extensive discussions about artificial intelligence
     and their applications.
+    Special thanks to Sue, for all the good times
+    we have been together which are indispensable
+    memories that shines all the time in my life.
     Thank you my parents, for the great love and constant
-    encouragement which give me confidence to face and handle all the
-    challenges at every moment.
+    encouragements which make me bursting with confidence 
+    to handle the challenges in life and research.
     \afterpreface
     \include{Chapters/chapter1}
     \include{Chapters/chapter2}

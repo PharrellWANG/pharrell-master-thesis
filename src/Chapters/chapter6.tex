@@ -4,24 +4,25 @@
 %%----------------------------------------------------------------------------------------
 %
 In this dissertation we have presented a fast
-intra mode decision algorithm for depth maps to
-address the time cost issue of depth map coding, leveraging 
+intra mode decision algorithm to
+address the time cost issue of depth map coding
+in 3D-HEVC, leveraging 
 the learned models, which are constructed from deep
 convolutional neural networks, to predict the wedgelet angles
 for the CUs in the depth maps.
 The predictions from the learned models are capable of
-reducing the number of intra candidates by half for both
-conventional intra angular modes and DMM1 wedgelets in depth map coding.
+reducing the number of DMM1 wedgelet candidates by half.
 The size of the neural network has been carefully designed to balance
-the trade-off between the time cost of model prediction and the model prediction
-accuracy.
-Confusion matrix is at the core of the stopping criteria.
-Top-k criteria is utilized to perform the prediction.
+the trade-off between complexity and accuracy of model prediction.
+Validation precision and confusion matrix are 
+at the core of the stopping criteria.
+Top-k metric is adopted to make use of the predictions
+from the learned models.
 The learned models are integrated into the reference software of
 3D-HEVC for the simulations.
 The compiled executable binaries are able to harness
-the power of the simultaneous computation of CPU, as well as
-the parallel computation of GPU to accelerate the 
+the power of simultaneous computation of CPU, as well as
+parallel computation of GPU to accelerate the 
 predictions.
 The simulation results show that the proposed algorithm
 provides 64.6\% time reduction in average 
