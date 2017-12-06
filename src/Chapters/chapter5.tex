@@ -3,17 +3,15 @@
 %
 %%----------------------------------------------------------------------------------------
 %
-After obtaining the learned models which exhibit desired behavior, 
+After we have obtained the learned models 
+which exhibit desired behaviors, 
 their integration into the reference software is carried out.
 In this chapter, the time cost of the model prediction
 is analyzed and optimizing methods are described.
 After that we explain the details of the algorithm for integration.
-In the end of the chapter the results of experiments 
+Lastly the results of experiments 
 are presented with discussions.
 
-%3D Video applications are attracting more interests
-%%----------------------------------------------------------------------------------------
-%
 \section{Analysis and Optimization for Prediction Time}\label{sec:analysis-and-optimization}
 % In C++ APIs from Tensorflow version 1.1, if we want to run the prediction,
 % a unique session has to be initialized in which the predicting activities 
@@ -28,7 +26,7 @@ than the encoder without neural engine.
 We found that the idea of one prediction for one block actually
 introduces a problem that impedes the integration to work as expected:
 a new session is initialized for a prediction, and the initialization
-for a single session in Tensorflow C++ APIs actually is very time
+for a single session in Tensorflow C++ APIs is really time
 expensive.
 The other idea which is a better way would be a single 
 session for a batch of blocks.
@@ -60,10 +58,10 @@ Table~\ref{tab:seesion-init-plain-cpu}.
     \centering
     \begin{tabular}{c c c c c}
         \toprule
-        \# & Idea & Plain CPU & AVX and SSE4.2 & AVX, SSE4.2 and GPU \\
+        \# & Idea & Plain CPU & AVX,SSE4.2 & AVX,SSE4.2,GPU \\
         \midrule
-        1 & initialize 1 session for 12288 blocks & 21.37s &15.56s&2.03s \\
-        2 & initialize 12288 sessions for 12288 blocks & 47.81s &33.91s&55.26s\\
+        1 & init 1 session for 12288 blocks & 21.37s &15.56s&2.03s \\
+        2 & init 12288 sessions for 12288 blocks & 47.81s &33.91s&55.26s\\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -110,7 +108,7 @@ of size \(8\times8\) and \(16\times16\), 2 candidates
 for blocks of size \(32\times32\).
 After SATD, the best prediction of the block
 is utilized to construct a range of slopes.
-Denote the number of the top-1 mode from the model 
+Denote the index of the top-1 mode from the model 
 prediction as \(N_1\), a slope range will be constructed 
 using the angular modes within \([N_1-7, N_1+7]\), where
 the two boundaries are inclusive.
@@ -124,9 +122,9 @@ The DMM1 refinement following the coarse search is unmodified.
 In the end, the best mode for the
 depth map to be coded in the encoding process will
 be obtained.
-This algorithm can reduce the wedgelets to be evaluated by 
-roughly half.
-Besides, as a bonus, the conventional intra 
+This algorithm can reduce the number of wedgelet candidate by 
+half.
+Besides, the conventional intra 
 angular mode decision for depth maps is also
 accelerated using the same prediction from 
 neural networks.
@@ -240,12 +238,12 @@ However, the learned models have no idea of how to
 adjust their prediction results by taking the bitrate
 into consideration.
 For this reason, the perceptual visual qualities of the videos
-are well reserved while the performance on bitrate
+are well preserved while the performance on bitrate
 decreased a little as 
 a penalty.
 In each single encoding activity for a video sequence, 
-the time saving for the whole encoding process is lower than 
-the time saving for DMM1 but still the overall results
+the time saving percent for whole encoding process is lower than 
+the time saving percent for DMM1 but still the overall results
 achieved by the proposed fast depth coding algorithm
 can be considered as excellent when
 comparing with the original implementation of 3D-HEVC\@.

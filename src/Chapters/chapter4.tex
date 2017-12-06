@@ -96,15 +96,6 @@ of the residual units in which the identity mapping
 is implemented by shortcut connections from 
 the beginning of the block
 to the end of the same block.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/basic-resnet-structure.pdf}
-    \caption[Two types of the residual units]{
-        Two types of the residual units are shown here.
-        BN stands for Batch Normalization while
-        Relu stands for Rectified Linear Unit.
-        }\label{fig:basic-resnet-structure}
-\end{figure}
 
 The architecture of the deep convolutional neural 
 network used for intra mode prediction in our work
@@ -121,36 +112,80 @@ Batch Normalization is employed to regularize
 data inputs to each of the layers.
 The activation function is the most popular one named Relu.
 After all the convolutional layers, global average pooling
-has been performed before the fully-connected layer which 
-is responsible for telling the prediction results.
+has been performed before the fully-connected layer.
 For each of the neurons in the fully-connected layer,
 the softmax function is applied to calculate 
 the probability which tells how likely
 the class corresponding to that neuron is the truth.
-The softmax equation with normalization is shown below:
+The softmax equation is
 \begin{equation}
-    softmax(L_n) = \displaystyle\frac{e^{L_n}}{\displaystyle\sum_{m} e^{L_m}} = \displaystyle\frac{e^{L_n - L_{max}}}{\displaystyle\sum_{m} e^{L_m-L_{max}}}
+    Y_m = softmax(L_m) = \displaystyle\frac{e^{L_m}}{\displaystyle\sum_{a}^{A} e^{L_a}}
 \end{equation}
-where \(L_n\) is the weighted sum of all pixels
-(that are connected to a single neuron), then adds a bias:
+% {n=1}^{\infty}
+where \(A\) denotes the total number of classes, and \(L_m\) is the weighted sum of all related pixels adding a bias:
 \begin{equation}
-    L_n = \mathbf{X}\cdot\mathbf{W} + b
+    L_m = X_m\cdot W_m + b
 \end{equation}
-where the \(\mathbf{X}\) denotes a 2D matrix
-of input data, \(\mathbf{X}\) denotes the weights matrix
-and \(b\) is the bias.
-During training, the outputs \(Y_i\) from softmax layer
+% where the \(\mathbf{X}\) denotes a 2D matrix
+% of input data, \(\mathbf{W}\) denotes the weights matrix
+% and \(b\) is the bias.
+During training, the output \(Y_i\) from softmax layer
 will be fed into the cross-entropy loss function:
 \begin{equation}
     \label{eq:entropy}
-    E_{\mbox{\tiny xentropy}} = -\sum_i Y_i^{'} \log Y_i
+    E_{\mbox{\tiny xent}} = -\sum_i T_i \log Y_i
 \end{equation}
-where \(Y_i^{'}\) is the true label of each class.
+where \(T_i\) is the true label of each class.
 % The cross-entropy loss function will be utilized in
 % each of the training steps
-Each of the training steps will try to minimize the
-cross entropy loss function, during which the learning
-happens.
+The learning happens when each of the training steps 
+tries to minimize the cross entropy loss function
+using backpropagation.
+
+In the backpropagation, we first calculate the
+gradient for weights in the last layer (a.k.a\ top layer):
+% \begin{equation}
+\begin{align}
+    \frac{\partial E_{\mbox{\tiny xent}}}{\partial W_{nm}} &= \frac{\partial E_{\mbox{\tiny xent}}}{\partial L_m} \cdot \frac{\partial L_m}{\partial W_{nm}}\\
+    &= \sum_{r}^{A} \frac{\partial E_{\mbox{\tiny xent}}}{\partial Y_r} \cdot \frac{\partial Y_r}{\partial L_m} \cdot X_m\\
+    &= (\frac{\partial E_{\mbox{\tiny xent}}}
+            {\partial Y_m} 
+        \cdot 
+        \frac{\partial Y_m}
+        {\partial L_m} 
+        + 
+        \sum_{m\neq r}
+        \frac{\partial E_{\mbox{\tiny xent}}}
+        {\partial Y_r} 
+        \cdot 
+        \frac{\partial Y_r}{\partial L_m} )\cdot X_m\\
+    &= (- \frac{T_m}{Y_m} \cdot Y_m \cdot (1-Y_m) + \sum_{m\neq r}\frac{-T_r}{Y_r}\cdot(-Y_r\cdot Y_m)) \cdot X_m\\
+    &= (-T_m\cdot(1-Y_m) + \sum_{m\neq r} T_r\cdot Y_m) \cdot X_m\\
+    &= (-T_m + T_m\cdot\ Y_m + \sum_{m\neq r} T_r\cdot Y_m) \cdot X_m\\
+    &= (-T_m + \sum_r T_r\cdot Y_m) \cdot X_m\\
+    &= (-T_m + Y_m \sum_r T_r) \cdot X_m\\
+    &= (-T_m + Y_m) \cdot X_n
+\end{align}
+% \end{equation}
+At this time, a fraction of the gradient will be used 
+to update the weights and biases
+in the network.
+Moreover, For neurons in the hidden layer \(p\):
+\begin{align}
+    \frac{\partial E_{\mbox{\tiny xent}}}{\partial L_p} &= \frac{\partial E_{\mbox{\tiny xent}}}{\partial L_m} \cdot \frac{\partial L_m}{\partial X_p} \cdot \frac{\partial X_p}{\partial L_p}\\
+    &= (Y_m - T_m)\cdot W_{pm} \cdot (X_p\cdot(1-X_p))
+\end{align}
+The rest gradient calculations can be derived in the similar manner.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/basic-resnet-structure.pdf}
+    \caption[Two types of the residual units]{
+        Two types of the residual units are shown here.
+        BN stands for Batch Normalization while
+        Relu stands for Rectified Linear Unit.
+        }\label{fig:basic-resnet-structure}
+\end{figure}
 
 \begin{figure}
     \centering
@@ -163,22 +198,28 @@ happens.
 \end{figure}
 
 \section{Settings of the Network}\label{sec:config}
-In this section, the hyper-parameters that are
-used for deep learning are given.
+In this section, the hyper-parameters, which have been
+used for deep learning, are given.
 The configurations are fine-tuned results against the validation
 datasets shown in Table~\ref{tab:finalized-eight-by-eight}
 and Table~\ref{tab:finalized-sixteen-by-sixteen} to achieve the
 best performance.
 
-It is interesting to notice that inside this network, 
+It is interesting to notice that in this network, 
 the size of any reception field
-is always \(3\times3\) since it is found in~\parencite{RN62}
+is always \(3\times3\).
+It is found in~\parencite{RN62} that
 larger kernel can be factorized into smaller kernels.
 A kernal with such a size is the smallest
 field which is capable of capturing the positional
 information~\parencite{RN107}.
-All the strides are set to be one which means
-no down-sampling will be performed. 
+All the strides are set to be one, which means
+no down-sampling will be performed.
+The depth CU,
+which can be classified as DMM1 mode, is essential
+a feature if it is taken as a whole, therefore
+there is no need to down-sampling
+the CU into a smaller size.
 Hence the output size of each convolutional layer
 will not be changed.
 % The network configuration is shown in Table~\ref{tab:xxxx}.
@@ -197,7 +238,7 @@ while \(\mathit{n}\) denotes the number of filters
 in the corresponding convolutional layer.
 The weights of the kernels are regularized by
 a decay of \(0.0002\).
-No transfer learning is used which means all the learnable 
+No transfer learning is used, which means all the learnable 
 parameters are trained from scratch.
 The batch size used for training is 128.
 The loss function used is cross-entropy which has
@@ -225,11 +266,11 @@ Table~\ref{tab:lr-policy}.
 \end{table}
 
 \section{Stopping Criteria and Training Result}\label{sec:training}
-During the training process, we keep eyes on 
+During training, we keep eyes on 
 various statistics to ensure the network is
 truly learning high dimensional representations 
 instead of being trapped
-in an undesired status where nothing can be
+in a undesired status where nothing can be
 learned.
 Tensorflow~\parencite{tensorflow2015-whitepaper} has 
 been used in this work to implement the 
@@ -238,7 +279,7 @@ It has its own dedicated suite of visualization
 tools named Tensorboard which is very helpful 
 with understanding and monitoring the training process.
 It has been configured to record the top-k precision
-on the validation datasets during our training process.
+on the validation datasets during training.
 
 Figure~\ref{fig:top20for4times4} 
 on page~\pageref{fig:top20for4times4}
@@ -294,7 +335,7 @@ size \(16\times16\) has been reused.
 The blocks of size \(32\times32\) are resized
 to \(16\times16\) using Bilinear Interpolation.
 
-Apart from observing the validation precision,
+Apart from monitoring validation precision,
 confusion matrix is the other useful criteria 
 to help making decision on when to stop the 
 training.
@@ -362,10 +403,10 @@ fall in the top-k predictions.
 
 \section{Evaluate the Learned Models}\label{sec:eval-section}
 Two models have been obtained after the training process.
-One of the models is is trained from blocks of size \(8\times8\) and 
-applied for blocks with the same size.
+One of the models is trained from blocks of size \(8\times8\) and 
+is applied to blocks with the same size.
 The other one is trained from blocks of size \(16\times16\), however, 
-it is applied for blocks of size \(16\times16\) and size \(32\times32\).
+it is applied to blocks of size \(16\times16\) and size \(32\times32\).
 The top-k precision on testing datasets for various 
 block sizes is reported in
 Table~\ref{tab:valprecision} 
@@ -384,31 +425,29 @@ Area Interpolation,
 have been tried.
 It turns out the differences among 
 the four resizing methods are so trivial
-in terms of the prediction accuracies.
+in terms of the prediction accuracy.
 Here Bilinear Interpolation
-is chosen to be applied in our work.
-
+has been chosen to be applied in our work.
 It can be observed that starting from top-14,
 the error rates are all below \(10\% \).
 And the model learns well for larger block sizes.
 When the models are integrated to the encoder,
 if a larger value of \(\mathbf{k}\) is used, 
 fewer modes can be excluded which can 
-lead to a small time reduction in the encoding process.
+result in a small time reduction in the encoding process.
 In the contrary, if smaller value of \(\mathbf{k}\) is used,
 the prediction accuracy may not be high enough
 to ensure the encoder performance.
 In our work top-15 has been adopted which 
-is responsible of balancing
+is responsible for balancing
 the trade-off between coding performance and 
 the time cost in the encoder.
 
 
 
 \begin{table}
-    \caption{the confusion
-matrix after 396 epochs of training for blocks
-of size \(16\times16\)}
+    \caption{Top-k precision on testing datasets for various 
+    block sizes}
     \bigskip\label{tab:valprecision}
     \centering
     \begin{tabular}{c c c c c}
@@ -438,10 +477,8 @@ of size \(16\times16\)}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/topkPrecisions.pdf}
-    \caption[the confusion
-matrix after 396 epochs of training for blocks
-of size \(16\times16\)]
-    {the confusion
-matrix after 396 epochs of training for blocks
-of size \(16\times16\)}\label{fig:topkPrecisions}
+    \caption[Top-k precision on testing datasets for various 
+    block sizes]
+    {Top-k precision on testing datasets for various 
+    block sizes.}\label{fig:topkPrecisions}
 \end{figure}
