@@ -7,29 +7,34 @@ It only works when a considerably large set of data can be provided.
 Since we are using supervised learning which is the most
 popular form of deep learning for the time being, our datasets
 must be well labeled.
-A large dataset can contain enormous and different classes,
+Normally a large dataset contains enormous yet different classes,
 with each class has its own label.
-The labels are used to adjust the inner parameters of a pre-constructed
-deep model according to the pre-defined loss function during the training
+The labels are used to adjust the inner parameters of a
+deep model according to the loss function during the training
 process.
 We need to prepare a large set of labeled data before 
-model training will begin.
-In this chapter, we start with the data collection, in which the data source
+we can start to train the deep model.
+In this chapter, we start with data collection, in which data source
 and algorithm for collecting data are shown in details.
-After that the necessary pre-processing steps for the collected data are described.
-Furthermore, plenty of visualizations for the collected raw data are presented with
-discussion explaining the reason for the data pre-processing.
+After that the necessary pre-processing steps for the collected 
+data are described.
+Lastly plenty of visualizations for the collected raw data 
+are presented with
+discussions explaining the reason for the data pre-processing.
 
 \section{Data Collection}\label{sec:data-collection}
 To collect the data for training a deep model to predict the most probable
-intra angular directions for depth CUs, we need to identify two questions:
-One is where does the data come from?
-The other is how to collect the data from the source?
-In this section, the two questions are answered one by one.
+intra angular directions for depth CUs, we need to clear up two questions:
+\begin{itemize}
+    \item 1. Where does the data come from?
+    \item 2. How to collect the data from the source?
+\end{itemize}
+In this section, above two questions are answered one by one.
 
 \subsection{Source of Data}\label{subsec:source-of-data}
 The data are collected from four video sequences as shown in
-Table~\ref{tab:data-source}.
+Table~\ref{tab:data-source}
+on page~\pageref{tab:data-source}.
 \begin{table}[!htbp]
     \caption{Source of data for deep learning}
     \bigskip\label{tab:data-source}
@@ -48,19 +53,20 @@ Table~\ref{tab:data-source}.
 Balloons sequence and Kendo sequence are of the resolution \(1024\times768\)
 while Poznan Street sequence and Undo Dancer sequence are 
 of the resolution \(1920\times1088\).
-All the available frames from the above four video sequences 
+All the available frames from above four video sequences 
 are used to collect data.
 The collected data for each sequence will be separated into three sets
 for training, testing and validating in deep learning.
-The training data sets are used for the deep model to learn the desired
+The training data set is used for deep model to learn the desired
 representations by the back-propagation algorithm~\parencite{RN204},
-during which the inner parameters typically weights and bias are adjusted
+during which the inner parameters, which typically are 
+weights and bias, are moving
 along the gradient descent direction.
 After the learned model will be obtained, the validating datasets are used to
-fine turn the hyper-parameters.
-With the reasonably adjusted hyper-parameters, the training process will be
-performed again to find better inner parameters for neural networks.
-After certain loops of the train-validate schedule, the testing datasets will
+fine-tune the hyper-parameters.
+With reasonably adjusted hyper-parameters, the training process will be
+performed again to obtain a better model.
+After certain loops of the train-validate schedule, the testing dataset will
 be used to evaluate the final learned model which by then
 shall not be further turned any more.
 After learned model will be applied to the testing datasets, the performance
@@ -68,11 +74,12 @@ results of evaluation can indicate the generalization of the learning model.
 
 \subsection{Algorithm for Collecting Data}\label{subsec:collecting-method}
 In this subsection, the algorithm used for collecting data are presented.
-We collect data by encoding four video sequences shown in
-Table~\ref{tab:data-source} from the coding unit (CU) level.
+We collect data from coding unit (CU) level 
+by encoding four video sequences shown in
+Table~\ref{tab:data-source}.
 Most of the hybrid video coding features from HEVC remain unchanged
 in 3D-HEVC, including the sizes allowed for each type of block.
-There are totally four types of blocks, namely coding tree unit (CTU),
+There are totally four types of blocks, i.e., coding tree unit (CTU),
 coding unit (CU), prediction unit (PU) and transform unit (TU).
 Table~\ref{tab:allowed-sizes-of-each-type-of-block} shows the allowed sizes
 for each type of block.
@@ -95,34 +102,34 @@ for each type of block.
 A CTU itself can be used as a single CU while in some scenarios it can
 be split into multiple CUs~\parencite{RN46}.
 CU sits on top the PU partition structure.
-CU can be partitioned to form TUs recursively in residual coding.
-The maximum coding unit (CU) size in 3D-HEVC is 64.
 The quad-tree splitting syntax allows CUs of largest size to be further
 split into smaller sizes.
-The encoder chooses the minimum allowed CU size based on the syntax in
+CU can be partitioned to form TUs recursively in residual coding.
+The maximum coding unit (CU) size in 3D-HEVC is \(64\times64\).
+The encoder selects the minimum allowed CU size based on the syntax in
 the sequence parameter sets (SPS).
-For luma CU samples, the minimum allowed size is larger than or equal to
+For Luma CU samples, the minimum allowed size is larger than or equal to
 \(8\times8\).
 The encoder first needs to make the basic decision of whether to code a
 block with inter-picture or intra-picture prediction at CU level.
 After that the best mode of the intra-picture prediction is
 obtained at PU level.
-The maximum block size allowed for DMM1 is $32\times32$ while the
-minimum block size allowed is $4\times4$.
+The maximum block size allowed for DMM1 is \(32\times32\) while the
+minimum block size allowed is \(4\times4\).
 Hence we need to collect data for each block size from 
-$4\times4$, \(8\times8\), $16\times16$ to $32\times32$.
-To collect the data, we first need to identify
+\(4\times4\), \(8\times8\), \(16\times16\) to \(32\times32\).
+To collect data, we first need to identify
 to which part in the reference software
 we should insert the data collecting module.
-Since supervised learning is chosen,
+Since supervised learning has been chosen,
 labels for data samples are also required to be collected.
-The label is the best mode that has been chosen by the \(HTM16.2\) encoder.
-The diagram in Figure~\ref{fig:data-collection-diagram} illustrates
-the relationships among the core modules for data collection.
+The label is the best mode that has been chosen by \(HTM16.2\) encoder.
+Figure~\ref{fig:data-collection-diagram} illustrates
+the relationships among the core modules for collecting data.
 The rectangular blocks with light blue background are the modules from
-\(HTM16.2\) while others are the newly added modules for data collection.
+\(HTM16.2\) while others are the newly added modules.
 In the module of \emph{compressCtu}, the encoder recursively invokes
-anther module named \emph{xCompressCtu} which is not on the diagram to
+anther module named \emph{xCompressCtu}, which is not on the diagram, to
 try different kinds of CU, PU, TU and to decide the best mode for them.
 Once the \emph{compressCtu} module will be finished, all the needed
 data can be obtained in the \emph{encodeCtu Before SAO} module.
@@ -135,13 +142,12 @@ data can be obtained in the \emph{encodeCtu Before SAO} module.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/flattern-pixels-into-single-line.pdf}
-    \caption[Flattern Luma samples into one line and append best mode at the end]{Flattern Luma samples into one line and append best mode at the end.}
-    \label{fig:flattern-data-into-one-dimension}
+    \caption[Flattern Luma samples into one line and append best mode at the end]{Flattern Luma samples into one line and append best mode at the end.}\label{fig:flattern-data-into-one-dimension}
 \end{figure}
 During the data collecting process, only Luma samples in depth blocks
 are used since we are trying to
-reduce the computational complexity of DMM1.
-Moreover, as shown in Figure~\ref{fig:flattern-data-into-one-dimension} 
+reduce the computational complexity of depth map encoding.
+As shown in Figure~\ref{fig:flattern-data-into-one-dimension} 
 on page~\pageref{fig:flattern-data-into-one-dimension},
 the Luma samples are flattened from rectangle CU blocks into
 a single row which will be subsequently written into associated CSV file.
@@ -258,23 +264,25 @@ on page~\pageref{algo:collect-data}.
     }}}}
  \caption{Collect data}\label{algo:collect-data}
 \end{algorithm}
-The inputs to the data collecting workflow are exactly the inputs to
-the module of \emph{encodeCtu}, namely the CU data structure,
-the absolute partition index and the corresponding quad-tree depth.
-Firstly, the partition mode of the CU is obtained which can further indicate
-the partition number to either be one or four.
-After that, based on the partition number, the best modes for blocks
-are stored into an four dimensional array of integer values within the range
-from 0 (inclusive) to 36 (inclusive).
-If the partition number is equal to one, which means the current CU has not
-been split and it has its own best mode.
-The luma pixel samples of this block are collected into a single row in the
+The inputs (i.e., the CU data structure,
+the absolute partition index and the corresponding quad-tree depth)
+to the data collecting workflow are exactly the inputs to
+the module of \emph{encodeCtu}.
+Firstly, the partition mode of the CU, which can further indicate
+the partition number to either be one or four, is obtained.
+After that, 
+% based on the partition number, the best modes, which are
+% within the range of 0 (inclusive) to 36 (inclusive),
+% are stored into an array of integer values.
+if the partition number is equal to one, which means the current CU has not
+been split and it has its own best mode, 
+the luma pixel samples of this block are collected into a single row in the
 CSV file.
-In the end of the same row, the best mode of the CU is signaled.
-If the partition number is equal to four, which means the current CU has been
+In the end of the same row, the best mode of the CU is signaled;
+else if the partition number is equal to four, which means the current CU has been
 split to form four smaller sub-blocks with each sub-block has its
-own best mode.
-The luma samples for each sub-block are collected into four different rows
+own best mode, the luma samples for each sub-block are collected into 
+four different rows
 in the CSV file with the last value in each row to be the best mode for each
 sub-block.
 \(HTM16.2\)~\parencite{RN214} is used in this work, which is the newest
@@ -285,7 +293,7 @@ All-Intra configuration is used.
 \section{Data Visualization}\label{sec:data-visu}
 Visualizing data is a good way for human to better understand
 and memorize information. 
-Complex patterns hidden in the data are easier to be discovered when they 
+Complicated patterns hidden in the data are easier to be discovered when they 
 are aesthetically presented via the graphical format.
 % We visualize the collected data to understand them
 % more clearly.
@@ -295,31 +303,30 @@ discovering more information from them.
 % ;Showing visualizations for four sets of 
 % Due to the large quantity of the data from the visualization perspective,
 % based on the observations.
-Discussions based on the observations of the visualized blocks
-are given, which convince us about the necessity of data 
+Discussions based on the observations of visualized blocks,
+which have convinced us of the necessity of data 
 pre-processing in Section~\ref{sec:data-preprocessing} before 
-training the deep models.
+training the deep models, are given.
 
 \subsection{Visualized Data}\label{subsec:see-data-visu}
 We have four sets of data which are from blocks of size
-\(4\times4\), \(8\times8\), \(16\times16\) to \(32\times32\).
+\(4\times4\), \(8\times8\), \(16\times16\) and \(32\times32\).
 % However, only the part of the visualization for data of block 
 % size \(8\\times8\) are presented in this section due to the 
 % below considerations:
 The intra prediction modes in 3D-HEVC include
-DC mode, Planar mode, 33 angular modes, DMM1 and DMM4.
+DC mode, PLANAR mode, 33 angular modes, DMM1 and DMM4.
 In this thesis, several indices are assigned to each mode:
-0 for DC mode, 1 for Planar mode, {[2,34]} for 33 angular modes, 35
+0 for DC mode, 1 for PLANAR mode, {[2,34]} for 33 angular modes, 35
 for DMM1 and 36 for DMM4.
 
 After all the four sets of data have been visualized,
 it is found that four corresponding sets of visualizations
-give the same hints as discussed in
+give same hints which are discussed in
 Subsection~\ref{subsec:discussion-about-data-visu}.
-Besides, to avoid too much visualizations' occupation of the thesis,
-only the visualizations of blocks of size $8\times8$
+For this reason, only the visualizations of blocks of size \(8\times8\)
 are shown.
-There are totally 37 figures presented,
+There are totally 37 visualizations presented,
 from Figure~\ref{fig:size8_mode0}, Figure~\ref{fig:size8_mode1},
 \ldots to Figure~\ref{fig:size8_mode36}.
 
@@ -609,67 +616,72 @@ from Figure~\ref{fig:size8_mode0}, Figure~\ref{fig:size8_mode1},
     \end{figure}
 
 \subsection{Discussion}\label{subsec:discussion-about-data-visu}
-From the visualizations of blocks of size $8\times8$,
+From the visualizations of blocks of size \(8\times8\),
 it is found that within blocks of each single angular mode,
 part of them have sharp edges that can 
-be easily perceived by human sights while the others 
+be easily perceived by human while the others 
 are very smooth such that their edges can not be clearly seem
 unless they are enlarged by multiple times.
 When blocks with such a mixed style are fed into the 
 convolutional neural networks, the prediction accuracy
-of the constructed computational model
 is always not ideal enough to be used
 inside the reference software of 3D-HEVC\@.
 However, the same model learns well on other 
 benchmark datasets such as 
 MNIST~\parencite{XRN001} and CIFAR~\parencite{XRN002}.
-There exist two explanations to this phenomenon.
-One is that the mix of the extreme smoothness and
-clear sharpness inside each single intra prediction mode
+There are two explanations to this phenomenon.
+One is that the mix of extreme smoothness and
+clear sharpness inside blocks of each single 
+intra prediction mode
 yields impure datasets such that the neural networks
 are not able to figure out the intrinsic abstractions
 layer by layer.
 The other is that our network size is not deep enough
 to have the capability of learning representations 
-for such a mixed style, and meanwhile, the size of 
-the dataset cannot satisfy larger networks
-due to the limited features available in the 
+for such a mixed style. 
+Meanwhile, the size of 
+the dataset cannot satisfy large networks
+due to the limited information in the 
 training dataset.
-The limited size of the collected data means that
-there is no chance of trying to train the deep learning
-model with a much more rich datasets currently.
+The size of collected data is not abundant such that
+there is no chance of feeding a large dataset
+to the computational model for the time being.
 Moreover, larger neural networks require more 
 computational power which can be very expensive.
 Combining the two considerations above, 
 eliminating extreme smoothness is the way to go,
 by which the blocks with vague edges are removed
-from the datasets.
+from datasets.
 
-Special attentions need to be given to
-mode DC, PLANAR, DMM1 and DMM4.
-For DC mode and PLANAR mode, since most of their blocks
-still have weak edges with various patterns, 
+Mode DC, PLANAR, DMM1 and DMM4 need special attention.
+For DC and PLANAR, since most of their blocks
+have weak edges with patterns that look
+very similar to angular modes,
 intuitively it seems not practical to require 
 neural network to learn to 
 distinguish them from angular modes.
-For DMM1 which is specially designed for depth maps, 
+For DMM1 which is particularly designed for depth maps,
 it is noticed that lots of their
-blocks contain sharp edges with arbitrary angles.
+blocks contain straight edges with arbitrary positions.
 Hence the learned model may predict DMM1 into any
 of the 33 angular modes according to the angle of
 the partition line in DMM1 blocks.
-And DMM4 which is another dedicated mode for depth maps,
-most of their blocks feature contour partitions instead of
-straight lines while still some contours cannot show 
-their clear characteristics that can discriminate themselves
-from angular modes with some curvilinear distortions.
+DMM4 is another dedicated mode for depth maps.
+Most of their blocks feature contour partitions instead of
+straight lines.
+Some contours nevertheless cannot show 
+their clear characteristics that can 
+discriminate themselves
+from angular modes which have some curvilinear distortions.
 
-In fact, it has been tried to train the deep
-neural networks which work well on 
-benchmark datasets by using 37 classes, 
-including modes [DC, PLANAR, 2, \ldots, 34, DMM1, DMM4].
+In fact, according to our experiments,
+the deep neural network, which has 
+an architecture that works well on 
+benchmark datasets, does not work well on 
+the collected dataset comprising modes
+[DC, PLANAR, 2, \ldots, 34, DMM1, DMM4].
 During the training process, the validations
-are performed in a fixed frequency to monitor 
+are performed in a regular frequency to monitor 
 the performance of the learned model.
 \begin{figure}
     \begin{minipage}{0.49\textwidth}
@@ -746,20 +758,20 @@ if either is vertically flipped.
 
 Angular mode 2 and angular mode 34 are
 on the same diagonal such that they cannot 
-be treat as two separate classes in our case.
-For this reason, collected blocks of angular mode 34
-is removed from the datasets.
+be taken as two separate classes in our case.
+For this reason, it is decided to remove
+blocks of angular mode 34
+from the datasets.
 Instead of directly predicting angular mode 34,
-both angular mode 2 and angular mode 34 will
-be deemed as equal
-when the prediction result is angular mode 2.
-Further comparisons between the two modes will
-be preformed using conventional encoder decision.
+when the prediction result is angular mode 2,
+there will be
+a further comparison between mode 2 and mode 34 
+using conventional encoder decision.
 
 \section{Data Pre-processing}\label{sec:data-preprocessing}
 According to the discussions in 
 Subsection~\ref{subsec:discussion-about-data-visu}
-on page~\pageref{subsec:discussion-about-data-visu}
+on page~\pageref{subsec:discussion-about-data-visu},
 which are based on the observations
 of the visualized data in
 Subsection~\ref{subsec:see-data-visu}
@@ -767,11 +779,11 @@ on page~\pageref{subsec:see-data-visu},
 several pre-processing actions need
 to be taken to clean up the collected data for deep learning.
 The pre-processing steps are very crucial to the success
-of the learning process for the convolutional neural networks.
-Without pre-processing the collected data would be inappropriate 
-for achieving required model performance for the prediction
-activities.
-In this section, the data pre-processing details in this work
+of the learning for the convolutional neural network.
+Without pre-processing, it would be impossible
+to achieve a satisfactory model performance 
+for prediction tasks in our work.
+In this section, the data pre-processing
 are explained in details.
 
 \begin{table}[H]
@@ -790,27 +802,27 @@ are explained in details.
         \bottomrule
     \end{tabular}
 \end{table}
-Right after encoding the four video sequences for data 
+Right after encoding four video sequences for data 
 collection, four CSV files
 would be obtained for each of them.
 Every CSV file contains two unique identifications,
-one is the \emph{size of blocks} collected, the other is the 
+one is \emph{size of blocks}, the other is 
 \emph{name of the source video sequence}.
 For example, one of CSV files shall include depth 
 Luma data of blocks of size \(16\times16\) from
 \emph{Newspaper} video sequence.
 In the first step of data-preprocessing, all
 the CSV files having the same identification of 
-\emph{size of blocks} shall be merged into a single dataset
-which will be further divided into training dataset,
-testing dataset and validating dataset in the subsequent 
-processing steps.
+\emph{size of blocks} shall be merged into a single dataset.
+% which will be further divided into training dataset,
+% testing dataset and validating dataset in the subsequent 
+% processing steps.
 The specifications of the four CSV files after merging 
 are shown in Table~\ref{tab:datasets-after-first-step}
 on page~\pageref{tab:datasets-after-first-step}.
 There is no data for blocks of size \(64\times64\)
-since the largest block size for DMM modes is \(32\times32\).
-As the size of block 
+since the largest block size for DMM is \(32\times32\).
+As the size of block
 increases, the total volume of the collected data is growing
 while the total number of samples of the collected data is
 decreasing.
@@ -819,8 +831,8 @@ the decreasing speed of the number of samples is slower
 than the increasing speed of the volume of every single
 record.
 More specifically, from block size \(4\times4\) to \(8\times8\),
-the number of samples is decreased by 1.55 times; however,
-there exists a fourfold increase of the volume size in 
+the number of samples decreased by 1.55 times; however,
+there is a fourfold increase of the volume size for 
 each sample.
 
 The statistics of the datasets after the first step of merging are
@@ -828,7 +840,7 @@ shown in Table~\ref{tab:unsorted-distribution-after-first-step}
 on page~\pageref{tab:unsorted-distribution-after-first-step} and 
 Table~\ref{tab:sorted-distribution-after-first-step}
 on page~\pageref{tab:sorted-distribution-after-first-step}.
-They are unsorted or sorted in terms of the percentages
+Each of them is unsorted or sorted in terms of the percentage
 of each mode.
 Each mode can be quickly found 
 in Table~\ref{tab:unsorted-distribution-after-first-step}
@@ -844,13 +856,12 @@ while it is only 1.27 times as many the blocks of mode 35
 for blocks of size \(32\times32\).
 This is introducing the topic of imbalanced 
 learning~\parencite{RN215} in which
-the data sizes of each class are very different 
-from each other.
+the data size of each class can be very different.
 
 According to the discussions presented in 
 Subsection~\ref{subsec:discussion-about-data-visu},
 mode 0, 1, 34, 35 and 36 will be removed from 
-the datasets in the second step.
+datasets in the second step.
 The specifications of the data after the second step
 are shown in Table~\ref{tab:datasets-after-second-step}.
 More than half of the collected data are removed.
@@ -879,11 +890,12 @@ More than half of the collected data are removed.
 In the third step, we start to remove the smooth blocks.
 The reasons have been discussed in 
 Subsection~\ref{subsec:discussion-about-data-visu}.
-Algorithm~\ref{algo:edge-Sharpness}
-based on the coarse edge sharpness analysis
-in~\parencite{RN78} has been developed to define the
-sharpness of depth blocks as shown 
-on page~\pageref{algo:edge-Sharpness}.
+Algorithm~\ref{algo:edge-Sharpness} on page~\pageref{algo:edge-Sharpness},
+which is based on the coarse edge sharpness analysis
+in~\parencite{RN78}, has been designed to define the
+sharpness of depth blocks.
+%  as shown 
+
 The difference between Algorithm~\ref{algo:edge-Sharpness}
 and the coarse edge sharpness analysis in~\parencite{RN78}
 is that the first one takes the average sharpness value
@@ -891,13 +903,13 @@ of top-k small square regions inside a single block as its
 block sharpness while the second one sums all
 the sharpness values of all small square regions inside a
 single block as its sharpness.
-This is due to the consideration that in depth maps typically
-the sharpness is contributed by few sharp edges.
+In depth maps,
+the sharpness typically is contributed by few sharp edges.
 Lots of regions in a single sharp block are smooth regions.
 Hence it makes sense to only evaluate the top-k average
 instead of a sum of all.
 An empirical threshold of \(15\) has been chosen to tag a block
-either smooth or sharp.
+as either smooth or sharp.
 Blocks tagged with smooth will be removed from datasets
 while the others will be kept.
 The specifications of the data after the third step
@@ -930,15 +942,15 @@ It is clear that after several pre-processing steps,
 the issue of imbalanced learning~\parencite{RN215}
 still exists.
 To tackle the issue, we truncate datasets to make the
-size of each class equal to each other.
-In the last step, remaining 32 modes are tagged with integer
-0, 1, 2, \ldots, 31 for obtaining new indices which
+size of each class being equal.
+In the last step, remaining 32 modes are tagged with integers
+[0, 1, 2, \ldots, 31] to obtain new indices which
 starting from zero for the convenience of deep learning.
 At the same step, we separate datasets into training, 
 testing and validating datasets.
 Datasets for blocks of \(32\times32\) are too small
-to fed into the deep neural network which are
-consequently abandoned.
+to be fed into the deep neural network.
+They are consequently discarded.
 The descriptions for the finalized datasets
 are shown in Table~\ref{tab:finalized-four-by-four},
 Table~\ref{tab:finalized-eight-by-eight}
@@ -1279,79 +1291,3 @@ and Table~\ref{tab:finalized-sixteen-by-sixteen}.
     \end{tabular}
     }
 \end{table}
-%Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to~\parencite{RN93} professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%%----------------------------------------------------------------------------------------
-%
-%\section{Welcome and Thanku}\label{sec:welome}
-%Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%%----------------------------------------------------------------------------------------
-%
-%\section{Welcome and ThYou}\label{sec:weome}
-%Welcome to this \LaTeX{} Thesis Template~\parencite{Reference1}, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%If you are writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%%----------------------------------------------------------------------------------------
-%
-%\section{Welcome and Thau}\label{sec:welcoe}
-%Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%\begin{table}
-%
-%    \label{tab:treatments}
-%    \centering
-%%    \begin{tabular}{l l l}
-%%        \toprule
-%%        \tabhead{Groups} & \tabhead{Treatment X} & \tabhead{Treatment Y} \\
-%%        \midrule
-%%        1 & 0.2 & 0.8\\
-%%        2 & 0.17 & 0.7\\
-%%        3 & 0.24 & 0.75\\
-%%        4 & 0.68 & 0.3\\
-%%        \bottomrule\\
-%%    \end{tabular}
-%    \begin{tabular}{c r @{.} l}
-%        Pi expression       &
-%        \multicolumn{2}{c}{c}{Value} \\
-%        \hline
-%        $\pi$               & 3&1416  \\
-%        $\pi^{\pi}$         & 36&46   \\
-%        $(\pi^{\pi})^{\pi}$ & 80662&7 \\
-%    \end{tabular}
-%    \caption{The effects of treatments X and Y on the four groups studied.}
-%\end{table}
-%writing a thesis (or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%\section{Welcome and Tnk You}\label{sec:wlcome}
-%Welcome to this \LaTeX{} Thesis Template, a beautiful and easy to use template for writing a thesis using the \LaTeX{} typesetting system.
-%
-%If you are writing a thesis.
-%
-%%\begin{verbatim}
-%\begin{figure}
-%    \centering
-%    \includegraphics{Figures/Electron}
-%    %    \decoRule
-%    \caption[An Electron]{An electron (artist's impression).}
-%    \label{fig:Electron}
-%\end{figure}
-%%\end{verbatim}
-%(or will be in the future) and its subject is technical or mathematical (though it doesn't have to be), then creating it in \LaTeX{} is highly recommended as a way to make sure you can just get down to the essential writing without having to worry over formatting or wasting time arguing with your word processor.
-%
-%\LaTeX{} is easily able to professionally typeset documents that run to hundreds or thousands of pages long. With simple mark-up commands, it automatically sets out the table of contents, margins, page headers and footers and keeps the formatting consistent and beautiful. One of its main Sharpnesss is the way it can easily typeset mathematics, even \emph{heavy} mathematics. Even if those equations are the most horribly twisted and most difficult mathematical problems that can only be solved on a super-computer, you can at least count on \LaTeX{} to make them look stunning.
-%
-%%----------------------------------------------------------------------------------------

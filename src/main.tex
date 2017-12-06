@@ -13,6 +13,11 @@
 \usepackage{svg}
 \usepackage{verbatim}
 \usepackage{amsmath}
+\usepackage{siunitx}
+\sisetup{
+    group-four-digits = true,
+    group-separator = {,}
+  }
 \usepackage{float}
 \usepackage{amssymb}
 \let\oldemptyset\emptyset
@@ -117,19 +122,23 @@ linkcolor=black,  %choose some color if you want links to stand out
     3D videos.
     However, those tools with high capabilities in terms of compression come
     with high complexity of computation which has made the encoding time
-    of the 3D video sequences much longer than ever by traversing a lot more
-    candidates, calculating time-consuming RD Cost for each of them,
-    especially in the DMM1 wedgelet searching for depth maps.
-    Although method with the style of full-search is able to find the best
-    mode candidate in depth intra mode decision, the time cost is expensive
-    for it to be applied in real applications.
+    of 3D video sequences much longer than ever by traversing a lot more
+    mode candidates than all the previous standards.
+    Although the current encoding scheme in the 3D-HEVC standard 
+    is able to find the best
+    intra mode candidate for each coding unit in depth maps, the cost
+    of time for encoding is becoming a major obstacle for it to be applied
+    to profitable products.
 
     In this dissertation we address the aforementioned time cost issue by a new
     intra mode decision algorithm for depth maps, leveraging 
-    deep learning to predict the intra angles 
+    deep learning to train computational models built from neural network
+    for predicting 
+    the best intra angular mode
     in depth map coding.
-    The predictions from the learned models are capable of
-    reducing the number of wedgelet candidates by half.
+    The predicted intra angular mode is utilized to decide the 
+    most probable wedgelet by which the number of wedgelet 
+    candidates can be reduced by half.
     The size of the neural network has been carefully designed to balance
     the trade-off between the complexity and accuracy in the model prediction.
     Validation precision and confusion matrix are used to monitor 
@@ -167,7 +176,7 @@ linkcolor=black,  %choose some color if you want links to stand out
     His encyclopedic knowledge and charming personalities made him my mentor in
     both research and life.
     I wish to thank Dr.Sik-Ho Tsang, for our in-depth discussions from
-    which I can always find useful clues to proceed to next step.
+    which I can always find useful clues for next step.
     His great expertise in video coding significantly benefits me during my
     intensive period of learning.
     Also I would like to thank my friends Alex
@@ -175,11 +184,12 @@ linkcolor=black,  %choose some color if you want links to stand out
     extensive discussions about artificial intelligence
     and their applications.
     Special thanks to Sue, for all the good times
-    we have been together which are indispensable
-    memories that shines all the time in my life.
-    Thank you my parents, for the great love and constant
-    encouragements which make me bursting with confidence 
-    to handle the challenges in life and research.
+    we have been together. Those indispensable
+    memories always shine in my life.
+    Thank you my dear parents. In the light of your 
+    great love and constant encouragements, 
+    I am always bursting with confidence 
+    when challenges come.
     \afterpreface
     \include{Chapters/chapter1}
     \include{Chapters/chapter2}
