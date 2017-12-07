@@ -110,44 +110,90 @@ is replicated five times to deepen the network
 for increasing learning capacities.
 Batch Normalization is employed to regularize
 data inputs to each of the layers.
-The activation function is the most popular one named Relu.
+If a layer has n-dimensional input
+\(x = (x_1, x_2, \ldots, x_n)\),
+for each element in the input the batch 
+normalization applies:
+\begin{equation}
+    \label{eqa: batchnormone}
+    \hat{x_m} = \frac{x_m - E_\beta(x_m)}{\sigma_\beta(x_m) + \varepsilon}
+\end{equation}
+\begin{equation}
+    \label{eqa: batchnormtwo}
+    BN(x_m) = \alpha \hat(x_m) + \beta
+\end{equation}
+Here \(E_\beta \) is the mini-batch mean,
+\(\sigma_\beta \) is the mini-batch variance,
+\(\varepsilon \) is for preventing a division by zero.
+The idea is to compute the average and variance on a 
+mini-batch of inputs, after that center and re-scale
+the weighted sum added with bias, lastly the
+learnable scale and offset are placed into
+the network to restore expressiveness.
+If we put \(\alpha = \sigma_\beta(x_m)\) and 
+\(\beta = E_\beta(x_m)\) into 
+equation~\ref{eqa: batchnormtwo},
+we will have \(BN(x_m) = x_m\).
+In equation~\ref{eqa: batchnormone},
+the \(x_m\) depends on weights, biases and 
+input vectors, \(E_\beta(x_m)\) depends 
+input vectors together with
+only one set of weights and biases
+in a mini-batch.
+Therefore, batch normalization is differentiable 
+relatively 
+to weights, biases, scales and offsets.
+It can be implemented as additional layers in neural networks
+since gradient descent algorithms still will work.
+
+The activation function for input units 
+and hidden units 
+is the most popular one named Relu, while the 
+activation function in the output layer is 
+softmax.
 After all the convolutional layers, global average pooling
 has been performed before the fully-connected layer.
 For each of the neurons in the fully-connected layer,
 the softmax function is applied to calculate 
 the probability which tells how likely
 the class corresponding to that neuron is the truth.
-The softmax equation is
-\begin{equation}
-    Y_m = softmax(L_m) = \displaystyle\frac{e^{L_m}}{\displaystyle\sum_{a}^{A} e^{L_a}}
-\end{equation}
+The activation \(Y_m\) of the \(m\)th output neuron in the 
+fully-connected layer is
+\begin{align}
+    Y_m &= softmax(L_m)\\ 
+        &= \displaystyle\frac{e^{L_m}}{\displaystyle\sum_{a}^{A} e^{L_a}}
+\end{align}
 % {n=1}^{\infty}
-where \(A\) denotes the total number of classes, and \(L_m\) is the weighted sum of all related pixels adding a bias:
+where \(A\) denotes the total number of classes, and \(L_m\) is 
+the weighted sum of all related pixels adding a bias:
 \begin{equation}
-    L_m = X_m\cdot W_m + b
+    L_m = X_n\cdot W_{nm} + b
 \end{equation}
 % where the \(\mathbf{X}\) denotes a 2D matrix
 % of input data, \(\mathbf{W}\) denotes the weights matrix
 % and \(b\) is the bias.
-During training, the output \(Y_i\) from softmax layer
+During training, the output \(Y_m\) from softmax layer
 will be fed into the cross-entropy loss function:
 \begin{equation}
     \label{eq:entropy}
-    E_{\mbox{\tiny xent}} = -\sum_i T_i \log Y_i
+    E_{\mbox{\tiny xent}} = -\sum_{m}^{A} T_m \log Y_m
 \end{equation}
-where \(T_i\) is the true label of each class.
+where \(T_m\) is the label of ground truth for
+each class from training dataset.
 % The cross-entropy loss function will be utilized in
 % each of the training steps
 The learning happens when each of the training steps 
-tries to minimize the cross entropy loss function
+starts to minimize the loss of cross entropy
 using backpropagation.
 
-In the backpropagation, we first calculate the
-gradient for weights in the last layer (a.k.a\ top layer):
+In backpropagation, we first calculate the
+gradient of loss with respect to the 
+weight that connects neuron \(n\) to 
+output neuron \(m\) in the last layer (a.k.a\ top layer):
 % \begin{equation}
 \begin{align}
     \frac{\partial E_{\mbox{\tiny xent}}}{\partial W_{nm}} &= \frac{\partial E_{\mbox{\tiny xent}}}{\partial L_m} \cdot \frac{\partial L_m}{\partial W_{nm}}\\
-    &= \sum_{r}^{A} \frac{\partial E_{\mbox{\tiny xent}}}{\partial Y_r} \cdot \frac{\partial Y_r}{\partial L_m} \cdot X_m\\
+    &= \sum_{r}^{A} \frac{\partial E_{\mbox{\tiny xent}}}{\partial Y_r} \cdot \frac{\partial Y_r}{\partial L_m} \cdot X_{nm}\\
     &= (\frac{\partial E_{\mbox{\tiny xent}}}
             {\partial Y_m} 
         \cdot 
@@ -158,25 +204,33 @@ gradient for weights in the last layer (a.k.a\ top layer):
         \frac{\partial E_{\mbox{\tiny xent}}}
         {\partial Y_r} 
         \cdot 
-        \frac{\partial Y_r}{\partial L_m} )\cdot X_m\\
-    &= (- \frac{T_m}{Y_m} \cdot Y_m \cdot (1-Y_m) + \sum_{m\neq r}\frac{-T_r}{Y_r}\cdot(-Y_r\cdot Y_m)) \cdot X_m\\
-    &= (-T_m\cdot(1-Y_m) + \sum_{m\neq r} T_r\cdot Y_m) \cdot X_m\\
-    &= (-T_m + T_m\cdot\ Y_m + \sum_{m\neq r} T_r\cdot Y_m) \cdot X_m\\
-    &= (-T_m + \sum_r T_r\cdot Y_m) \cdot X_m\\
-    &= (-T_m + Y_m \sum_r T_r) \cdot X_m\\
-    &= (-T_m + Y_m) \cdot X_n
+        \frac{\partial Y_r}{\partial L_m} )\cdot X_{nm}\\
+    &= (- \frac{T_m}{Y_m} \cdot Y_m \cdot (1-Y_m) + \sum_{m\neq r}\frac{-T_r}{Y_r}\cdot(-Y_r\cdot Y_m)) \cdot X_{nm}\\
+    &= (-T_m\cdot(1-Y_m) + \sum_{m\neq r} T_r\cdot Y_m) \cdot X_{nm}\\
+    &= (-T_m + T_m\cdot\ Y_m + \sum_{m\neq r} T_r\cdot Y_m) \cdot X_{nm}\\
+    &= (-T_m + \sum_r T_r\cdot Y_m) \cdot X_{nm}\\
+    &= (-T_m + Y_m \sum_r T_r) \cdot X_{nm}\\
+    &= (-T_m + Y_m) \cdot X_{nm}
 \end{align}
+Here \(X_{nm}\) is the activation vector from neuron \(n\) that has been connected to \(m\)th output neuron.
 % \end{equation}
 At this time, a fraction of the gradient will be used 
 to update the weights and biases
-in the network.
-Moreover, For neurons in the hidden layer \(p\):
+in the network to minimize the loss of cross entropy.
+In addition,
+the gradient of the weight \(W_{qp}\) that connects
+input neuron \(q\) to neuron \(p\) in hidden layers
+can be calculated:
 \begin{align}
-    \frac{\partial E_{\mbox{\tiny xent}}}{\partial L_p} &= \frac{\partial E_{\mbox{\tiny xent}}}{\partial L_m} \cdot \frac{\partial L_m}{\partial X_p} \cdot \frac{\partial X_p}{\partial L_p}\\
-    &= (Y_m - T_m)\cdot W_{pm} \cdot (X_p\cdot(1-X_p))
+    \frac{\partial E_{\mbox{\tiny xent}}}{\partial W_{qp}}
+    &= \frac{\partial E_{\mbox{\tiny xent}}}{\partial L_p} \cdot \frac{\partial L_p}{W_{qp}} \\
+    &= \sum_{r}^{A}\frac{\partial E_{\mbox{\tiny xent}}}{\partial L_r} \cdot \frac{\partial L_r}{\partial Y_p} \cdot \frac{\partial Y_p}{\partial L_p} \cdot \frac{\partial L_p}{W_{qp}} \\
+    &= \sum_{r}^{A} (Y_r - T_r)\cdot W_{pr} \cdot (Y_p\cdot(1-Y_p))\cdot(X_{qp})
 \end{align}
-The rest gradient calculations can be derived in the similar manner.
-
+The rest gradient calculations can be derived 
+in the similar manner such that all the gradients 
+in the network can be obtained.
+% 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/basic-resnet-structure.pdf}
@@ -215,12 +269,11 @@ field which is capable of capturing the positional
 information~\parencite{RN107}.
 All the strides are set to be one, which means
 no down-sampling will be performed.
-The depth CU,
-which can be classified into DMM1 mode, is essentially
-a feature itself if it is taken as a whole.
+The depth CU that has been tagged as DMM1 is essentially
+a feature itself.
 Therefore there is no need to down-sampling
 the CU into smaller sizes.
-Hence the output size of each convolutional layer
+The output size of each convolutional layer
 will not be changed.
 % The network configuration is shown in Table~\ref{tab:xxxx}.
 For the inputs to the convolutional layers, 
