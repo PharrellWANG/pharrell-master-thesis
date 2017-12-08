@@ -15,7 +15,7 @@ process.
 We need to prepare a large set of labeled data before 
 we can start to train the deep model.
 In this chapter, we start with data collection, in which data source
-and algorithm for collecting data are shown in details.
+and algorithm for collecting data are shown in detail.
 After that the necessary pre-processing steps for the collected 
 data are described.
 Lastly plenty of visualizations for the collected raw data 
@@ -41,12 +41,12 @@ on page~\pageref{tab:data-source}.
     \centering
     \begin{tabular}{c c c c c}
         \toprule
-        \# & Name of the Sequence & Resolution & Usage & Number of Frames\\
+        \# & Name of the Sequence & Resolution & Number of Frames\\
         \midrule
-        1 & Balloons & \(1024\times768\) & train,test,validate & 300\\
-        2 & Kendo & \(1024\times768\) & train,test,validate & 300\\
-        3 & Poznan Street & \(1920\times1088\) & train,test,validate & 250\\
-        4 & Undo Dancer & \(1920\times1088\) & train,test,validate & 250\\
+        1 & Balloons & \(1024\times768\) & 300\\
+        2 & Kendo & \(1024\times768\) & 300\\
+        3 & Poznan Street & \(1920\times1088\) & 250\\
+        4 & Undo Dancer & \(1920\times1088\) & 250\\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -128,8 +128,8 @@ Figure~\ref{fig:data-collection-diagram} illustrates
 the relationships among the core modules for collecting data.
 The rectangular blocks with light blue background are the modules from
 \(HTM16.2\) while others are the newly added modules.
-In the module of \emph{compressCtu}, the encoder recursively invokes
-anther module named \emph{xCompressCtu}, which is not on the diagram, to
+In the module of \emph{compressCtu}, the encoder recursively invokes 
+another module named \emph{xCompressCtu}, which is not on the diagram, to
 try different kinds of CU, PU, TU and to decide the best mode for them.
 Once the \emph{compressCtu} module will be finished, all the needed
 data can be obtained in the \emph{encodeCtu Before SAO} module.
@@ -141,7 +141,7 @@ data can be obtained in the \emph{encodeCtu Before SAO} module.
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/flattern-pixels-into-single-line.pdf}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/flatten-pixels-into-single-line.pdf}
     \caption[Flatten Luma samples into one line and append best mode at the end]{Flatten Luma samples into one line and append best mode at the end.}\label{fig:flattern-data-into-one-dimension}
 \end{figure}
 During the data collecting process, only Luma samples in depth blocks
@@ -620,8 +620,7 @@ From the visualizations of blocks of size \(8\times8\),
 it is found that within blocks of each single angular mode,
 part of them have sharp edges that can 
 be easily perceived by human while the others 
-are very smooth such that their edges can not be clearly seem
-unless they are enlarged by multiple times.
+are very smooth such that their edges can not be clearly seem.
 When blocks with such a mixed style are fed into the 
 convolutional neural networks, the prediction accuracy
 is always not ideal enough to be used
@@ -683,53 +682,38 @@ the collected dataset comprising modes
 During the training process, the validations
 are performed in a regular frequency to monitor 
 the performance of the learned model.
+
 \begin{figure}
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/ckpt-10342.eps}
-        \caption[Confusion matrix obtained after 12 epochs of model training]
-        {Confusion matrix obtained after 12 epochs of model training}
-        \label{fig:cm-after-12-epochs}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/ckpt-20622.eps}
-        \caption[Confusion matrix obtained after 24 epochs of model training]
-        {Confusion matrix obtained after 24 epochs of model training}
-        \label{fig:cm-after-24-epochs}
-    \end{minipage}
-
-    \vspace*{1cm} % vertical separation
-
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/ckpt-30757.eps}
-        \caption[Confusion matrix obtained after 36 epochs of model training]
-        {Confusion matrix obtained after 36 epochs of model training}
-        \label{fig:cm-after-36-epochs}
-    \end{minipage}
-    \hspace{\fill} % note: no blank line here
-    \begin{minipage}{0.49\textwidth}
-        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/confusion-matrix/ckpt-40884.eps}
-        \caption[Confusion matrix obtained after 48 epochs of model training]
-        {Confusion matrix obtained after 48 epochs of model training}
-        \label{fig:cm-after-48-epochs}
-    \end{minipage}
-    % \caption{Figure caption goes here}\label{fig:see-data-visu}
-\end{figure}
-Confusion matrix~\parencite{RN216} is obtained after 
-every validation process.
-Figure~\ref{fig:cm-after-12-epochs},
-Figure~\ref{fig:cm-after-24-epochs},
-Figure~\ref{fig:cm-after-36-epochs}, and
-Figure~\ref{fig:cm-after-48-epochs}
-on page~\pageref{fig:cm-after-12-epochs}
-show the confusion matrices
-after 12, 24, 36 and 48 epochs of model training
-separately.
-The color thickness of block with coordinates $(i,j)$
-expresses the frequency with which a block with best 
-mode \emph{i} is predicted as \emph{j}.
-For each horizontal line in the matrix, 
-the probabilities of all blocks sum up to $100\%$.
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth} % contains the two plots in a single figure
+        \includegraphics[width=\textwidth]{Figures/confusion-matrix/ckpt-10342.eps}
+        \caption{Confusion matrix after 12 epochs}
+        \label{fig:imga}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth} 
+         \includegraphics[width=\textwidth]{Figures/confusion-matrix/ckpt-20622.eps}
+         \caption{Confusion matrix after 24 epochs}
+         \label{fig:imgb}   
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth} 
+        \includegraphics[width=\textwidth]{Figures/confusion-matrix/ckpt-30757.eps}
+        \caption{Confusion matrix after 36 epochs}
+        \label{fig:imgc}   
+   \end{subfigure}
+   \begin{subfigure}[t]{0.49\textwidth} 
+    \includegraphics[width=\textwidth]{Figures/confusion-matrix/ckpt-40884.eps}
+        \caption{Confusion matrix after 48 epochs}
+        \label{fig:imgd}   
+    \end{subfigure}
+\caption{Confusion matrices obtained in the validation are shown here.
+Each vertical bar to the right of each sub-figure
+indicates the relationship between color thickness 
+and number of samples.
+The color thickness of a block with coordinate \((i,j)\)
+indicates how many samples have been classified as mode~\emph{j}
+while their real tag is mode~\emph{i}.
+For each row in the matrix, 
+the probabilities of all blocks sum up to \(100\% \).
 From epoch 12 to epoch 48, most of the thicknesses 
 in matrices have gradually been aggregated to 
 the main diagonal, but there are nevertheless
@@ -737,9 +721,41 @@ four exceptional classes that predictions for them
 have never been right in all the confusion matrices.
 Those four classes are exactly mode DC, PLANAR, 
 DMM1 and DMM4 which are tagged with mode index 
-0, 1, 35 and 36 separately.
+0, 1, 35 and 36 separately.}
+\label{fig:main}
+\end{figure}
+
+% We can use~\ref{fig:imga} but we won't use~\ref{fig:imgb}.
+
+Confusion matrix~\parencite{RN216} is obtained after 
+each validation.
+The matrix summarizes the performance of the 
+learned model by presenting the 
+classification distribution for each class.
+Figure~\ref{fig:main} shows the 
+confusion matrices generated during
+validation.
+% Figure~\ref{fig:imgb},
+% Figure~\ref{fig:imgc} and
+% Figure~\ref{fig:imgd}
+% shows the confusion matrices
+% after 12, 24, 36 and 48 epochs of model training
+% separately.
+% The color thickness of a block with coordinate \((i,j)\)
+% expresses the frequency with which a block with 
+% mode \emph{i} is predicted as mode \emph{j}.
+% For each row in the matrix, 
+% the probabilities of all blocks sum up to \(100\% \).
+% From epoch 12 to epoch 48, most of the thicknesses 
+% in matrices have gradually been aggregated to 
+% the main diagonal, but there are nevertheless
+% four exceptional classes that predictions for them
+% have never been right in all the confusion matrices.
+% Those four classes are exactly mode DC, PLANAR, 
+% DMM1 and DMM4 which are tagged with mode index 
+% 0, 1, 35 and 36 separately.
 It turns out the neural networks will misclassify 
-them into angular modes instead of giving 
+mode 0, 1, 35, 36 into angular modes instead of giving 
 predictions that are identical to their label 
 of ground truth.
 To cure this illness, it has been decided to
@@ -784,7 +800,7 @@ Without pre-processing, it would be impossible
 to achieve a satisfactory model performance 
 for prediction tasks in our work.
 In this section, the data pre-processing
-are explained in details.
+are explained in detail.
 
 \begin{table}[H]
     % \begin{table}[!htbp]

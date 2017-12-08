@@ -186,8 +186,51 @@ views if sharpness of edge in depth maps can not be well
 preserved.
 Therefore, retaining edge sharpness in depth maps is the key to avoid the
 artifacts in synthesized views.
-In 3D-HEVC, new intra-picture prediction tools and new residual coding methods
-have been applied to adapt encoding to special properties of depth maps.
+There are totally 35 intra-picture prediction modes in HEVC, 
+including DC mode, PLANAR mode and 33 Angular modes.
+Table~\ref{tab:intra-prediction-tools-in-hevc} 
+on page~\pageref{tab:intra-prediction-tools-in-hevc}
+specifies 
+the indices and names for each of them.
+Figure~\ref{fig:intra-angular-modes} 
+on page~\pageref{fig:intra-angular-modes} 
+illustrates the angle of each 
+angular mode.
+In 3D-HEVC, all the 35 intra-picture prediction modes
+are retained while new intra-picture prediction modes 
+and new residual coding methods
+have been applied to adapt encoding 
+to special properties of depth maps.
+
+\begin{table}[t]
+    \caption{Indices and names for each of the intra-picture prediction mode in HEVC}
+    \bigskip\label{tab:intra-prediction-tools-in-hevc}
+    \centering
+    \begin{tabular}{c c}
+        \toprule
+        Index of mode & Name of mode\\
+        \midrule
+%        Overall Display Resolution & High & Low \\
+        0  & PLANAR \\
+        1  & DC \\
+        2..34 & Angular (\textbf{X}), \textbf{X} = 2..34  \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/intra-angular-modes-in-hevc.pdf}
+    \caption[Angular modes in HEVC]
+    {Intra angular modes in HEVC\@.
+    All the angular modes are pointing to the center of the square.
+    The modes adjacent to angular mode 10 and 26 are more dense
+    than others to provide more flexibility for encoding vertical
+    patterns and horizontal patterns.
+    }\label{fig:intra-angular-modes}
+\end{figure}
+
+
 Depth Modelling Mode (DMM), which is one of the new intra-picture
 prediction tools, is capable of conserving sharp edges in the shape
 of straight line.
@@ -411,9 +454,7 @@ The contributions of the dissertation are:
   as well as the parallel architecture in GPU are fully utilized for
   efficient matrix computations.
   \item An algorithm for fast
-  depth map coding, which is shown
-  in Figure~\ref{fig:proposed-fast-depth-coding-algorithm}
-  on page~\pageref{fig:proposed-fast-depth-coding-algorithm},
+  depth map coding
   has been proposed and implemented.
   The simulation results show that the proposed algorithm is capable of
   reducing 64.6\% of encoding time in wedgelet searching during 3D-HEVC encoding process
@@ -430,7 +471,7 @@ Prior arts in video coding are surveyed in this chapter.
 
 \textbf{Chapter~\ref{ch:chapter3}} describes the algorithm which has been
 implemented to collect the data to be used in deep learning.
-Data pre-processing steps are described in details along with
+Data pre-processing steps are described in detail along with
 the reasons behind the scene. 
 A rich set of visualizations are presented to illustrate 
 the properties of the collected data.
@@ -440,7 +481,7 @@ the properties of the collected data.
 \textbf{Chapter~\ref{ch:chapter4}} presents a deep convolutional
 neural network which has been applied in our deep learning.
 Both architecture and settings
-are covered in details.
+are covered in detail.
 The stopping criteria are shown with the training results.
 At the end of the chapter, the evaluation results for learned models
 are presented.
