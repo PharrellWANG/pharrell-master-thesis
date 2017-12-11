@@ -83,29 +83,113 @@ to reduce the number of wedgelet candidates to be evaluated in DMM1
 searching process. 
 Since top-15 is used, roughly half of the candidates are skipped
 during the encoding time.
-
 The details of the proposed fast depth coding algorithm is shown 
 in Figure~\ref{fig:proposed-fast-depth-coding-algorithm}
 on page~\pageref{fig:proposed-fast-depth-coding-algorithm}.
+
 Initially, before the encoding of a depth map will start, 
 its Luma pixel values are accessed by the learned models to
 predict best modes for all the suitable blocks inside it.
 We call it \textbf{Batch Prediction}.
+The model learned from blocks of size \(8\times8\) is used 
+to predict the best modes for blocks of size \(8\times8\)
+while the model learned from blocks of size \(16\times16\)
+is used to predict the best modes for blocks of 
+size \(16\times16\) and size \(32\times32\).
+For example, in a video of resolution 
+\(1024\times768\), each depth frame contains \(12,288\)
+blocks of size \(8\times8\), \(3,072\) blocks of
+size \(16\times16\) and \(768\) blocks of size 
+\(32\times32\).
+During depth map encoding, the learned models perform
+predictions for all the \(12,288\)
+blocks of size \(8\times8\), \(3,072\) blocks of
+size \(16\times16\) and \(768\) blocks of size 
+\(32\times32\).
+The prediction results are stored in a map with 
+three elements comprising size of block, CU position \(x\),
+and CU position \(y\) as the key, 
+and best mode as the value.
+The information in this map will be retrieved 
+using key to get the corresponding value
+when recursively encoding CUs in 
+this depth map.
+For instance, given that the map is name as \(Map\),
+the CU size is \(8\times8\) and CU position is \([x_c, y_c]\),
+we can retrieve the best mode of this 
+CU by \(BestMode_c = Map[8, x_c, y_c]\).
+This map will be re-initialized to an empty map
+every time a new depth frame will appear in the encoding.
+Why is the implementation predicting best modes for all 
+the \(12,288\) blocks of size \(8\times8\), 
+\(3,072\) blocks of size \(16\times16\) and 
+\(768\) blocks of size \(32\times32\)
+when the depth frame will be encoded instead
+of predicting best mode for
+each CU when the CU will be encoded?
+The first reason is, as shown in Section~\ref{sec:analysis-and-optimization},
+the time cost is not acceptable if the prediction
+is performed for each CU instead of for the whole
+frame at each time.
+The other reason is that when a depth frame will be
+encoded, the CU partition information is 
+not known to the encoder.
+For this reason, it is necessary to perform 
+predictions for all the possible CU candidates
+to ensure that no matter how the CU partition scheme
+will be, the information stored in the map
+will be sufficient to help with the encoding.
+
 Next, for each depth block of 
 size \(8\times8\), \(16\times16\) and \(32\times32\), 
-top 15 modes together with PLANAR, DC modes are added to 
+top-15 modes together with PLANAR, DC modes are added to 
 a candidate list for Rough Mode Decision (RMD).
 For blocks of other sizes, the original encoder workflow
 is applied.
-Then if mode 2 is inside the RMD list, mode 34
-will be added to RMD list due to the reason that
+If mode 2 is inside the RMD List, mode 34
+will be added to RMD List due to the reason that
 it is of the same angle as mode 2.
-Else if mode 2 is not inside the RMD list, 
-mode 34 will not be added to RMD list.
+Else if mode 2 is not inside the RMD List, 
+mode 34 will not be added to RMD List.
+The top-15 modes here is constructed by making reference to
+the top-1 mode.
+For example, if the top-1 mode is mode 10, 
+the adjacent 14 modes will be added to the list of top-15.
+Hence the list of modes will be 
+[3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].
+After that, PLANAR and DC modes will be added to the list
+of modes to form RMD List.
+In our case, mode 33 and 
+mode 2 are considered to be adjacent to each other.
+Therefore, if the top-1 mode is mode 2, 
+the list of modes will be
+[9, 8, 7, 6, 5, 4, 3, 2, 33, 30, 29, 28, 27, 26, 25].
+After that, mode 34, PLANAR and DC modes 
+will be added to RMD List.
+This method is based on the observations that 
+the top-k predictions in confusion matrix
+will always be the adjacent ones.
+
 Then Sum of Absolute Transform Difference (SATD)
 is used to obtain the best 3 candidates for blocks
 of size \(8\times8\) and \(16\times16\), 2 candidates
 for blocks of size \(32\times32\).
+The number of candidates to be evaluated further 
+is reduced for blocks of different types
+comparing with the original implementation,
+where 8 candidates will be selected for 
+blocks of size \(8\times8\) and \(16\times16\), 
+3 candidates will be selected
+for blocks of size \(32\times32\).
+The decision of candidates reduction in this step 
+is due to the consideration that 
+the model prediction has already narrowed
+the searching range for mode candidates 
+with a high precision such that
+there is no need to evaluate
+a large number of candidates in the
+further steps.
+
 After SATD, the best prediction of the block
 is utilized to construct a range of slopes.
 Denote the index of the top-1 mode from the model 
