@@ -114,29 +114,30 @@ If a layer has n-dimensional input
 \(x = (x_1, x_2, \ldots, x_n)\),
 for each element in the input the batch 
 normalization applies:
-\begin{equation}
-    \label{eqa: batchnormone}
-    \hat{x_m} = \frac{x_m - E_\beta(x_m)}{\sigma_\beta(x_m) + \varepsilon}
+
+\begin{equation} 
+    {\hat x_m} = \frac{x_m - E_b(x_m)}{\sigma_b(x_m) + \varepsilon} \label{eqa:batchnormone}
 \end{equation}
-\begin{equation}
-    \label{eqa: batchnormtwo}
-    BN(x_m) = \alpha \hat(x_m) + \beta
+
+\begin{equation} 
+    BN(x_m) = \alpha (\hat x_m) + \beta \label{eqa:batchnormtwo}
 \end{equation}
-Here \(E_\beta \) is the mini-batch mean,
-\(\sigma_\beta \) is the mini-batch variance,
+
+Here \(E_b \) is the mini-batch mean,
+\(\sigma_b \) is the mini-batch variance,
 \(\varepsilon \) is for preventing a division by zero.
 The idea is to compute the average and variance on a 
 mini-batch of inputs, after that center and re-scale
 the weighted sum added with bias, lastly the
 learnable scale and offset are placed into
 the network to restore expressiveness.
-If we put \(\alpha = \sigma_\beta(x_m)\) and 
-\(\beta = E_\beta(x_m)\) into 
-equation~\ref{eqa: batchnormtwo},
+If we put \(\alpha = \sigma_b(x_m)\) and 
+\(\beta = E_b(x_m)\) into 
+equation~\ref{eqa:batchnormtwo},
 we will have \(BN(x_m) = x_m\).
-In equation~\ref{eqa: batchnormone},
-the \(x_m\) depends on weights, biases and 
-input vectors, \(E_\beta(x_m)\) depends 
+In equation~\ref{eqa:batchnormone},
+\(x_m\) depends on weights, biases and 
+input vectors, \(E_b(x_m)\) depends 
 input vectors together with
 only one set of weights and biases
 in a mini-batch.
@@ -145,7 +146,7 @@ relatively
 to weights, biases, scales and offsets.
 It can be implemented as additional layers in neural networks
 since gradient descent algorithms still will work.
-
+% 
 The activation function for input units 
 and hidden units 
 is the most popular one named Relu, while the 
@@ -256,7 +257,9 @@ In this section, the hyper-parameters, which have been
 used for deep learning, are given.
 The configurations are fine-tuned results against the validation
 datasets shown in Table~\ref{tab:finalized-eight-by-eight}
-and Table~\ref{tab:finalized-sixteen-by-sixteen} to achieve the
+on~\pageref{tab:finalized-eight-by-eight}
+and Table~\ref{tab:finalized-sixteen-by-sixteen} 
+on~\pageref{tab:finalized-sixteen-by-sixteen} to achieve the
 best performance.
 
 It is interesting to notice that in this network, 
@@ -358,7 +361,7 @@ Figure~\ref{fig:top16for8times8}
 on page~\pageref{fig:top16for8times8}
 shows the 
 top-16 validation precision for blocks of size \(8\times8\).
-After 133k global steps, the top-16 precision curve in 
+After 20,000 global steps, the top-16 precision curve in 
 Figure~\ref{fig:top16for8times8} is very steady.
 The precision value is higher than \(0.92\).
 It means if this model can be employed to predict the 
@@ -371,7 +374,7 @@ on page~\pageref{fig:top16for16times16}
 shows the
 top-16 validation precision for blocks 
 of size \(16\times16\).
-After 304k global steps, the top-16 precision in
+After 100,000 global steps, the top-16 precision in
 Figure~\ref{fig:top16for16times16} has reached
 \(0.9654\) which is considered as an excellent
 result in our application scenario.
@@ -386,7 +389,7 @@ Instead of using a dedicated model for them,
 the model trained from blocks of 
 size \(16\times16\) has been reused.
 The blocks of size \(32\times32\) are resized
-to \(16\times16\) using Bilinear Interpolation.
+to size \(16\times16\) using Bilinear Interpolation.
 
 Apart from monitoring validation precision,
 confusion matrix is the other useful criteria 
